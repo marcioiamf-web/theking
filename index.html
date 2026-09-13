@@ -5,6 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0c0d16">
 <link rel="icon" href="data:,">
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DHVWVGHCYP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DHVWVGHCYP');
+
+  // Rastreia cliques em botões e links do site
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('button, a[href]');
+    if(!el) return;
+    var label = el.id || el.getAttribute('data-tab') || el.getAttribute('data-dir') || (el.textContent || '').trim().slice(0,40) || el.tagName;
+    gtag('event', 'click', {
+      button_id: label,
+      page_path: location.pathname
+    });
+  }, true);
+</script>
+<!-- Fim Google Analytics -->
+
 </head>
 <body>
 <title>theking</title>
