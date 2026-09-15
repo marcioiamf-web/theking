@@ -1,32 +1,10 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0c0d16">
 <link rel="icon" href="data:,">
-
-<!-- Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DHVWVGHCYP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-DHVWVGHCYP');
-
-  // Rastreia cliques em botões e links do site
-  document.addEventListener('click', function(e){
-    var el = e.target.closest('button, a[href]');
-    if(!el) return;
-    var label = el.id || el.getAttribute('data-tab') || el.getAttribute('data-dir') || (el.textContent || '').trim().slice(0,40) || el.tagName;
-    gtag('event', 'click', {
-      button_id: label,
-      page_path: location.pathname
-    });
-  }, true);
-</script>
-<!-- Fim Google Analytics -->
-
 </head>
 <body>
 <title>theking</title>
@@ -149,6 +127,10 @@
   .dirtoggle button{appearance:none; border:none; background:none; cursor:pointer; padding:7px 13px; border-radius:999px; font-size:12.5px; font-weight:700; color:var(--ink-soft); font-family:'Inter',sans-serif;}
   .dirtoggle button.on{background:var(--accent); color:#0c0d16;}
 
+  .langswitch{display:flex; border:1px solid var(--border); border-radius:999px; background:var(--surface); padding:3px; margin-bottom:16px;}
+  .langswitch button{flex:1; appearance:none; border:none; background:none; cursor:pointer; padding:9px 13px; border-radius:999px; font-size:13px; font-weight:700; color:var(--ink-soft); font-family:'Inter',sans-serif;}
+  .langswitch button.on{background:var(--accent); color:#0c0d16;}
+
   .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px 24px;}
 
   .flashcard{min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:14px; cursor:pointer; position:relative; padding:36px 24px;}
@@ -215,6 +197,22 @@
   .shop-sub{font-size:12px; color:var(--ink-soft); margin-top:1px;}
   .shop-buy{appearance:none; cursor:pointer; border-radius:999px; border:1px solid #4fc3e8; background:#0f2a38; color:#7fd8f5; font-weight:700; font-size:12.5px; padding:8px 13px; flex-shrink:0; font-family:'Inter',sans-serif;}
   .shop-buy[disabled]{opacity:.4; cursor:default;}
+
+  /* Comprar gemas */
+  .gemstore{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:8px;}
+  .gempack{position:relative; appearance:none; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:15px 8px 13px; text-align:center; cursor:pointer; font-family:'Inter',sans-serif; color:var(--ink);}
+  .gempack:hover{border-color:#4fc3e8;}
+  .gempack.best{border-color:#4fc3e8;}
+  .gempack .gp-amount{display:block; font-size:17px; font-weight:800; color:#7fd8f5;}
+  .gempack .gp-label{display:block; font-size:11px; color:var(--ink-soft); margin-top:1px;}
+  .gempack .gp-price{display:block; font-size:13.5px; font-weight:700; margin-top:9px;}
+  .gempack .gp-tag{position:absolute; top:-7px; left:50%; transform:translateX(-50%); background:#4fc3e8; color:#0c0d16; font-size:9px; font-weight:800; padding:2px 7px; border-radius:999px; text-transform:uppercase; letter-spacing:.04em; white-space:nowrap;}
+  .gempack[disabled]{opacity:.45; cursor:default;}
+  .gemstore-note{font-size:11.5px; color:var(--ink-faint); text-align:center; margin:0 0 20px;}
+
+  .paybanner{position:fixed; left:50%; transform:translateX(-50%); bottom:84px; z-index:60; max-width:420px; width:calc(100% - 32px); background:var(--surface-alt); border:1px solid var(--accent); color:var(--ink); border-radius:12px; padding:12px 16px; font-size:13.5px; font-weight:600; box-shadow:var(--shadow); text-align:center; line-height:1.45;}
+  .paybanner.ok{border-color:var(--success); color:var(--success);}
+  .paybanner.err{border-color:var(--danger); color:var(--danger);}
 
   .heartsgate{text-align:center; padding:6px 0 2px;}
   .heartsgate .hg-hearts{font-size:22px; color:var(--danger); margin-bottom:8px;}
@@ -298,6 +296,10 @@
   <nav class="tabs" role="tablist"></nav>
 
   <section class="panel active" id="panel-trilha">
+    <div class="langswitch" id="lang-switch">
+      <button data-lang="en" id="lang-en">🇬🇧 Inglês</button>
+      <button data-lang="es" id="lang-es">🇪🇸 Espanhol</button>
+    </div>
     <div class="goal-card" id="goal-card"></div>
     <h3 class="sec">Continue assim</h3>
     <div class="clist" id="continue-list"></div>
@@ -343,6 +345,9 @@
     <div class="progress-grid" id="progress-grid"></div>
     <h3 class="sec">Loja de gemas</h3>
     <div class="shop-card" id="shop-card"></div>
+    <h3 class="sec" id="gemstore-title" hidden>Comprar gemas</h3>
+    <div class="gemstore" id="gemstore" hidden></div>
+    <div class="gemstore-note" id="gemstore-note" hidden>pagamento seguro por cartão ou MB WAY</div>
     <h3 class="sec">Distribuição do Praticar por caixa</h3>
     <div class="boxbar" id="boxbar"></div>
     <div class="boxlegend">
@@ -378,14 +383,35 @@
   </div>
 </nav>
 
+<div class="paybanner" id="paybanner" hidden></div>
+
 <div class="lesson-overlay" id="lesson-overlay" hidden></div>
 
 <script>
 (function(){
   "use strict";
 
+  // ================= CONFIGURAÇÃO DE PAGAMENTOS =================
+  // Cola aqui o endereço do teu Worker da Cloudflare, sem barra no fim.
+  // Exemplo: var PAY_API = "https://pagamentos-caixa.oteunome.workers.dev";
+  // Enquanto estiver vazio, a compra de gemas fica escondida e o resto do app
+  // funciona exatamente como antes.
+  var PAY_API = "https://pagamentos-caixa.marcioiamf.workers.dev";
+
   // ================= DATA =================
-  var CATS = {
+  var LANGS = {
+    en: {code:"en", label:"Inglês", flag:"🇬🇧", speechLang:"en-US",
+         dirLabelFwd:"Inglês → Português", dirLabelBack:"Português → Inglês",
+         mcqKicker:"Escolha a palavra em inglês", sayPrompt:"Como se diz isso em inglês?",
+         samplePhrase:"Hello! This is how I sound."},
+    es: {code:"es", label:"Espanhol", flag:"🇪🇸", speechLang:"es-ES",
+         dirLabelFwd:"Espanhol → Português", dirLabelBack:"Português → Espanhol",
+         mcqKicker:"Escolha a palavra em espanhol", sayPrompt:"Como se diz isso em espanhol?",
+         samplePhrase:"Hola, así suena mi voz."}
+  };
+  function curLang(){ return LANGS[state.language] || LANGS.en; }
+
+  var CATS_EN = {
     essentials:{label:"Essenciais", level:"A1"},
     verbs:{label:"Verbos comuns", level:"A1–A2"},
     adjectives:{label:"Adjetivos", level:"A2"},
@@ -397,9 +423,9 @@
     numbers:{label:"Números e horas", level:"A1"},
     shopping:{label:"Compras", level:"A2"}
   };
-  var UNIT_ORDER = ["essentials","verbs","adjectives","food","travel","phrasal","work","falsefriends","numbers","shopping"];
+  var UNIT_ORDER_EN = ["essentials","verbs","adjectives","food","travel","phrasal","work","falsefriends","numbers","shopping"];
 
-  var RAW = {
+  var RAW_EN = {
     essentials: [
       ["hello","olá","Hello! How are you today?"],
       ["goodbye","tchau / adeus","Goodbye, see you tomorrow!"],
@@ -602,18 +628,213 @@
     ]
   };
 
-  var WORDS = [];
-  var WORDS_BY_CAT = {};
-  UNIT_ORDER.forEach(function(catKey){
-    WORDS_BY_CAT[catKey] = [];
-    RAW[catKey].forEach(function(row, i){
-      var w = { id: catKey+"-"+i, en: row[0], pt: row[1], example: row[2], trap: row[3]||null, category: catKey };
-      WORDS.push(w);
-      WORDS_BY_CAT[catKey].push(w);
-    });
-  });
+  // ---- Spanish content ----
+  var CATS_ES = {
+    essentials:{label:"Essenciais", level:"A1"},
+    verbs:{label:"Verbos comuns", level:"A1–A2"},
+    adjectives:{label:"Adjetivos", level:"A2"},
+    food:{label:"Comida", level:"A1–A2"},
+    travel:{label:"Viagem", level:"A2"},
+    work:{label:"Trabalho", level:"B1"},
+    numbers:{label:"Números e horas", level:"A1"},
+    falsefriends:{label:"Falsos cognatos (PT-ES)", level:"A2–B1"}
+  };
+  var UNIT_ORDER_ES = ["essentials","verbs","adjectives","food","travel","work","numbers","falsefriends"];
 
-  var GRAMMAR = [
+  var RAW_ES = {
+    essentials: [
+      ["hola","olá","¡Hola! ¿Cómo estás hoy?"],
+      ["adiós","tchau / adeus","Adiós, nos vemos mañana."],
+      ["por favor","por favor","¿Puedes ayudarme, por favor?"],
+      ["gracias","obrigado(a)","Gracias por tu ayuda."],
+      ["perdón","desculpe","Perdón, llego tarde."],
+      ["sí","sim","Sí, estoy de acuerdo contigo."],
+      ["no","não","No, no quiero nada, gracias."],
+      ["amigo / amiga","amigo(a)","Ella es mi mejor amiga."],
+      ["familia","família","Mi familia vive en São Paulo."],
+      ["agua","água","¿Puedo tomar un vaso de agua?"],
+      ["hoy","hoje","Tengo una reunión hoy."],
+      ["mañana","amanhã","Nos vemos mañana."],
+      ["ayer","ontem","La llamé ayer."],
+      ["ahora","agora","Necesito irme ahora."],
+      ["aquí","aqui","Por favor, espera aquí."],
+      ["allí","ali / lá","Las llaves están allí."],
+      ["feliz","feliz","Estoy tan feliz de verte."],
+      ["triste","triste","Se veía triste después de la noticia."]
+    ],
+    verbs: [
+      ["ser","ser","Quiero ser médico algún día."],
+      ["estar","estar","¿Cómo estás?"],
+      ["tener","ter","Tenemos dos gatos."],
+      ["hacer","fazer","¿Qué haces los fines de semana?"],
+      ["ir","ir","Vamos a la playa."],
+      ["venir","vir","¿Puedes venir aquí un momento?"],
+      ["dar","dar","¿Me puedes dar tu número?"],
+      ["saber","saber","Sé la respuesta."],
+      ["conocer","conhecer","Conozco a tu hermano."],
+      ["pensar","pensar / achar","Pienso que es una buena idea."],
+      ["ver","ver","No puedo ver la pizarra bien."],
+      ["querer","querer","¿Quieres un café?"],
+      ["necesitar","precisar","Necesitamos más tiempo."],
+      ["gustar","gostar","Me gusta mucho esta canción."],
+      ["trabajar","trabalhar","Trabajo desde casa los viernes."],
+      ["estudiar","estudar","Estudio inglés todas las noches."],
+      ["hablar","falar","¿Hablas portugués?"],
+      ["buscar","procurar","Siempre busco mis llaves antes de salir."]
+    ],
+    adjectives: [
+      ["caro / cara","caro","Ese restaurante es demasiado caro."],
+      ["barato / barata","barato","Encontré un vuelo barato."],
+      ["difícil","difícil","Este ejercicio es difícil."],
+      ["fácil","fácil","El examen fue fácil."],
+      ["hermoso / hermosa","lindo(a)","¡Qué atardecer tan hermoso!"],
+      ["rápido / rápida","rápido","Es un corredor muy rápido."],
+      ["lento / lenta","lento","El internet está lento hoy."],
+      ["fuerte","forte","Ella tiene una opinión fuerte sobre eso."],
+      ["débil","fraco","La señal está muy débil aquí."],
+      ["limpio / limpia","limpo","Mantén tu cuarto limpio."],
+      ["sucio / sucia","sujo","Mis zapatos están sucios."],
+      ["seguro / segura","seguro","Este barrio es seguro."],
+      ["peligroso / peligrosa","perigoso","Es peligroso manejar bajo la lluvia."],
+      ["cómodo / cómoda","confortável","Esta silla es muy cómoda."],
+      ["aburrido / aburrida","chato / entediante","La película fue muy aburrida."],
+      ["interesante","interessante","Esa es una pregunta interesante."],
+      ["lleno / llena","lotado","El autobús estaba lleno esta mañana."],
+      ["agotado / agotada","exausto","Estoy agotado después del viaje."]
+    ],
+    food: [
+      ["desayuno","café da manhã","Nunca me salto el desayuno."],
+      ["almuerzo","almoço","Vamos a almorzar juntos."],
+      ["cena","jantar","¿Qué hay de cena esta noche?"],
+      ["restaurante","restaurante","Comimos en un restaurante agradable."],
+      ["menú","cardápio","¿Puedo ver el menú, por favor?"],
+      ["mesero / mesera","garçom","El mesero recomendó el pescado."],
+      ["cuenta","conta","¿Nos trae la cuenta, por favor?"],
+      ["delicioso / deliciosa","delicioso","Esta sopa está deliciosa."],
+      ["hambre","com fome (tener hambre)","Tengo mucha hambre ahora."],
+      ["sed","com sede (tener sed)","Ella tenía sed después de correr."],
+      ["verdura","vegetal / legume","Come más verduras."],
+      ["fruta","fruta","El mango es mi fruta favorita."],
+      ["carne","carne","Él no come carne."],
+      ["pan","pão","El pan fresco huele increíble."],
+      ["queso","queijo","Este queso es de Francia."],
+      ["postre","sobremesa","¿Qué hay de postre?"],
+      ["picante","apimentado","Cuidado, esta salsa es muy picante."],
+      ["sobras","sobras","Comimos las sobras en el almuerzo."]
+    ],
+    travel: [
+      ["aeropuerto","aeroporto","El aeropuerto está muy lleno hoy."],
+      ["boleto / billete","passagem / bilhete","Compré un boleto de avión en línea."],
+      ["pasaporte","passaporte","¡No olvides tu pasaporte!"],
+      ["equipaje","bagagem","Mi equipaje no llegó."],
+      ["vuelo","voo","Nuestro vuelo sale a las 6 a.m."],
+      ["hotel","hotel","Reservamos un hotel cerca de la playa."],
+      ["reserva","reserva","Quisiera confirmar mi reserva."],
+      ["mapa","mapa","¿Me puedes mostrar en el mapa?"],
+      ["turista","turista","La ciudad está llena de turistas en verano."],
+      ["viaje","viagem","Estamos planeando un viaje a Portugal."],
+      ["vacaciones","férias","¡Necesito unas vacaciones!"],
+      ["frontera","fronteira","Cruzaron la frontera en autobús."],
+      ["aduana","alfândega","Esperamos una hora en la aduana."],
+      ["tarjeta de embarque","cartão de embarque","Tenga lista su tarjeta de embarque."],
+      ["maleta","mala","Mi maleta pesa demasiado."],
+      ["retraso","atraso","El vuelo tuvo dos horas de retraso."],
+      ["destino","destino","¿Cuál es tu destino final?"],
+      ["propina","gorjeta","Dejamos una propina generosa."]
+    ],
+    work: [
+      ["trabajo","emprego","Ella encontró un nuevo trabajo."],
+      ["reunión","reunião","La reunión empieza a las 9."],
+      ["plazo","prazo","El plazo es el próximo viernes."],
+      ["jefe / jefa","chefe","Mi jefe está de vacaciones."],
+      ["colega","colega","Es un colega del equipo de marketing."],
+      ["sueldo","salário","Negociaron un sueldo más alto."],
+      ["currículum","currículo","Envíame tu currículum."],
+      ["entrevista","entrevista","Tengo una entrevista de trabajo mañana."],
+      ["correo electrónico","e-mail","Te enviaré un correo electrónico."],
+      ["proyecto","projeto","Terminamos el proyecto a tiempo."],
+      ["horario","agenda / horário","Revisa mi horario para la próxima semana."],
+      ["oficina","escritório","La oficina está en el centro."],
+      ["contrato","contrato","Por favor firme el contrato."],
+      ["ascenso","promoção","Ella consiguió un ascenso el mes pasado."],
+      ["cliente","cliente","El cliente aprobó la propuesta."],
+      ["remoto / remota","remoto","Trabajo remoto los viernes."],
+      ["habilidad","habilidade","La comunicación es una habilidad importante."],
+      ["tarea","tarefa","Tengo tres tareas que terminar hoy."]
+    ],
+    numbers: [
+      ["uno","um","Tengo un hermano."],
+      ["dos","dois","Ella tiene dos hijos."],
+      ["tres","três","Esperamos tres horas."],
+      ["cinco","cinco","Quedan cinco manzanas."],
+      ["diez","dez","Cuesta diez dólares."],
+      ["veinte","vinte","Él tiene veinte años."],
+      ["cien","cem","El libro tiene cien páginas."],
+      ["mitad","metade","Comí la mitad de la pizza."],
+      ["cuarto","quarto (um quarto de hora)","Añade un cuarto de taza de azúcar."],
+      ["minuto","minuto","Espera un minuto, por favor."],
+      ["hora","hora","El viaje toma una hora."],
+      ["en punto","em ponto","La reunión empieza a las cinco en punto."],
+      ["mañana","manhã","Salgo a correr cada mañana."],
+      ["tarde","tarde","Nos vemos por la tarde."],
+      ["semana","semana","Te veo la próxima semana."],
+      ["mes","mês","El alquiler vence a fin de mes."],
+      ["año","ano","Este es el mejor año de mi vida."],
+      ["siglo","século","El edificio tiene más de un siglo."]
+    ],
+    falsefriends: [
+      ["exquisito / exquisita","saboroso, refinado","Este plato es exquisito.","Parece com \"esquisito\", mas exquisito significa saboroso/refinado — o oposto do sentido negativo em português."],
+      ["embarazada","grávida","Mi hermana está embarazada.","Parece com \"embaraçada\", mas embarazada é grávida — embaraçada em espanhol é \"avergonzada\"."],
+      ["apellido","sobrenome","¿Cuál es tu apellido?","Parece com \"apelido\", mas apellido é sobrenome — apelido em espanhol é \"apodo\"."],
+      ["rojo / roja","vermelho","El coche es rojo.","Parece com \"roxo\", mas rojo é vermelho — roxo em espanhol é \"morado\" ou \"violeta\"."],
+      ["taller","oficina mecânica","Llevé el coche al taller.","Não é \"mais alto\" (más alto) — taller é oficina/ateliê."],
+      ["oficina","escritório","Trabajo en una oficina.","Ao contrário do português, oficina em espanhol é escritório — oficina mecânica se diz \"taller\"."],
+      ["vaso","copo","Quiero un vaso de agua.","Vaso em espanhol é copo — vaso de planta se diz \"maceta\" ou \"florero\"."],
+      ["escritorio","escrivaninha / mesa de trabalho","Dejé las llaves en el escritorio.","É o móvel (mesa), não a sala — sala/escritório como cômodo é \"oficina\" ou \"despacho\"."],
+      ["cena","jantar","La cena está lista.","Cena em espanhol é jantar — cena de filme se diz \"escena\"."],
+      ["polvo","poeira","Hay mucho polvo en la mesa.","Cuidado: polvo em espanhol é poeira — o animal (polvo) se diz \"pulpo\"."],
+      ["largo / larga","comprido","El vestido es muy largo.","Largo em espanhol é comprido — largo (de largura) se diz \"ancho\"."],
+      ["salado / salada","salgado","La sopa está muy salada.","Aqui é adjetivo (salgada), não o prato \"salada\" (que se diz \"ensalada\")."],
+      ["presunto / presunta","suposto","Es el presunto culpable.","Presunto em espanhol significa suposto — o embutido (presunto) se diz \"jamón\"."],
+      ["borracho / borracha","bêbado(a)","Ella estaba borracha en la fiesta.","Aqui é uma pessoa bêbada — a borracha de apagar se diz \"goma\"."],
+      ["pelado / pelada","careca","Se quedó pelado a los treinta años.","Aqui significa careca — \"nu\" em espanhol se diz \"desnudo\"."],
+      ["constipado / constipada","resfriado(a)","Estoy constipado, tengo la nariz tapada.","Constipado em espanhol é estar resfriado — prisão de ventre se diz \"estreñimiento\"."],
+      ["equivocado / equivocada","enganado, errado","Creo que estás equivocado.","Uso comum — preste atenção só na concordância de gênero (equivocado/equivocada)."],
+      ["todavía","ainda","Todavía no he terminado.","Parece com \"todavia\" (porém), mas todavía significa ainda — porém em espanhol é \"sin embargo\"."]
+    ]
+  };
+
+  var GRAMMAR_ES = [
+    {title:"Ser vs. Estar",
+     body:"\"Ser\" é usado para características permanentes e identidade (profissão, origem, personalidade). \"Estar\" é usado para estados temporários, localização e sensações. Essa distinção não existe em português, onde \"ser\" e \"estar\" se misturam mais.",
+     ex:[["ok","Soy profesor."],["no","Estoy profesor."],["ok","Estoy cansado hoy."],["no","Soy cansado hoy."]]},
+    {title:"Concordância de gênero e número dos adjetivos",
+     body:"Os adjetivos em espanhol concordam em gênero e número com o substantivo, igual ao português — mas cuidado com palavras que mudam de padrão, como \"el problema\" (masculino, mesmo terminando em -a).",
+     ex:[["ok","el problema difícil"],["no","la problema difícil"],["ok","las casas bonitas"],["no","las casas bonito"]]},
+    {title:"Contrações al e del",
+     body:"\"a + el\" vira \"al\", e \"de + el\" vira \"del\" — sempre, sem exceção (assim como em português \"de + o\" vira \"do\").",
+     ex:[["ok","Voy al mercado."],["no","Voy a el mercado."],["ok","Vengo del trabajo."],["no","Vengo de el trabajo."]]},
+    {title:"O \"a\" pessoal",
+     body:"Quando o objeto direto de um verbo é uma pessoa (ou animal de estimação) específica, o espanhol usa um \"a\" antes dela — algo que não existe em português.",
+     ex:[["ok","Vi a mi hermano."],["no","Vi mi hermano."],["ok","Busco a mi perro."]]},
+    {title:"Muy vs. Mucho",
+     body:"\"Muy\" vem antes de adjetivos e advérbios. \"Mucho\" acompanha substantivos ou modifica verbos. É um erro comum de quem fala português usar \"mucho\" no lugar de \"muy\".",
+     ex:[["ok","Estoy muy cansado."],["no","Estoy mucho cansado."],["ok","Tengo mucho trabajo."],["no","Tengo muy trabajo."]]},
+    {title:"Saber vs. Conocer",
+     body:"\"Saber\" é usado para fatos e habilidades (saber fazer algo). \"Conocer\" é usado para pessoas, lugares e coisas com que se tem familiaridade.",
+     ex:[["ok","Sé hablar inglés."],["ok","Conozco a tu hermana."],["no","Sé a tu hermana."]]},
+    {title:"Diminutivos -ito / -ita",
+     body:"O espanhol usa muito os diminutivos para afeto, informalidade ou tamanho pequeno — mais até do que o português no dia a dia.",
+     ex:[["ok","Espera un momentito."],["ok","Mi abuelita vive cerca."]]},
+    {title:"Pontuação: ¿? e ¡!",
+     body:"Perguntas e exclamações em espanhol levam o sinal invertido também no início da frase — uma diferença visual importante em relação ao português.",
+     ex:[["ok","¿Cómo estás?"],["no","Cómo estás?"],["ok","¡Qué bien!"],["no","Qué bien!"]]},
+    {title:"Falsos cognatos PT-ES",
+     body:"Português e espanhol são parecidos demais, e isso engana: palavras como exquisito, embarazada e apellido têm significados bem diferentes do que parecem. Vale revisar a unidade \"Falsos cognatos\" regularmente.",
+     ex:[["ok","Está embarazada de seis meses."],["no","Usar \"embarazada\" com o sentido de \"envergonhada\"."]]}
+  ];
+
+  var GRAMMAR_EN = [
     {title:"Do / does nas perguntas e negativas",
      body:"Em português, perguntas e negativas não precisam de um verbo auxiliar extra (\"Você fala inglês?\"). Em inglês, é obrigatório usar do/does/did com a maioria dos verbos.",
      ex:[["ok","Do you speak English?"],["no","Speak you English?"],["ok","She doesn't like coffee."],["no","She not likes coffee."]]},
@@ -646,20 +867,70 @@
      ex:[["ok","This flight is cheaper than that one."],["no","This flight is more cheap than that one."],["ok","She is the most interesting person I know."],["no","She is the interestingest person I know."]]}
   ];
 
+  var CONTENT = {
+    en: {CATS: CATS_EN, UNIT_ORDER: UNIT_ORDER_EN, RAW: RAW_EN, GRAMMAR: GRAMMAR_EN},
+    es: {CATS: CATS_ES, UNIT_ORDER: UNIT_ORDER_ES, RAW: RAW_ES, GRAMMAR: GRAMMAR_ES}
+  };
+
+  // "Active" pointers for whichever language is currently selected — repointed by
+  // activateLanguage() below instead of threading a lang argument through every function.
+  var CATS, UNIT_ORDER, RAW, GRAMMAR, WORDS, WORDS_BY_CAT, LESSON_PLAN;
+
+  function buildWordsAndLessons(){
+    WORDS = []; WORDS_BY_CAT = {};
+    UNIT_ORDER.forEach(function(catKey){
+      WORDS_BY_CAT[catKey] = [];
+      RAW[catKey].forEach(function(row, i){
+        var w = { id: catKey+"-"+i, en: row[0], pt: row[1], example: row[2], trap: row[3]||null, category: catKey };
+        WORDS.push(w);
+        WORDS_BY_CAT[catKey].push(w);
+      });
+    });
+    LESSON_PLAN = {};
+    UNIT_ORDER.forEach(function(catKey){
+      var words = WORDS_BY_CAT[catKey];
+      var chunks = chunk(words, 6);
+      var plan = chunks.map(function(c){ return {words:c, isReview:false}; });
+      plan.push({words: words.slice(), isReview:true});
+      LESSON_PLAN[catKey] = plan;
+    });
+  }
+
+  function activateLanguage(lang){
+    var c = CONTENT[lang] || CONTENT.en;
+    CATS = c.CATS; UNIT_ORDER = c.UNIT_ORDER; RAW = c.RAW; GRAMMAR = c.GRAMMAR;
+    buildWordsAndLessons();
+  }
+
+  activateLanguage("en");
+
   // ================= STATE =================
+  // Hearts/gems/XP/streak are one shared pool across both languages (like one Duolingo
+  // profile). Only per-word/per-lesson progress is kept separate per language, in
+  // state.progress[lang] — accessed through lp() everywhere below.
+  function defaultLangProgress(lang){
+    return {
+      boxes:{},
+      selectedCats: (CONTENT[lang] || CONTENT.en).UNIT_ORDER.slice(),
+      direction:"en2pt",
+      lessonsCompleted:{}
+    };
+  }
   function defaultState(){
     return {
-      boxes:{}, totalAttempts:0, totalCorrect:0,
-      selectedCats: UNIT_ORDER.slice(), direction:"en2pt",
+      language:"en",
+      progress:{ en: defaultLangProgress("en"), es: defaultLangProgress("es") },
+      totalAttempts:0, totalCorrect:0,
       streak:0, lastLessonDate:null,
-      xp:0, lessonsCompleted:{},
-      xpToday:0, xpTodayDate:null,
+      xp:0, xpToday:0, xpTodayDate:null,
       hearts:5, heartsUpdatedAt:Date.now(),
       gems:0, streakFreezes:0,
-      voiceName:null
+      voiceNames:{ en:null, es:null }
     };
   }
   var state = defaultState();
+  // Shortcut to the progress bucket for whichever language is active right now.
+  function lp(){ return state.progress[state.language]; }
   var dbNS = null;
   var saveTimer = null;
   var DAILY_GOAL_XP = 30;
@@ -727,22 +998,25 @@
     // Voices often load asynchronously — this event fires once the real list is ready.
     // onvoiceschanged is wired once renderVoicePicker exists, further down.
   }
-  function englishVoices(){
-    return VOICES_CACHE.filter(function(v){ return /^en/i.test(v.lang); });
+  function voicesForLang(langCode){
+    var prefix = langCode || "en";
+    return VOICES_CACHE.filter(function(v){ return new RegExp("^"+prefix, "i").test(v.lang); });
   }
   // Prefer higher-quality / "Enhanced"/"Premium" named voices when the device has more than
   // one installed — plain names are usually the low-quality compact voice.
-  function pickBestVoice(preferredName){
-    var pool = englishVoices();
+  function pickBestVoice(preferredName, langCode){
+    langCode = langCode || curLang().code;
+    var pool = voicesForLang(langCode);
     if (!pool.length) return null;
     if (preferredName){
       var chosen = pool.find(function(v){ return v.name === preferredName; });
       if (chosen) return chosen;
     }
+    var targetLang = (LANGS[langCode] || LANGS.en).speechLang;
     var byQuality = pool.slice().sort(function(a,b){
       function score(v){
         var s = 0;
-        if (/en-US/i.test(v.lang)) s += 3;
+        if (v.lang && v.lang.toLowerCase() === targetLang.toLowerCase()) s += 3;
         if (/enhanced|premium|neural|natural/i.test(v.name)) s += 5;
         if (v.localService) s += 1;
         return s;
@@ -773,9 +1047,9 @@
       // utterance on iOS — only cancel when something is actually still talking.
       var startSpeaking = function(){
         var u = new SpeechSynthesisUtterance(text);
-        u.lang = lang || "en-US";
+        u.lang = lang || curLang().speechLang;
         u.rate = opts.rate || 0.95;
-        var voice = pickBestVoice(state.voiceName);
+        var voice = pickBestVoice(state.voiceNames[curLang().code], curLang().code);
         if (voice) u.voice = voice;
         window.speechSynthesis.speak(u);
       };
@@ -800,14 +1074,36 @@
       try{ var raw = localStorage.getItem("caixaDePalavras_state_v2"); if (raw) loaded = JSON.parse(raw); }catch(e){}
     }
     if (loaded){
-      state = Object.assign(defaultState(), loaded);
-      if (!state.boxes) state.boxes = {};
-      if (!state.lessonsCompleted) state.lessonsCompleted = {};
-      if (!state.selectedCats || !state.selectedCats.length) state.selectedCats = UNIT_ORDER.slice();
+      var fresh = defaultState();
+      state = Object.assign(fresh, loaded);
+      // Migrate old single-language saves (boxes/selectedCats/lessonsCompleted/direction
+      // used to live directly on state) into progress.en, from before Spanish existed.
+      // Detected from the RAW loaded data, not state.progress — defaultState() always
+      // hands state.progress a value, so checking state itself would never fire here.
+      if (!loaded.progress){
+        state.progress = fresh.progress;
+        state.progress.en = {
+          boxes: loaded.boxes || {},
+          selectedCats: (loaded.selectedCats && loaded.selectedCats.length) ? loaded.selectedCats : CONTENT.en.UNIT_ORDER.slice(),
+          direction: loaded.direction || "en2pt",
+          lessonsCompleted: loaded.lessonsCompleted || {}
+        };
+      }
+      if (!state.language || !state.progress[state.language]) state.language = "en";
+      ["en","es"].forEach(function(lang){
+        if (!state.progress[lang]) state.progress[lang] = defaultLangProgress(lang);
+        var p = state.progress[lang];
+        if (!p.boxes) p.boxes = {};
+        if (!p.lessonsCompleted) p.lessonsCompleted = {};
+        if (!p.selectedCats || !p.selectedCats.length) p.selectedCats = (CONTENT[lang]||CONTENT.en).UNIT_ORDER.slice();
+        if (!p.direction) p.direction = "en2pt";
+      });
+      activateLanguage(state.language);
       if (typeof state.hearts !== "number") state.hearts = HEARTS_MAX;
       if (!state.heartsUpdatedAt) state.heartsUpdatedAt = Date.now();
       if (typeof state.gems !== "number") state.gems = 0;
       if (typeof state.streakFreezes !== "number") state.streakFreezes = 0;
+      if (!state.voiceNames) state.voiceNames = { en: loaded.voiceName || null, es: null };
     }
     // streak expiry: if more than 1 day passed since the last completed lesson, the streak is lost —
     // unless a streak freeze can cover exactly one missed day (like Duolingo's streak freeze).
@@ -856,7 +1152,7 @@
     return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; });
   }
   function catLabel(key){ return CATS[key] ? CATS[key].label : key; }
-  function boxOf(id){ return state.boxes[id] || 0; }
+  function boxOf(id){ return lp().boxes[id] || 0; }
 
   function findBlankToken(sentence, headword){
     var isPhrase = headword.indexOf(" ") !== -1;
@@ -889,11 +1185,11 @@
 
   function lessonId(catKey, idx){ return catKey+"-"+idx; }
   function isLessonDone(catKey, idx){
-    var rec = state.lessonsCompleted[lessonId(catKey,idx)];
+    var rec = lp().lessonsCompleted[lessonId(catKey,idx)];
     return !!(rec && rec.completed);
   }
   function isLessonPerfect(catKey, idx){
-    var rec = state.lessonsCompleted[lessonId(catKey,idx)];
+    var rec = lp().lessonsCompleted[lessonId(catKey,idx)];
     return !!(rec && rec.perfect);
   }
   function isLessonUnlocked(unitIdx, lessonIdx){
@@ -960,8 +1256,8 @@
     var options = shuffle([correct].concat(distractors));
     return {
       type:"mcq", word:word, dir:dir,
-      kicker: dir==="en2pt" ? "Ouça e escolha" : "Escolha a palavra em inglês",
-      question: dir==="en2pt" ? "O que esta palavra significa?" : "Como se diz isso em inglês?",
+      kicker: dir==="en2pt" ? "Ouça e escolha" : curLang().mcqKicker,
+      question: dir==="en2pt" ? "O que esta palavra significa?" : curLang().sayPrompt,
       prompt: promptText,
       audioText: dir==="en2pt" ? word.en : null,
       options: options,
@@ -1182,9 +1478,9 @@
   }
   function wireSpeak(id, text){
     var btn = document.getElementById(id);
-    if (btn) btn.addEventListener("click", function(e){ e.stopPropagation(); speak(text, "en-US"); });
+    if (btn) btn.addEventListener("click", function(e){ e.stopPropagation(); speak(text, curLang().speechLang); });
     var slowBtn = document.getElementById(id+"-slow");
-    if (slowBtn) slowBtn.addEventListener("click", function(e){ e.stopPropagation(); speak(text, "en-US", {rate:0.55}); });
+    if (slowBtn) slowBtn.addEventListener("click", function(e){ e.stopPropagation(); speak(text, curLang().speechLang, {rate:0.55}); });
   }
 
   // Builds the 3-part lesson-player chrome: header (close + progress + counter),
@@ -1393,7 +1689,7 @@
 
     var lid = lessonId(runner.catKey, runner.lessonIdx);
     var prevPerfect = isLessonPerfect(runner.catKey, runner.lessonIdx);
-    state.lessonsCompleted[lid] = { completed:true, perfect: prevPerfect || perfect };
+    lp().lessonsCompleted[lid] = { completed:true, perfect: prevPerfect || perfect };
     saveState();
 
     var body =
@@ -1410,33 +1706,40 @@
 
   // ================= PRACTICE (flashcards) =================
   var chipsEl = document.getElementById("study-chips");
-  UNIT_ORDER.forEach(function(key){
-    var chip = document.createElement("span");
-    chip.className = "chip on";
-    chip.dataset.cat = key;
-    chip.textContent = CATS[key].label;
-    chip.addEventListener("click", function(){
-      var idx = state.selectedCats.indexOf(key);
-      if (idx === -1){ state.selectedCats.push(key); chip.classList.add("on"); }
-      else { if (state.selectedCats.length===1) return; state.selectedCats.splice(idx,1); chip.classList.remove("on"); }
-      saveState(); nextCard();
+  function renderChips(){
+    chipsEl.innerHTML = "";
+    UNIT_ORDER.forEach(function(key){
+      var chip = document.createElement("span");
+      chip.className = "chip" + (lp().selectedCats.indexOf(key)!==-1 ? " on" : "");
+      chip.dataset.cat = key;
+      chip.textContent = CATS[key].label;
+      chip.addEventListener("click", function(){
+        var idx = lp().selectedCats.indexOf(key);
+        if (idx === -1){ lp().selectedCats.push(key); chip.classList.add("on"); }
+        else { if (lp().selectedCats.length===1) return; lp().selectedCats.splice(idx,1); chip.classList.remove("on"); }
+        saveState(); nextCard();
+      });
+      chipsEl.appendChild(chip);
     });
-    chipsEl.appendChild(chip);
-  });
+  }
   function syncChips(){
-    chipsEl.querySelectorAll(".chip").forEach(function(c){ c.classList.toggle("on", state.selectedCats.indexOf(c.dataset.cat)!==-1); });
+    chipsEl.querySelectorAll(".chip").forEach(function(c){ c.classList.toggle("on", lp().selectedCats.indexOf(c.dataset.cat)!==-1); });
+  }
+  function updateDirLabels(){
+    document.getElementById("dir-en2pt").textContent = curLang().dirLabelFwd;
+    document.getElementById("dir-pt2en").textContent = curLang().dirLabelBack;
   }
   document.getElementById("dir-en2pt").addEventListener("click", function(){ setDir("en2pt"); });
   document.getElementById("dir-pt2en").addEventListener("click", function(){ setDir("pt2en"); });
   function setDir(d){
-    state.direction = d;
+    lp().direction = d;
     document.getElementById("dir-en2pt").classList.toggle("on", d==="en2pt");
     document.getElementById("dir-pt2en").classList.toggle("on", d==="pt2en");
     saveState(); nextCard();
   }
   var currentWord = null;
   var fc = document.getElementById("flashcard");
-  function filteredWords(){ return WORDS.filter(function(w){return state.selectedCats.indexOf(w.category)!==-1;}); }
+  function filteredWords(){ return WORDS.filter(function(w){return lp().selectedCats.indexOf(w.category)!==-1;}); }
   function pickWord(){
     var pool = filteredWords();
     if (!pool.length) return null;
@@ -1459,8 +1762,8 @@
       document.getElementById("fc-cat").textContent = ""; document.getElementById("fc-box").textContent = "";
       return;
     }
-    var front = state.direction==="en2pt" ? currentWord.en : currentWord.pt;
-    var back = state.direction==="en2pt" ? currentWord.pt : currentWord.en;
+    var front = lp().direction==="en2pt" ? currentWord.en : currentWord.pt;
+    var back = lp().direction==="en2pt" ? currentWord.pt : currentWord.en;
     document.getElementById("fc-front").textContent = front;
     document.getElementById("fc-translation").textContent = back;
     document.getElementById("fc-example").textContent = currentWord.example;
@@ -1475,33 +1778,36 @@
     if (!currentWord) return;
     var b = boxOf(currentWord.id);
     state.totalAttempts++;
-    if (knew){ state.totalCorrect++; state.boxes[currentWord.id] = Math.min(3,b+1); addXp(2); }
-    else { state.boxes[currentWord.id] = 1; }
+    if (knew){ state.totalCorrect++; lp().boxes[currentWord.id] = Math.min(3,b+1); addXp(2); }
+    else { lp().boxes[currentWord.id] = 1; }
     saveState(); nextCard(); renderStatbar();
   }
   document.getElementById("btn-knew").addEventListener("click", function(){ judge(true); });
   document.getElementById("btn-forgot").addEventListener("click", function(){ judge(false); });
   document.getElementById("fc-speak-slow").addEventListener("click", function(e){
     e.stopPropagation();
-    if (currentWord) speak(currentWord.en, "en-US", {rate:0.55});
+    if (currentWord) speak(currentWord.en, curLang().speechLang, {rate:0.55});
   });
   document.getElementById("fc-speak").addEventListener("click", function(e){
     e.stopPropagation();
-    if (currentWord) speak(currentWord.en, "en-US");
+    if (currentWord) speak(currentWord.en, curLang().speechLang);
   });
 
   // ================= GRAMMAR (tab "Palavras") =================
   var gList = document.getElementById("grammar-list");
-  GRAMMAR.forEach(function(tip){
-    var d = document.createElement("details");
-    d.className = "tip";
-    var exHtml = tip.ex.map(function(pair){
-      var cls = pair[0]==="ok"?"ok":"no", txt = pair[0]==="ok"?"certo":"evite";
-      return '<div class="row"><span class="tag '+cls+'">'+txt+'</span><span>'+escapeHtml(pair[1])+'</span></div>';
-    }).join("");
-    d.innerHTML = '<summary>'+escapeHtml(tip.title)+'</summary><div class="body">'+escapeHtml(tip.body)+'<div class="ex">'+exHtml+'</div></div>';
-    gList.appendChild(d);
-  });
+  function renderGrammarList(){
+    gList.innerHTML = "";
+    GRAMMAR.forEach(function(tip){
+      var d = document.createElement("details");
+      d.className = "tip";
+      var exHtml = tip.ex.map(function(pair){
+        var cls = pair[0]==="ok"?"ok":"no", txt = pair[0]==="ok"?"certo":"evite";
+        return '<div class="row"><span class="tag '+cls+'">'+txt+'</span><span>'+escapeHtml(pair[1])+'</span></div>';
+      }).join("");
+      d.innerHTML = '<summary>'+escapeHtml(tip.title)+'</summary><div class="body">'+escapeHtml(tip.body)+'<div class="ex">'+exHtml+'</div></div>';
+      gList.appendChild(d);
+    });
+  }
 
   // ================= PROGRESS (tab "Perfil") =================
   function statCell(num,label){ return '<div class="cell"><div class="num tabular">'+num+'</div><div class="lbl">'+label+'</div></div>'; }
@@ -1509,8 +1815,8 @@
     var b0=0,b1=0,b2=0,b3=0;
     WORDS.forEach(function(w){ var b=boxOf(w.id); if(b===0)b0++; else if(b===1)b1++; else if(b===2)b2++; else b3++; });
     var total = WORDS.length;
-    var lessonsDone = Object.keys(state.lessonsCompleted).filter(function(k){return state.lessonsCompleted[k].completed;}).length;
-    var perfectCount = Object.keys(state.lessonsCompleted).filter(function(k){return state.lessonsCompleted[k].perfect;}).length;
+    var lessonsDone = Object.keys(lp().lessonsCompleted).filter(function(k){return lp().lessonsCompleted[k].completed;}).length;
+    var perfectCount = Object.keys(lp().lessonsCompleted).filter(function(k){return lp().lessonsCompleted[k].perfect;}).length;
     var unitsDone = UNIT_ORDER.filter(function(c){return isLessonDone(c,3);}).length;
     var accuracy = state.totalAttempts ? Math.round((state.totalCorrect/state.totalAttempts)*100) : null;
     var totalLessons = UNIT_ORDER.length*4;
@@ -1534,6 +1840,7 @@
       bar.appendChild(seg);
     });
     renderShop();
+    renderGemStore();
     renderVoicePicker();
     var footerNote = document.getElementById("footer-note");
     if (footerNote) footerNote.textContent = total+" palavras · "+UNIT_ORDER.length+" unidades · "+totalLessons+" lições · seu progresso fica salvo automaticamente";
@@ -1572,23 +1879,24 @@
     });
   }
 
-  // Only show the voice picker when the device actually offers more than one English
-  // voice — most phones have just the one default, so the control would be noise there.
+  // Only show the voice picker when the device actually offers more than one voice for
+  // the language currently being studied — most phones have just the one default.
   function renderVoicePicker(){
     var row = document.getElementById("voice-row");
     var sel = document.getElementById("voice-select");
     if (!row || !sel) return;
-    var voices = englishVoices();
+    var lang = curLang().code;
+    var voices = voicesForLang(lang);
     if (voices.length < 2){ row.hidden = true; return; }
     row.hidden = false;
-    var current = state.voiceName || (pickBestVoice(null) || {}).name || "";
+    var current = state.voiceNames[lang] || (pickBestVoice(null, lang) || {}).name || "";
     sel.innerHTML = voices.map(function(v){
       return '<option value="'+escapeHtml(v.name)+'"'+(v.name===current?' selected':'')+'>'+escapeHtml(v.name)+' ('+escapeHtml(v.lang)+')</option>';
     }).join("");
     sel.onchange = function(){
-      state.voiceName = sel.value;
+      state.voiceNames[lang] = sel.value;
       saveState();
-      speak("Hello! This is how I sound.", "en-US");
+      speak(curLang().samplePhrase, curLang().speechLang);
     };
   }
   if (typeof window !== "undefined" && 'speechSynthesis' in window){
@@ -1617,16 +1925,169 @@
     document.getElementById("stat-gems").textContent = state.gems;
   }
 
+  // ================= COMPRA DE GEMAS (Stripe) =================
+  // Os preços mostrados aqui são só para ver; o valor real cobrado é decidido
+  // no Worker, para ninguém conseguir comprar 500 gemas por 1 cêntimo.
+  var GEM_PACKS = [
+    {id:"p1", gems:50,  price:"€0,99"},
+    {id:"p2", gems:150, price:"€1,99", best:true},
+    {id:"p3", gems:500, price:"€4,99"}
+  ];
+  var PENDING_KEY = "caixaDePalavras_pedido";
+
+  function payApi(){ return (PAY_API || "").replace(/\/+$/, ""); }
+
+  function showPayBanner(msg, kind, autoHide){
+    var el = document.getElementById("paybanner");
+    if (!el) return;
+    el.className = "paybanner" + (kind ? " " + kind : "");
+    el.textContent = msg;
+    el.hidden = false;
+    clearTimeout(el._hideTimer);
+    if (autoHide){
+      el._hideTimer = setTimeout(function(){ el.hidden = true; }, autoHide);
+    }
+  }
+  function hidePayBanner(){
+    var el = document.getElementById("paybanner");
+    if (el){ clearTimeout(el._hideTimer); el.hidden = true; }
+  }
+
+  function renderGemStore(){
+    var title = document.getElementById("gemstore-title");
+    var el = document.getElementById("gemstore");
+    var note = document.getElementById("gemstore-note");
+    if (!title || !el) return;
+    // Sem backend configurado, a compra simplesmente não aparece.
+    if (!payApi()){
+      title.hidden = true; el.hidden = true; if (note) note.hidden = true;
+      return;
+    }
+    title.hidden = false; el.hidden = false; if (note) note.hidden = false;
+    el.innerHTML = GEM_PACKS.map(function(p){
+      return '<button class="gempack'+(p.best?' best':'')+'" type="button" data-pack="'+escapeHtml(p.id)+'">'+
+               (p.best ? '<span class="gp-tag">popular</span>' : '')+
+               '<span class="gp-amount">💎 '+p.gems+'</span>'+
+               '<span class="gp-label">gemas</span>'+
+               '<span class="gp-price">'+escapeHtml(p.price)+'</span>'+
+             '</button>';
+    }).join("");
+    el.querySelectorAll(".gempack").forEach(function(btn){
+      btn.addEventListener("click", function(){ startPurchase(btn.dataset.pack); });
+    });
+  }
+
+  async function startPurchase(packId){
+    if (!payApi()) return;
+    var botoes = document.querySelectorAll(".gempack");
+    botoes.forEach(function(b){ b.disabled = true; });
+    showPayBanner("A abrir o pagamento…");
+    try{
+      var res = await fetch(payApi()+"/create-checkout", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({pack: packId})
+      });
+      var data = await res.json();
+      if (!res.ok || !data.url) throw new Error("falhou");
+      try{ localStorage.setItem(PENDING_KEY, data.orderId); }catch(e){}
+      window.location.href = data.url;
+    }catch(e){
+      botoes.forEach(function(b){ b.disabled = false; });
+      showPayBanner("Não foi possível abrir o pagamento. Tenta outra vez.", "err", 6000);
+    }
+  }
+
+  // Ao voltar do Stripe, confirma com o servidor antes de dar as gemas.
+  // O servidor só diz "paid" uma vez, por isso recarregar a página não duplica nada.
+  async function pollOrderOnce(orderId){
+    try{
+      var res = await fetch(payApi()+"/status?id="+encodeURIComponent(orderId));
+      var data = await res.json();
+      if (data.status === "paid"){
+        addGems(data.gems || 0);
+        saveState();
+        renderStatbar();
+        renderProgress();
+        try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
+        showPayBanner("Pagamento confirmado! +"+(data.gems||0)+" gemas 💎", "ok", 6000);
+        return true;
+      }
+      if (data.status === "credited" || data.status === "unknown"){
+        try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
+        hidePayBanner();
+        return true;
+      }
+    }catch(e){}
+    return false;
+  }
+
+  async function checkPendingOrder(){
+    if (!payApi()) return;
+    var params = new URLSearchParams(window.location.search);
+    var orderId = params.get("order");
+    var cancelado = params.get("cancelado") === "1";
+    if (!orderId){
+      try{ orderId = localStorage.getItem(PENDING_KEY) || ""; }catch(e){}
+      if (!orderId) return;
+    }
+    // Tira o ?order= do endereço para não ficar colado se a pessoa partilhar o link.
+    if (params.get("order") && window.history && window.history.replaceState){
+      try{ window.history.replaceState({}, "", window.location.pathname); }catch(e){}
+    }
+    if (cancelado){
+      try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
+      showPayBanner("Pagamento cancelado — não foi cobrado nada.", null, 5000);
+      return;
+    }
+    showPayBanner("A confirmar o pagamento…");
+    // O MB WAY confirma em segundos, mas o aviso do Stripe pode demorar um pouco.
+    for (var i = 0; i < 20; i++){
+      if (await pollOrderOnce(orderId)) return;
+      await new Promise(function(r){ setTimeout(r, 2000); });
+    }
+    showPayBanner("Ainda não recebemos a confirmação. Se o pagamento foi feito, as gemas aparecem quando voltares a abrir o app.", null, 9000);
+  }
+
+  // ================= LANGUAGE SWITCH (Inglês / Espanhol) =================
+  function renderLangSwitch(){
+    document.getElementById("lang-en").classList.toggle("on", state.language === "en");
+    document.getElementById("lang-es").classList.toggle("on", state.language === "es");
+  }
+  function switchLanguage(lang){
+    if (!CONTENT[lang]) return;
+    if (state.language === lang){ renderLangSwitch(); return; }
+    state.language = lang;
+    activateLanguage(lang);
+    saveState();
+    renderLangSwitch();
+    updateDirLabels();
+    renderChips();
+    renderGrammarList();
+    setDir(lp().direction);
+    renderTrilha();
+    renderProgress();
+    renderStatbar();
+  }
+  document.getElementById("lang-en").addEventListener("click", function(){ switchLanguage("en"); });
+  document.getElementById("lang-es").addEventListener("click", function(){ switchLanguage("es"); });
+
   // ================= INIT =================
   async function init(){
     renderHeaderGreeting();
     await loadState();
-    setDir(state.direction);
+    renderLangSwitch();
+    updateDirLabels();
+    renderChips();
+    renderGrammarList();
+    setDir(lp().direction);
     syncChips();
     nextCard();
     renderTrilha();
     renderStatbar();
     saveState();
+    // Sem await: a confirmação do pagamento pode demorar e não deve travar o app.
+    checkPendingOrder();
   }
   init();
 
