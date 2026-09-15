@@ -2129,12 +2129,18 @@
   // Vídeos de aulas faladas (sem música com direitos autorais), do canal engVid —
   // confirmados como incorporáveis porque o próprio site engvid.com os usa em iframe.
   var VIDEOS = [
-    {id:"ZL74qIBAPek", cat:"Cumprimentos", title:"How to introduce yourself & other people"},
-    {id:"Y2VAOHGUh00", cat:"Cores", title:"Basic English Vocabulary: Colors"},
-    {id:"hMQRnlMJEq0", cat:"Números", title:"Speaking English — Saying Numbers"},
-    {id:"8f36orgFXJI", cat:"Verbos comuns", title:"The 25 Most Common Verbs in English"},
-    {id:"2wI_jSpwKCw", cat:"Verbos do dia a dia", title:"Verbs for things you do every day"},
-    {id:"VgG0J2-OxfM", cat:"Expressões", title:"11 Common Social Expressions"}
+    {id:"GR2o6k8aPlI", cat:"Animais", title:"Baby Shark — Super Simple Songs"},
+    {id:"MVRxGb33-oQ", cat:"Cores", title:"Colors Song for Kids — The Singing Walrus"},
+    {id:"dg0cQtVisLw", cat:"Números", title:"10 Little Fishies — Super Simple Songs"},
+    {id:"VAOOT5ZfQyU", cat:"Corpo", title:"Head, Shoulders, Knees and Toes — Super Simple Songs"},
+    {id:"mXMofxtDPUQ", cat:"Dias da semana", title:"Days of the Week Song — The Singing Walrus"},
+    {id:"zgJle_VO7Gk", cat:"Sons dos animais", title:"Animal Sounds Song — The Singing Walrus"},
+    {id:"5XEN4vtH4Ic", cat:"Alfabeto", title:"ABC Song — Super Simple Songs"},
+    {id:"frN3nvhIHUk", cat:"Comida", title:"Do You Like Broccoli Ice Cream? — Super Simple Songs"},
+    {id:"guNdJ5MtX1A", cat:"Formas", title:"3D Shapes Song — The Singing Walrus"},
+    {id:"lca7DvrlrQo", cat:"Tempo (clima)", title:"How's The Weather? — Super Simple Songs"},
+    {id:"KivttwaXQZ4", cat:"Sentimentos", title:"Feelings Song — The Singing Walrus"},
+    {id:"yDua9ms9_eg", cat:"Família", title:"The People In My Family — Super Simple Songs"}
   ];
 
   var extraOverlay = document.getElementById("extra-overlay");
@@ -2194,7 +2200,7 @@
   function openVideo(v){
     var html = extraHeader(v.title)+
       '<div class="lp-body"><div class="lp-wrap">'+
-        '<div class="video-frame-wrap"><iframe src="https://www.youtube.com/embed/'+v.id+'?autoplay=1&rel=0&modestbranding=1" title="'+escapeHtml(v.title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'+
+        '<div class="video-frame-wrap"><iframe src="https://www.youtube.com/embed/'+v.id+'?autoplay=1&rel=0&modestbranding=1" title="'+escapeHtml(v.title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"></iframe></div>'+
         '<p style="color:var(--ink-soft); font-size:13.5px; line-height:1.5;">Se o vídeo não aparecer aqui dentro, <a href="https://www.youtube.com/watch?v='+v.id+'" target="_blank" rel="noopener" style="color:var(--accent-ink); font-weight:700;">abre-o no YouTube</a>.</p>'+
       '</div></div>';
     openExtraOverlay(html);
@@ -2401,6 +2407,5 @@
 
 })();
 </script>
-
 </body>
 </html>
