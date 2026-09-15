@@ -268,6 +268,38 @@
   .lp-summary .badge{font-size:11px; letter-spacing:.06em; text-transform:uppercase; background:var(--gold-soft); color:var(--gold); border:1px solid var(--gold); border-radius:999px; padding:5px 14px; display:inline-block; margin-top:10px; font-weight:700;}
   .lp-summary p{color:var(--ink-soft); font-size:14px;}
   @media (max-width:480px){.lp-hearts{font-size:14px;}}
+
+  /* ---- Extra: jogos e vídeos ---- */
+  .videos-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:6px;}
+  .video-card{position:relative; border-radius:var(--radius-sm); overflow:hidden; cursor:pointer; background:var(--surface); border:1px solid var(--border); text-align:left; font-family:'Inter',sans-serif; padding:0; color:var(--ink);}
+  .video-card img{width:100%; display:block; aspect-ratio:16/9; object-fit:cover; background:var(--surface-sunken);}
+  .video-card .vc-play{position:absolute; top:0; left:0; right:0; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; pointer-events:none;}
+  .video-card .vc-play span{width:36px; height:36px; border-radius:50%; background:rgba(12,13,22,0.72); color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px;}
+  .video-card .vc-cat{display:block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--accent-ink); padding:8px 10px 0;}
+  .video-card .vc-title{display:block; padding:2px 10px 11px; font-size:12.5px; font-weight:700; line-height:1.3;}
+  .video-frame-wrap{position:relative; width:100%; padding-top:56.25%; background:#000; border-radius:var(--radius-sm); overflow:hidden; margin-bottom:16px;}
+  .video-frame-wrap iframe{position:absolute; inset:0; width:100%; height:100%; border:0;}
+
+  .mem-stats{display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-soft); margin-bottom:14px; font-weight:600;}
+  .mem-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:9px;}
+  .mem-card{aspect-ratio:1/1; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--surface); color:var(--ink-faint); font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; text-align:center; cursor:pointer; padding:6px; font-family:'Inter',sans-serif; line-height:1.2;}
+  .mem-card.flip{background:var(--accent-soft); border-color:var(--accent); color:var(--accent-ink);}
+  .mem-card.matched{background:var(--success-soft); border-color:var(--success); color:var(--success); cursor:default;}
+  .mem-card[disabled]{cursor:default;}
+
+  .hg-word{display:flex; gap:7px; justify-content:center; flex-wrap:wrap; margin:10px 0 22px;}
+  .hg-letter{min-width:24px; border-bottom:3px solid var(--ink-faint); text-align:center; font-size:22px; font-weight:800; padding-bottom:3px; color:var(--ink);}
+  .hg-letter.space{border-bottom:none; min-width:14px;}
+  .hg-status{text-align:center; font-size:13.5px; color:var(--ink-soft); margin-bottom:6px; font-weight:600;}
+  .hg-tries{text-align:center; font-size:13px; color:var(--danger); margin-bottom:20px; font-weight:700;}
+  .hg-keyboard{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
+  .hg-key{padding:10px 0; border-radius:8px; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); font-weight:700; font-size:13.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .hg-key.used-good{background:var(--success-soft); border-color:var(--success); color:var(--success);}
+  .hg-key.used-bad{background:var(--danger-soft); border-color:var(--danger); color:var(--danger); opacity:.55;}
+  .hg-key[disabled]{cursor:default;}
+  .extra-result{text-align:center; padding-top:6vh;}
+  .extra-result .big{font-size:34px; font-weight:800; color:var(--accent-ink);}
+  .extra-result p{color:var(--ink-soft); font-size:14px; margin-top:6px;}
 </style>
 
 <div class="wrap">
@@ -336,6 +368,14 @@
     <div id="grammar-list"></div>
   </section>
 
+  <section class="panel" id="panel-extras">
+    <h3 class="sec">Jogos</h3>
+    <div id="games-list"></div>
+    <h3 class="sec">Vídeos para aprender inglês</h3>
+    <p class="intro-line" style="margin-top:-8px">Conteúdo selecionado do YouTube — toca para ver dentro da app.</p>
+    <div class="videos-grid" id="videos-grid"></div>
+  </section>
+
   <section class="panel" id="panel-progress">
     <h3 class="sec">Seu progresso</h3>
     <div class="voice-row" id="voice-row" hidden>
@@ -376,6 +416,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5v-17Z"/><path d="M4 19a2.5 2.5 0 0 1 2.5-2.5H20"/></svg>
       <span>Palavras</span>
     </button>
+    <button data-tab="extras">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M7 9v6M4.3 12h5.4"/><circle cx="15.5" cy="10.5" r="1"/><circle cx="18" cy="13" r="1"/></svg>
+      <span>Extra</span>
+    </button>
     <button data-tab="progress">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       <span>Perfil</span>
@@ -386,6 +430,7 @@
 <div class="paybanner" id="paybanner" hidden></div>
 
 <div class="lesson-overlay" id="lesson-overlay" hidden></div>
+<div class="lesson-overlay" id="extra-overlay" hidden></div>
 
 <script>
 (function(){
@@ -1360,6 +1405,7 @@
       document.getElementById("panel-"+btn.dataset.tab).classList.add("active");
       if (btn.dataset.tab === "progress") renderProgress();
       if (btn.dataset.tab === "trilha") renderTrilha();
+      if (btn.dataset.tab === "extras") renderExtras();
       window.scrollTo(0,0);
     });
   });
@@ -2071,6 +2117,266 @@
   }
   document.getElementById("lang-en").addEventListener("click", function(){ switchLanguage("en"); });
   document.getElementById("lang-es").addEventListener("click", function(){ switchLanguage("es"); });
+
+  // ================= EXTRA: JOGOS E VÍDEOS =================
+  var GAMES = [
+    {id:"memory", icon:"🧠", title:"Jogo da Memória", sub:"Combine a palavra com a tradução"},
+    {id:"hangman", icon:"🎯", title:"Forca", sub:"Adivinha a palavra letra a letra"}
+  ];
+
+  // Vídeos curados do YouTube para praticar inglês (funcionam com qualquer idioma
+  // do app selecionado, já que o objetivo aqui é sempre o inglês).
+  var VIDEOS = [
+    {id:"IYW3zZAaJUM", cat:"Cumprimentos", title:"Hello Song — saudações básicas"},
+    {id:"NUquLTPhMwg", cat:"Cores", title:"Colours Song — as cores em inglês"},
+    {id:"mXMofxtDPUQ", cat:"Dias da semana", title:"Days of the Week Song"},
+    {id:"bVCKj0T9-gc", cat:"Verbos", title:"Friends Song — verbos de ação"},
+    {id:"bGetqbqDVaA", cat:"Números", title:"Big Numbers Song — contar até 100"},
+    {id:"rWj8sBuF_Kw", cat:"Frases", title:"49 Basic English Phrases"}
+  ];
+
+  var extraOverlay = document.getElementById("extra-overlay");
+  function openExtraOverlay(html){
+    extraOverlay.innerHTML = html;
+    extraOverlay.hidden = false;
+  }
+  function closeExtraOverlay(){
+    extraOverlay.hidden = true;
+    extraOverlay.innerHTML = "";
+  }
+  function extraHeader(title){
+    return '<div class="lp-header"><button class="lp-close" id="extra-close" type="button" aria-label="Fechar">✕</button>'+
+           '<div class="lp-count" style="flex:1; text-align:left; font-size:15px; color:var(--ink);">'+escapeHtml(title)+'</div></div>';
+  }
+  function wireExtraClose(){
+    var b = document.getElementById("extra-close");
+    if (b) b.addEventListener("click", closeExtraOverlay);
+  }
+
+  function renderExtras(){
+    // ---- lista de jogos ----
+    var gh = "";
+    GAMES.forEach(function(g){
+      gh += '<button class="citem" data-game="'+g.id+'" style="margin-bottom:10px;">'+
+              '<span class="cnum" style="font-size:18px;">'+g.icon+'</span>'+
+              '<span class="ctext"><span class="ctitle">'+escapeHtml(g.title)+'</span><span class="csub">'+escapeHtml(g.sub)+'</span></span>'+
+              '<span class="cchev">'+svgIcon("chev")+'</span>'+
+            '</button>';
+    });
+    var gamesList = document.getElementById("games-list");
+    gamesList.innerHTML = gh;
+    gamesList.querySelectorAll(".citem").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        if (btn.dataset.game === "memory") startMemoryGame();
+        if (btn.dataset.game === "hangman") startHangmanGame();
+      });
+    });
+
+    // ---- grelha de vídeos ----
+    var vh = "";
+    VIDEOS.forEach(function(v, i){
+      vh += '<button class="video-card" data-video="'+i+'">'+
+              '<img src="https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/'+v.id+'/mqdefault.jpg\';">'+
+              '<span class="vc-play"><span>▶</span></span>'+
+              '<span class="vc-cat">'+escapeHtml(v.cat)+'</span>'+
+              '<span class="vc-title">'+escapeHtml(v.title)+'</span>'+
+            '</button>';
+    });
+    var videosGrid = document.getElementById("videos-grid");
+    videosGrid.innerHTML = vh;
+    videosGrid.querySelectorAll(".video-card").forEach(function(btn){
+      btn.addEventListener("click", function(){ openVideo(VIDEOS[parseInt(btn.dataset.video,10)]); });
+    });
+  }
+
+  function openVideo(v){
+    var html = extraHeader(v.title)+
+      '<div class="lp-body"><div class="lp-wrap">'+
+        '<div class="video-frame-wrap"><iframe src="https://www.youtube.com/embed/'+v.id+'?autoplay=1&rel=0" title="'+escapeHtml(v.title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'+
+        '<p style="color:var(--ink-soft); font-size:13.5px; line-height:1.5;">Vídeo do YouTube — se não carregar, verifica a tua ligação à internet.</p>'+
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+  }
+
+  // ---- Jogo da Memória ----
+  function startMemoryGame(){
+    var pool = WORDS.filter(function(w){ return w.en && w.en.length <= 14; });
+    if (pool.length < 6) pool = WORDS.slice();
+    var picks = shuffleArr(pool.slice()).slice(0, 6);
+    var cards = [];
+    picks.forEach(function(w){
+      cards.push({matchId:w.id, text:w.en, kind:"en"});
+      cards.push({matchId:w.id, text:w.pt, kind:"pt"});
+    });
+    cards = shuffleArr(cards);
+
+    var first = null, second = null, lock = false, matches = 0, tries = 0;
+
+    function cardHtml(){
+      var html = '<div class="mem-stats"><span>Pares: '+matches+'/'+picks.length+'</span><span>Tentativas: '+tries+'</span></div><div class="mem-grid">';
+      cards.forEach(function(c, i){
+        html += '<button class="mem-card" data-i="'+i+'"><span class="face">?</span></button>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    function render(){
+      var html = extraHeader("Jogo da Memória")+
+        '<div class="lp-body"><div class="lp-wrap" id="mem-wrap">'+cardHtml()+'</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      wire();
+    }
+
+    function wire(){
+      document.querySelectorAll(".mem-card").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          var i = parseInt(btn.dataset.i, 10);
+          if (lock || btn.classList.contains("matched") || btn.classList.contains("flip")) return;
+          btn.classList.add("flip");
+          btn.querySelector(".face").textContent = cards[i].text;
+          if (first === null){ first = i; return; }
+          second = i;
+          lock = true;
+          tries++;
+          document.querySelector(".mem-stats").innerHTML =
+            '<span>Pares: '+matches+'/'+picks.length+'</span><span>Tentativas: '+tries+'</span>';
+          if (cards[first].matchId === cards[second].matchId){
+            [first, second].forEach(function(idx){
+              var b = document.querySelector('.mem-card[data-i="'+idx+'"]');
+              b.classList.remove("flip"); b.classList.add("matched"); b.disabled = true;
+            });
+            matches++;
+            first = null; second = null; lock = false;
+            document.querySelector(".mem-stats").innerHTML =
+              '<span>Pares: '+matches+'/'+picks.length+'</span><span>Tentativas: '+tries+'</span>';
+            if (matches === picks.length) setTimeout(finish, 500);
+          } else {
+            setTimeout(function(){
+              [first, second].forEach(function(idx){
+                var b = document.querySelector('.mem-card[data-i="'+idx+'"]');
+                if (b){ b.classList.remove("flip"); b.querySelector(".face").textContent = "?"; }
+              });
+              first = null; second = null; lock = false;
+            }, 700);
+          }
+        });
+      });
+    }
+
+    function finish(){
+      addXp(8);
+      saveState();
+      renderStatbar();
+      var html = extraHeader("Jogo da Memória")+
+        '<div class="lp-body"><div class="extra-result">'+
+          '<div class="big">🎉 Muito bem!</div>'+
+          '<p>Encontraste todos os '+picks.length+' pares em '+tries+' tentativas.</p>'+
+          '<p style="color:var(--accent-ink); font-weight:700;">+8 XP</p>'+
+        '</div></div>'+
+        '<div class="lp-footerbar"><div class="inner"><button class="action" id="mem-again" style="width:100%;">Jogar outra vez</button></div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      document.getElementById("mem-again").addEventListener("click", startMemoryGame);
+    }
+
+    render();
+  }
+
+  function shuffleArr(arr){
+    for (var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  // ---- Forca ----
+  function startHangmanGame(){
+    var pool = WORDS.filter(function(w){ return /^[a-zA-Z]{3,12}$/.test(w.en); });
+    if (!pool.length) pool = WORDS.filter(function(w){ return /^[a-zA-Z ]+$/.test(w.en); });
+    var word = pool[Math.floor(Math.random() * pool.length)];
+    var target = (word.en || "cat").toLowerCase();
+    var guessed = [];
+    var wrong = 0;
+    var MAX_WRONG = 6;
+
+    function wordHtml(){
+      var html = '<div class="hg-word">';
+      target.split("").forEach(function(ch){
+        if (ch === " ") html += '<span class="hg-letter space"></span>';
+        else html += '<span class="hg-letter">'+(guessed.indexOf(ch)!==-1 ? ch.toUpperCase() : "")+'</span>';
+      });
+      html += '</div>';
+      return html;
+    }
+    function keyboardHtml(){
+      var html = '<div class="hg-keyboard">';
+      "abcdefghijklmnopqrstuvwxyz".split("").forEach(function(l){
+        var cls = "hg-key";
+        var used = guessed.indexOf(l) !== -1;
+        if (used) cls += target.indexOf(l) !== -1 ? " used-good" : " used-bad";
+        html += '<button class="'+cls+'" data-letter="'+l+'" '+(used?"disabled":"")+'>'+l.toUpperCase()+'</button>';
+      });
+      html += '</div>';
+      return html;
+    }
+    function statusHtml(){
+      return '<div class="hg-status">Categoria: '+escapeHtml(CATS[word.category] ? CATS[word.category].label : "")+'</div>'+
+             '<div class="hg-tries">'+"❤️".repeat(Math.max(0, MAX_WRONG - wrong))+"🖤".repeat(wrong)+'</div>';
+    }
+
+    function render(){
+      var html = extraHeader("Forca")+
+        '<div class="lp-body"><div class="lp-wrap" id="hg-wrap">'+
+          statusHtml()+wordHtml()+keyboardHtml()+
+        '</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      wire();
+    }
+
+    function wire(){
+      document.querySelectorAll(".hg-key").forEach(function(btn){
+        btn.addEventListener("click", function(){ guess(btn.dataset.letter); });
+      });
+    }
+
+    function guess(letter){
+      if (guessed.indexOf(letter) !== -1) return;
+      guessed.push(letter);
+      if (target.indexOf(letter) === -1) wrong++;
+
+      var won = target.split("").every(function(ch){ return ch === " " || guessed.indexOf(ch) !== -1; });
+      var lost = wrong >= MAX_WRONG;
+
+      if (won || lost){
+        finish(won);
+        return;
+      }
+      document.getElementById("hg-wrap").innerHTML = statusHtml()+wordHtml()+keyboardHtml();
+      wire();
+    }
+
+    function finish(won){
+      if (won){ addXp(6); saveState(); renderStatbar(); }
+      var html = extraHeader("Forca")+
+        '<div class="lp-body"><div class="extra-result">'+
+          '<div class="big">'+(won ? "🎉 Acertaste!" : "😅 Quase lá!")+'</div>'+
+          '<p style="font-size:20px; font-weight:800; margin-top:10px;">'+escapeHtml(word.en)+'</p>'+
+          '<p>'+escapeHtml(word.pt)+'</p>'+
+          (won ? '<p style="color:var(--accent-ink); font-weight:700;">+6 XP</p>' : '')+
+        '</div></div>'+
+        '<div class="lp-footerbar"><div class="inner"><button class="action" id="hg-again" style="width:100%;">Jogar outra vez</button></div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      document.getElementById("hg-again").addEventListener("click", startHangmanGame);
+    }
+
+    render();
+  }
 
   // ================= INIT =================
   async function init(){
