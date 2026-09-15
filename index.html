@@ -2126,13 +2126,15 @@
 
   // Vídeos curados do YouTube para praticar inglês (funcionam com qualquer idioma
   // do app selecionado, já que o objetivo aqui é sempre o inglês).
+  // Vídeos de aulas faladas (sem música com direitos autorais), do canal engVid —
+  // confirmados como incorporáveis porque o próprio site engvid.com os usa em iframe.
   var VIDEOS = [
-    {id:"IYW3zZAaJUM", cat:"Cumprimentos", title:"Hello Song — saudações básicas"},
-    {id:"NUquLTPhMwg", cat:"Cores", title:"Colours Song — as cores em inglês"},
-    {id:"mXMofxtDPUQ", cat:"Dias da semana", title:"Days of the Week Song"},
-    {id:"bVCKj0T9-gc", cat:"Verbos", title:"Friends Song — verbos de ação"},
-    {id:"bGetqbqDVaA", cat:"Números", title:"Big Numbers Song — contar até 100"},
-    {id:"rWj8sBuF_Kw", cat:"Frases", title:"49 Basic English Phrases"}
+    {id:"ZL74qIBAPek", cat:"Cumprimentos", title:"How to introduce yourself & other people"},
+    {id:"Y2VAOHGUh00", cat:"Cores", title:"Basic English Vocabulary: Colors"},
+    {id:"hMQRnlMJEq0", cat:"Números", title:"Speaking English — Saying Numbers"},
+    {id:"8f36orgFXJI", cat:"Verbos comuns", title:"The 25 Most Common Verbs in English"},
+    {id:"2wI_jSpwKCw", cat:"Verbos do dia a dia", title:"Verbs for things you do every day"},
+    {id:"VgG0J2-OxfM", cat:"Expressões", title:"11 Common Social Expressions"}
   ];
 
   var extraOverlay = document.getElementById("extra-overlay");
@@ -2192,8 +2194,8 @@
   function openVideo(v){
     var html = extraHeader(v.title)+
       '<div class="lp-body"><div class="lp-wrap">'+
-        '<div class="video-frame-wrap"><iframe src="https://www.youtube.com/embed/'+v.id+'?autoplay=1&rel=0" title="'+escapeHtml(v.title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'+
-        '<p style="color:var(--ink-soft); font-size:13.5px; line-height:1.5;">Vídeo do YouTube — se não carregar, verifica a tua ligação à internet.</p>'+
+        '<div class="video-frame-wrap"><iframe src="https://www.youtube.com/embed/'+v.id+'?autoplay=1&rel=0&modestbranding=1" title="'+escapeHtml(v.title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'+
+        '<p style="color:var(--ink-soft); font-size:13.5px; line-height:1.5;">Se o vídeo não aparecer aqui dentro, <a href="https://www.youtube.com/watch?v='+v.id+'" target="_blank" rel="noopener" style="color:var(--accent-ink); font-weight:700;">abre-o no YouTube</a>.</p>'+
       '</div></div>';
     openExtraOverlay(html);
     wireExtraClose();
