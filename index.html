@@ -300,6 +300,36 @@
   .extra-result{text-align:center; padding-top:6vh;}
   .extra-result .big{font-size:34px; font-weight:800; color:var(--accent-ink);}
   .extra-result p{color:var(--ink-soft); font-size:14px; margin-top:6px;}
+
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px;}
+  .field input{width:100%; box-sizing:border-box; background:var(--surface-alt); color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:12px 13px; font-size:14.5px; font-family:'Inter',sans-serif;}
+  .field input:focus{outline:none; border-color:var(--accent);}
+  .auth-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 18px; box-shadow:var(--shadow);}
+  .auth-switch{background:none; border:none; color:var(--accent-ink); font-weight:700; font-size:13px; cursor:pointer; font-family:'Inter',sans-serif; padding:10px 0 0; width:100%; text-align:center;}
+  .auth-intro{font-size:13px; color:var(--ink-soft); margin:0 0 16px; line-height:1.5;}
+
+  .liga-header{background:linear-gradient(135deg,var(--accent-soft),var(--surface)); border:1px solid var(--accent); border-radius:var(--radius); padding:20px 18px; text-align:center; margin-bottom:16px;}
+  .liga-header .lg-icon{font-size:38px; line-height:1;}
+  .liga-header .lg-name{font-size:19px; font-weight:800; margin:6px 0 2px;}
+  .liga-header .lg-timer{font-size:12.5px; color:var(--ink-soft);}
+  .liga-list{display:flex; flex-direction:column; gap:6px; margin-bottom:14px;}
+  .liga-row{display:flex; align-items:center; gap:12px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 13px;}
+  .liga-row.you{border-color:var(--accent); background:var(--accent-soft);}
+  .liga-row .lr-rank{width:24px; flex-shrink:0; font-weight:800; font-size:13.5px; color:var(--ink-faint); text-align:center;}
+  .liga-row .lr-name{flex:1; font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .liga-row .lr-xp{font-weight:800; font-size:13.5px; color:var(--accent-ink); flex-shrink:0;}
+  .liga-row.promote .lr-rank{color:var(--success);}
+  .liga-row.demote .lr-rank{color:var(--danger);}
+  .liga-divider{display:flex; align-items:center; gap:8px; font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; margin:2px 0; color:var(--ink-faint);}
+  .liga-divider::before, .liga-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  .liga-divider.promote{color:var(--success);}
+  .liga-divider.demote{color:var(--danger);}
+  .liga-result-banner{text-align:center; border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:16px; font-weight:700; font-size:14px;}
+  .liga-result-banner.promoted{background:var(--success-soft); color:var(--success); border:1px solid var(--success);}
+  .liga-result-banner.demoted{background:var(--danger-soft); color:var(--danger); border:1px solid var(--danger);}
+  .liga-account-row{display:flex; align-items:center; justify-content:space-between; margin:16px 0 4px; font-size:12.5px; color:var(--ink-faint);}
+  .liga-logout{background:none; border:none; color:var(--ink-faint); font-size:12.5px; font-weight:700; text-decoration:underline; cursor:pointer; font-family:'Inter',sans-serif; padding:0;}
 </style>
 
 <div class="wrap">
@@ -376,6 +406,11 @@
     <div class="videos-grid" id="videos-grid"></div>
   </section>
 
+  <section class="panel" id="panel-liga">
+    <h3 class="sec">Liga semanal</h3>
+    <div id="liga-content"></div>
+  </section>
+
   <section class="panel" id="panel-progress">
     <h3 class="sec">Seu progresso</h3>
     <div class="voice-row" id="voice-row" hidden>
@@ -420,6 +455,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M7 9v6M4.3 12h5.4"/><circle cx="15.5" cy="10.5" r="1"/><circle cx="18" cy="13" r="1"/></svg>
       <span>Extra</span>
     </button>
+    <button data-tab="liga">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4v2a3 3 0 0 0 3 2.8M17 5h3v2a3 3 0 0 1-3 2.8"/></svg>
+      <span>Liga</span>
+    </button>
     <button data-tab="progress">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       <span>Perfil</span>
@@ -428,6 +467,7 @@
 </nav>
 
 <div class="paybanner" id="paybanner" hidden></div>
+<div class="paybanner" id="ligabanner" hidden></div>
 
 <div class="lesson-overlay" id="lesson-overlay" hidden></div>
 <div class="lesson-overlay" id="extra-overlay" hidden></div>
@@ -442,6 +482,10 @@
   // Enquanto estiver vazio, a compra de gemas fica escondida e o resto do app
   // funciona exatamente como antes.
   var PAY_API = "https://pagamentos-caixa.marcioiamf.workers.dev";
+
+  // Cola aqui o endereço do teu Worker da Liga (ranking semanal), sem barra no fim.
+  // Enquanto estiver vazio, a aba "Liga" fica visível mas mostra "em breve".
+  var LIGA_API = "";
 
   // ================= DATA =================
   var LANGS = {
@@ -1001,6 +1045,7 @@
     ensureDailyGoalFresh();
     state.xp += amount;
     state.xpToday += amount;
+    syncXpToLiga(amount);
   }
   function addGems(amount){ state.gems = Math.max(0, state.gems + amount); }
   // Hearts regenerate slowly over real time, like Duolingo. Call before reading state.hearts.
@@ -1406,6 +1451,7 @@
       if (btn.dataset.tab === "progress") renderProgress();
       if (btn.dataset.tab === "trilha") renderTrilha();
       if (btn.dataset.tab === "extras") renderExtras();
+      if (btn.dataset.tab === "liga") renderLiga();
       window.scrollTo(0,0);
     });
   });
@@ -2384,6 +2430,202 @@
     }
 
     render();
+  }
+
+  // ================= LIGA (ranking semanal, ao estilo Duolingo) =================
+  var LIGA_TOKEN_KEY = "caixaDePalavras_liga_token";
+  var ligaAuthMode = "login"; // ou "signup"
+  var ligaMe = null; // último /me devolvido pelo servidor
+
+  function ligaApi(){ return (LIGA_API || "").replace(/\/+$/, ""); }
+  function ligaToken(){ try{ return localStorage.getItem(LIGA_TOKEN_KEY) || ""; }catch(e){ return ""; } }
+  function setLigaToken(t){ try{ if (t) localStorage.setItem(LIGA_TOKEN_KEY, t); else localStorage.removeItem(LIGA_TOKEN_KEY); }catch(e){} }
+
+  function showLigaBanner(msg, kind, autoHide){
+    var el = document.getElementById("ligabanner");
+    if (!el) return;
+    el.className = "paybanner" + (kind ? " " + kind : "");
+    el.textContent = msg;
+    el.hidden = false;
+    clearTimeout(el._hideTimer);
+    if (autoHide) el._hideTimer = setTimeout(function(){ el.hidden = true; }, autoHide);
+  }
+  function hideLigaBanner(){
+    var el = document.getElementById("ligabanner");
+    if (el){ clearTimeout(el._hideTimer); el.hidden = true; }
+  }
+
+  async function ligaFetch(path, opts){
+    opts = opts || {};
+    var headers = Object.assign({ "Content-Type": "application/json" }, opts.headers || {});
+    var tok = ligaToken();
+    if (tok) headers["Authorization"] = "Bearer " + tok;
+    var res = await fetch(ligaApi() + path, {
+      method: opts.method || "GET",
+      headers: headers,
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    var data = null;
+    try{ data = await res.json(); }catch(e){}
+    if (!res.ok){
+      var err = new Error((data && data.error) || ("erro " + res.status));
+      err.status = res.status;
+      throw err;
+    }
+    return data;
+  }
+
+  // Chamado sempre que ganhas XP no app (lições, jogos, etc.) — tenta sincronizar com o
+  // servidor da liga sem nunca travar o jogo: se falhar (sem conta, sem internet, etc.),
+  // falha em silêncio e o XP local continua a contar normalmente.
+  function syncXpToLiga(amount){
+    if (!ligaApi() || !ligaToken() || !amount || amount <= 0) return;
+    ligaFetch("/xp", { method: "POST", body: { amount: amount } }).catch(function(){});
+  }
+
+  function formatCountdown(ms){
+    if (ms <= 0) return "a fechar…";
+    var totalMin = Math.floor(ms / 60000);
+    var d = Math.floor(totalMin / 1440);
+    var h = Math.floor((totalMin % 1440) / 60);
+    var m = totalMin % 60;
+    if (d > 0) return d + "d " + h + "h";
+    if (h > 0) return h + "h " + m + "min";
+    return m + "min";
+  }
+
+  function renderLigaAuth(){
+    var el = document.getElementById("liga-content");
+    var isLogin = ligaAuthMode === "login";
+    el.innerHTML =
+      '<div class="auth-card">' +
+        '<p class="auth-intro">Cria uma conta gratuita para entrar numa liga semanal e competir com outros jogadores da Caixa de Palavras — como as ligas do Duolingo.</p>' +
+        (isLogin ? '' :
+          '<div class="field"><label for="liga-name">Nome de jogador</label><input id="liga-name" type="text" maxlength="24" placeholder="Como queres aparecer no ranking"></div>'
+        ) +
+        '<div class="field"><label for="liga-email">Email</label><input id="liga-email" type="email" autocomplete="email" placeholder="teu@email.com"></div>' +
+        '<div class="field"><label for="liga-pass">Senha</label><input id="liga-pass" type="password" autocomplete="'+(isLogin ? "current-password" : "new-password")+'" placeholder="mínimo 6 caracteres"></div>' +
+        '<button class="btn-outline" id="liga-submit" style="border-style:solid; background:var(--accent); color:#0c0d16;">'+(isLogin ? "Entrar" : "Criar conta")+'</button>' +
+        '<button class="auth-switch" id="liga-switch">'+(isLogin ? "Ainda não tens conta? Cria uma" : "Já tens conta? Entra aqui")+'</button>' +
+      '</div>';
+
+    document.getElementById("liga-switch").addEventListener("click", function(){
+      ligaAuthMode = isLogin ? "signup" : "login";
+      hideLigaBanner();
+      renderLigaAuth();
+    });
+    document.getElementById("liga-submit").addEventListener("click", async function(){
+      var email = document.getElementById("liga-email").value.trim();
+      var pass = document.getElementById("liga-pass").value;
+      var nameEl = document.getElementById("liga-name");
+      var name = nameEl ? nameEl.value.trim() : "";
+      var btn = document.getElementById("liga-submit");
+      btn.disabled = true;
+      hideLigaBanner();
+      try{
+        var data;
+        if (isLogin){
+          data = await ligaFetch("/login", { method:"POST", body:{ email: email, password: pass } });
+        } else {
+          data = await ligaFetch("/signup", { method:"POST", body:{ email: email, password: pass, displayName: name } });
+        }
+        setLigaToken(data.token);
+        ligaMe = data.user || null;
+        await renderLiga();
+      } catch(e){
+        showLigaBanner(e.message || "Não foi possível continuar. Tenta outra vez.", "err");
+        btn.disabled = false;
+      }
+    });
+  }
+
+  function ligaZoneLabel(zone, promoteN, demoteN){
+    if (zone === "promote") return "⬆️ zona de subida ("+promoteN+" "+(promoteN===1?"vaga":"vagas")+")";
+    if (zone === "demote") return "⬇️ zona de descida ("+demoteN+" "+(demoteN===1?"jogador":"jogadores")+")";
+    return "";
+  }
+
+  function renderLigaBoard(me){
+    var board = me.leaderboard;
+    var el = document.getElementById("liga-content");
+    var resetMs = board.resetsAt - Date.now();
+
+    var resultBanner = "";
+    if (me.lastWeekResult === "promoted") resultBanner = '<div class="liga-result-banner promoted">🎉 Subiste de liga na semana passada!</div>';
+    else if (me.lastWeekResult === "demoted") resultBanner = '<div class="liga-result-banner demoted">Desceste de liga na semana passada. Bora recuperar!</div>';
+
+    var rowsHtml = "";
+    var lastZone = null;
+    board.members.forEach(function(m, i){
+      if (i === 0 && board.promoteCount > 0){
+        rowsHtml += '<div class="liga-divider promote">'+ligaZoneLabel("promote", board.promoteCount, board.demoteCount)+'</div>';
+      }
+      if (m.zone === "demote" && lastZone !== "demote"){
+        rowsHtml += '<div class="liga-divider demote">'+ligaZoneLabel("demote", board.promoteCount, board.demoteCount)+'</div>';
+      }
+      rowsHtml +=
+        '<div class="liga-row '+m.zone+(m.you?' you':'')+'">' +
+          '<span class="lr-rank">'+m.rank+'</span>' +
+          '<span class="lr-name">'+escapeHtml(m.displayName)+(m.you?' (tu)':'')+'</span>' +
+          '<span class="lr-xp">'+m.weeklyXp+' XP</span>' +
+        '</div>';
+      lastZone = m.zone;
+    });
+
+    el.innerHTML =
+      resultBanner +
+      '<div class="liga-header">' +
+        '<div class="lg-icon">'+board.leagueIcon+'</div>' +
+        '<div class="lg-name">Liga '+escapeHtml(board.leagueName)+'</div>' +
+        '<div class="lg-timer" id="liga-timer">termina em '+formatCountdown(resetMs)+'</div>' +
+      '</div>' +
+      '<div class="liga-list">'+rowsHtml+'</div>' +
+      '<div class="liga-account-row"><span>a jogar como '+escapeHtml(me.displayName)+'</span><button class="liga-logout" id="liga-logout">sair da conta</button></div>';
+
+    document.getElementById("liga-logout").addEventListener("click", async function(){
+      try{ await ligaFetch("/logout", { method:"POST" }); }catch(e){}
+      setLigaToken("");
+      ligaMe = null;
+      ligaAuthMode = "login";
+      renderLigaAuth();
+    });
+
+    clearInterval(window._ligaTimerInt);
+    window._ligaTimerInt = setInterval(function(){
+      var t = document.getElementById("liga-timer");
+      if (!t){ clearInterval(window._ligaTimerInt); return; }
+      t.textContent = "termina em " + formatCountdown(board.resetsAt - Date.now());
+    }, 30000);
+  }
+
+  async function renderLiga(){
+    var el = document.getElementById("liga-content");
+    if (!ligaApi()){
+      el.innerHTML = '<p class="auth-intro">A liga ainda está a ser preparada — volta em breve! 🏆</p>';
+      return;
+    }
+    if (!ligaToken()){
+      renderLigaAuth();
+      return;
+    }
+    el.innerHTML = '<p class="auth-intro">A carregar a tua liga…</p>';
+    try{
+      var me = await ligaFetch("/me", { method:"GET" });
+      ligaMe = me;
+      renderLigaBoard(me);
+    } catch(e){
+      if (e.status === 401){
+        setLigaToken("");
+        ligaAuthMode = "login";
+        renderLigaAuth();
+        showLigaBanner("A tua sessão expirou — entra outra vez.", "err", 4000);
+      } else {
+        el.innerHTML = '<p class="auth-intro">Não foi possível carregar a liga agora. Verifica a internet e tenta outra vez.</p>' +
+          '<button class="btn-outline" id="liga-retry">Tentar de novo</button>';
+        var retry = document.getElementById("liga-retry");
+        if (retry) retry.addEventListener("click", renderLiga);
+      }
+    }
   }
 
   // ================= INIT =================
