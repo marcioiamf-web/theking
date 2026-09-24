@@ -111,6 +111,16 @@
   .btn-outline[disabled]{opacity:.4; cursor:default; background:none;}
   .goal-done{font-size:14px; color:var(--ink-soft); text-align:center; padding:6px 0 2px;}
 
+  /* ---- Versículo do dia ---- */
+  .verse-card{background:linear-gradient(155deg, var(--accent-soft), var(--surface) 70%); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px 18px; box-shadow:var(--shadow); margin-bottom:16px;}
+  .verse-head{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .verse-head .lbl{font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; color:var(--accent-ink); display:flex; align-items:center; gap:6px;}
+  .verse-listen{appearance:none; cursor:pointer; border:none; background:var(--accent-soft); color:var(--accent-ink); width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+  .verse-listen:hover{background:var(--accent);}
+  .verse-en{font-size:16px; font-weight:700; line-height:1.5; color:var(--ink); margin-bottom:8px;}
+  .verse-pt{font-size:13.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:8px;}
+  .verse-ref{font-size:12px; color:var(--ink-faint); font-weight:700; text-align:right;}
+
   h3.sec{font-size:11.5px; letter-spacing:0.1em; text-transform:uppercase; margin:0 0 12px; color:var(--ink-faint); font-weight:700;}
 
   /* ---- Continue list ---- */
@@ -264,6 +274,9 @@
   .lp-opt.wrong{border-color:var(--danger); background:var(--danger-soft); color:var(--danger);}
   .lp-opt[disabled]{cursor:default;}
   .lp-sentence{font-size:17px; line-height:1.6; margin-bottom:20px; font-weight:600;}
+  .lp-word{cursor:pointer; border-radius:4px; padding:0 1px; text-decoration:underline; text-decoration-style:dotted; text-decoration-color:var(--ink-faint); text-underline-offset:3px; transition:background .15s, color .15s;}
+  .lp-word:hover{background:var(--accent-soft); color:var(--accent-ink);}
+  .lp-word.tapped{background:var(--accent); color:#0c0d16; text-decoration:none;}
   .lp-blank{display:inline-block; min-width:100px; border-bottom:2px solid var(--accent); text-align:center; font-weight:800; color:var(--accent-ink);}
   .lp-tiles{display:flex; flex-wrap:wrap; gap:10px;}
   .lp-tile{padding:10px 16px; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--surface); cursor:pointer; font-size:14px; font-weight:600; color:var(--ink);}
@@ -317,6 +330,15 @@
   .extra-result{text-align:center; padding-top:6vh;}
   .extra-result .big{font-size:34px; font-weight:800; color:var(--accent-ink);}
   .extra-result p{color:var(--ink-soft); font-size:14px; margin-top:6px;}
+
+  /* ---- Monta o Versículo ---- */
+  .vp-hint{font-size:13px; color:var(--ink-soft); margin-bottom:14px; line-height:1.5;}
+  .vp-answer{min-height:56px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:12px; border-radius:var(--radius-sm); border:1.5px dashed var(--border); background:var(--surface-sunken); margin-bottom:18px;}
+  .vp-placeholder{color:var(--ink-faint); font-size:13px;}
+  .vp-pool{display:flex; flex-wrap:wrap; gap:8px;}
+  .vp-tile{padding:10px 14px; border-radius:10px; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); font-weight:700; font-size:14.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .vp-tile:hover{border-color:var(--accent);}
+  .vp-tile.placed{border-color:var(--accent); background:var(--accent-soft); color:var(--accent-ink);}
 
   .field{margin-bottom:14px;}
   .field label{display:block; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin-bottom:6px;}
@@ -439,6 +461,7 @@
       <button data-lang="es" id="lang-es">🇪🇸 Espanhol</button>
     </div>
     <div class="goal-card" id="goal-card"></div>
+    <div class="verse-card" id="verse-card"></div>
     <h3 class="sec">Continue assim</h3>
     <div class="clist" id="continue-list"></div>
   </section>
@@ -579,8 +602,11 @@
 
   var CATS_EN = {
     essentials:{label:"Essenciais", level:"A1"},
+    biblia:{label:"Bíblia", level:"A1–A2"},
+    personagens:{label:"Personagens da Bíblia", level:"A1–A2"},
     verbs:{label:"Verbos comuns", level:"A1–A2"},
     adjectives:{label:"Adjetivos", level:"A2"},
+    igreja:{label:"Igreja e Adoração", level:"A2–B1"},
     food:{label:"Comida", level:"A1–A2"},
     travel:{label:"Viagem", level:"A2"},
     phrasal:{label:"Phrasal verbs", level:"B1–B2"},
@@ -589,208 +615,268 @@
     numbers:{label:"Números e horas", level:"A1"},
     shopping:{label:"Compras", level:"A2"}
   };
-  var UNIT_ORDER_EN = ["essentials","verbs","adjectives","food","travel","phrasal","work","falsefriends","numbers","shopping"];
+  var UNIT_ORDER_EN = ["essentials","biblia","personagens","verbs","adjectives","igreja","food","travel","phrasal","work","falsefriends","numbers","shopping"];
 
   var RAW_EN = {
     essentials: [
-      ["hello","olá","Hello! How are you today?"],
-      ["goodbye","tchau / adeus","Goodbye, see you tomorrow!"],
-      ["please","por favor","Can you help me, please?"],
-      ["thank you","obrigado(a)","Thank you for your help."],
-      ["sorry","desculpe","Sorry, I'm late."],
-      ["yes","sim","Yes, I agree with you."],
-      ["no","não","No, I don't want any, thanks."],
-      ["friend","amigo(a)","She is my best friend."],
-      ["family","família","My family lives in São Paulo."],
-      ["water","água","Can I have a glass of water?"],
-      ["today","hoje","I have a meeting today."],
-      ["tomorrow","amanhã","See you tomorrow."],
-      ["yesterday","ontem","I called her yesterday."],
-      ["now","agora","I need to leave now."],
-      ["here","aqui","Please wait here."],
-      ["there","ali / lá","The keys are over there."],
-      ["happy","feliz","I'm so happy to see you."],
-      ["sad","triste","He looked sad after the news."]
+      ["hello","olá","Hello! Welcome to our church service."],
+      ["goodbye","tchau / adeus","Goodbye, may God bless you until we meet again!"],
+      ["please","por favor","Please pray for my family this week."],
+      ["thank you","obrigado(a)","Thank you, Lord, for this new day."],
+      ["sorry","desculpe","Sorry, I was late for Bible study."],
+      ["yes","sim","Yes, I believe in God with all my heart."],
+      ["no","não","No, nothing can separate us from His love."],
+      ["friend","amigo(a)","Jesus is the best friend I could ever have."],
+      ["family","família","My family prays together every night."],
+      ["water","água","Jesus offers us the living water."],
+      ["today","hoje","Today is a blessing from God."],
+      ["tomorrow","amanhã","We trust God with tomorrow."],
+      ["yesterday","ontem","I read my Bible yesterday morning."],
+      ["now","agora","Now is the time to give your heart to God."],
+      ["here","aqui","God is here with us right now."],
+      ["there","ali / lá","Heaven is there, waiting for us."],
+      ["happy","feliz","I'm happy when I worship the Lord."],
+      ["sad","triste","She felt sad, so she prayed for peace."]
+    ],
+    biblia: [
+      ["God","Deus","God loves the whole world."],
+      ["faith","fé","Faith can move mountains."],
+      ["love","amor","Love your neighbor as yourself."],
+      ["hope","esperança","Hope keeps us strong in hard times."],
+      ["prayer","oração","She says a prayer before every meal."],
+      ["pray","orar","We pray together every evening."],
+      ["blessing","bênção","Every new day is a blessing."],
+      ["mercy","misericórdia","He asked God for mercy."],
+      ["grace","graça","By grace we are saved."],
+      ["forgive","perdoar","Forgive others as you want to be forgiven."],
+      ["peace","paz","May peace be with you always."],
+      ["believe","acreditar","I believe in a better tomorrow."],
+      ["shepherd","pastor","The Lord is my shepherd."],
+      ["disciple","discípulo","A good disciple listens and learns."],
+      ["gospel","evangelho","The gospel means good news."],
+      ["kingdom","reino","The kingdom of heaven is like a treasure."],
+      ["miracle","milagre","Her recovery felt like a miracle."],
+      ["worship","adorar","They worship together every Sunday."]
+    ],
+    personagens: [
+      ["Adam","Adão","Adam was the first man God created."],
+      ["Eve","Eva","Eve was the first woman in the Bible."],
+      ["Noah","Noé","Noah built a big ark for the flood."],
+      ["Abraham","Abraão","Abraham had great faith in God."],
+      ["Moses","Moisés","Moses led the people out of Egypt."],
+      ["Joseph","José","Joseph forgave his brothers with love."],
+      ["David","Davi","David defeated the giant Goliath."],
+      ["Solomon","Salomão","Solomon was known for his wisdom."],
+      ["Ruth","Rute","Ruth stayed loyal to her mother-in-law."],
+      ["Esther","Ester","Esther saved her people with courage."],
+      ["Daniel","Daniel","Daniel prayed even inside the lions' den."],
+      ["Mary","Maria","Mary was the mother of Jesus."],
+      ["John","João","John baptized Jesus in the river."],
+      ["Peter","Pedro","Peter was one of the twelve apostles."],
+      ["Paul","Paulo","Paul wrote many letters in the New Testament."],
+      ["Judas","Judas","Judas betrayed Jesus for thirty pieces of silver."],
+      ["Samuel","Samuel","Samuel heard God's voice as a young boy."],
+      ["Elijah","Elias","Elijah was a powerful prophet of God."]
     ],
     verbs: [
-      ["be","ser / estar","There will be a party tonight."],
-      ["have","ter","We have two cats."],
-      ["do","fazer","What do you do on weekends?"],
-      ["go","ir","Let's go to the beach."],
-      ["come","vir","Can you come here for a second?"],
-      ["make","fazer / criar","I like to make coffee in the morning."],
-      ["take","pegar / levar","Take an umbrella, it's raining."],
-      ["get","conseguir / pegar","I need to get a new phone."],
-      ["give","dar","Can you give me your phone number?"],
-      ["know","saber / conhecer","I know the answer."],
-      ["think","pensar / achar","I think it's a good idea."],
-      ["see","ver","I can't see the board clearly."],
-      ["want","querer","Do you want some coffee?"],
-      ["need","precisar","We need more time."],
-      ["like","gostar","I like this song a lot."],
-      ["work","trabalhar","I work from home on Fridays."],
-      ["study","estudar","I study English every night."],
-      ["speak","falar","Do you speak Portuguese?"]
+      ["be","ser / estar","There will be a great celebration in heaven."],
+      ["have","ter","We have hope because of Jesus."],
+      ["do","fazer","What do you do to grow in faith?"],
+      ["go","ir","Let's go to church together."],
+      ["come","vir","Come and worship the Lord with us."],
+      ["make","fazer / criar","Let's make time for prayer every day."],
+      ["take","pegar / levar","Take up your cross and follow Him."],
+      ["get","conseguir / pegar","I get so much peace when I pray."],
+      ["give","dar","Give thanks to the Lord, for He is good."],
+      ["know","saber / conhecer","I know that God loves me."],
+      ["think","pensar / achar","I think about God's word every morning."],
+      ["see","ver","I can see God's goodness in my life."],
+      ["want","querer","I want to serve God with my whole heart."],
+      ["need","precisar","We need God's grace every single day."],
+      ["like","gostar","I like singing hymns at church."],
+      ["work","trabalhar","Faith without works is dead."],
+      ["study","estudar","I study the Bible every night."],
+      ["speak","falar","Let's speak God's truth with love."]
     ],
     adjectives: [
-      ["expensive","caro","That restaurant is too expensive."],
-      ["cheap","barato","I found a cheap flight."],
-      ["difficult","difícil","This exercise is difficult."],
-      ["easy","fácil","The test was easy."],
-      ["beautiful","lindo(a)","What a beautiful sunset!"],
-      ["fast","rápido","He's a very fast runner."],
-      ["slow","lento","The internet is slow today."],
-      ["strong","forte","She has a strong opinion about it."],
-      ["weak","fraco","The signal is too weak here."],
-      ["clean","limpo","Keep your room clean."],
-      ["dirty","sujo","My shoes are dirty."],
-      ["safe","seguro","This neighborhood is safe."],
-      ["dangerous","perigoso","It's dangerous to drive in the rain."],
-      ["comfortable","confortável","This chair is very comfortable."],
-      ["boring","chato / entediante","The movie was really boring."],
-      ["interesting","interessante","That's an interesting question."],
-      ["crowded","lotado","The bus was crowded this morning."],
-      ["exhausted","exausto","I'm exhausted after the trip."]
+      ["expensive","caro","A Bible in leather can be expensive, but it's worth it."],
+      ["cheap","barato","God's grace is free, never cheap."],
+      ["difficult","difícil","Following Jesus is not always easy, sometimes it's difficult."],
+      ["easy","fácil","Trusting God isn't always easy, but it's always right."],
+      ["beautiful","lindo(a)","What a beautiful hymn we sang today!"],
+      ["fast","rápido","The pastor speaks so fast during his sermons."],
+      ["slow","lento","The line to enter the church was slow but peaceful."],
+      ["strong","forte","God gives us a strong faith to face any storm."],
+      ["weak","fraco","Even when I feel weak, God is my strength."],
+      ["clean","limpo","Lord, create in me a clean heart."],
+      ["dirty","sujo","Before I met Jesus, my heart felt dirty and lost."],
+      ["safe","seguro","In God's hands, I feel completely safe."],
+      ["dangerous","perigoso","Walking away from God's path can be dangerous."],
+      ["comfortable","confortável","The church pew was comfortable during the long service."],
+      ["boring","chato / entediante","Some people think Bible study is boring, but I love it."],
+      ["interesting","interessante","The pastor's sermon was very interesting today."],
+      ["crowded","lotado","The church was crowded on Easter Sunday."],
+      ["exhausted","exausto","The missionaries were exhausted after the long trip, but joyful."]
+    ],
+    igreja: [
+      ["church","igreja","We go to church every Sunday."],
+      ["choir","coral","The choir sang beautifully today."],
+      ["sermon","sermão","The pastor's sermon touched my heart."],
+      ["baptism","batismo","Her baptism was a joyful day."],
+      ["communion","santa ceia / comunhão","We take communion once a month."],
+      ["offering","oferta","We give our offering with a thankful heart."],
+      ["hymn","hino","We sang an old hymn together."],
+      ["congregation","congregação","The whole congregation prayed together."],
+      ["altar","altar","She knelt at the altar to pray."],
+      ["cross","cruz","The cross reminds us of God's love."],
+      ["candle","vela","We lit a candle during the prayer vigil."],
+      ["bell","sino","The church bell rang on Sunday morning."],
+      ["pulpit","púlpito","The pastor stood behind the pulpit."],
+      ["deacon","diácono","The deacon helped serve communion."],
+      ["elder","presbítero / ancião","The elder prayed for the sick."],
+      ["missionary","missionário","The missionary traveled to share the Gospel."],
+      ["testimony","testemunho","She shared her testimony with the youth group."],
+      ["revival","avivamento","The whole town felt a spiritual revival."]
     ],
     food: [
-      ["breakfast","café da manhã","I never skip breakfast."],
-      ["lunch","almoço","Let's have lunch together."],
-      ["dinner","jantar","What's for dinner tonight?"],
-      ["restaurant","restaurante","We ate at a nice restaurant."],
-      ["menu","cardápio","Can I see the menu, please?"],
-      ["waiter","garçom","The waiter recommended the fish."],
-      ["bill","conta","Can we have the bill, please?"],
-      ["delicious","delicioso","This soup is delicious."],
-      ["hungry","com fome","I'm really hungry right now."],
-      ["thirsty","com sede","She was thirsty after the run."],
-      ["vegetable","vegetal / legume","Eat more vegetables."],
-      ["fruit","fruta","Mango is my favorite fruit."],
-      ["meat","carne","He doesn't eat meat."],
-      ["bread","pão","Fresh bread smells amazing."],
-      ["cheese","queijo","This cheese is from France."],
-      ["dessert","sobremesa","What's for dessert?"],
-      ["spicy","apimentado","Be careful, this sauce is very spicy."],
-      ["leftovers","sobras","We had leftovers for lunch."]
+      ["breakfast","café da manhã","We prayed together before breakfast."],
+      ["lunch","almoço","The church served lunch after the service."],
+      ["dinner","jantar","The youth group had dinner together after Bible study."],
+      ["restaurant","restaurante","The missionaries ate at a small restaurant after church."],
+      ["menu","cardápio","The church picked a menu for the charity dinner."],
+      ["waiter","garçom","Even the waiter joined our prayer before the meal."],
+      ["bill","conta","We paid the bill and thanked God for the meal."],
+      ["delicious","delicioso","The potluck food was delicious and made with love."],
+      ["hungry","com fome","Blessed are those who are hungry for righteousness."],
+      ["thirsty","com sede","Come to me, all who are thirsty, and I will give you living water."],
+      ["vegetable","vegetal / legume","The church garden grows vegetables for the food pantry."],
+      ["fruit","fruta","The fruit of the Spirit is love, joy, and peace."],
+      ["meat","carne","The missionaries shared bread and meat with the village."],
+      ["bread","pão","Jesus said, I am the bread of life."],
+      ["cheese","queijo","We brought bread and cheese for the church picnic."],
+      ["dessert","sobremesa","There was dessert after the baptism celebration."],
+      ["spicy","apimentado","The stew from the mission trip was spicy but delicious."],
+      ["leftovers","sobras","We gave the leftovers to families in need after the feast."]
     ],
     travel: [
-      ["airport","aeroporto","The airport is very crowded today."],
-      ["ticket","passagem / bilhete","I bought a plane ticket online."],
-      ["passport","passaporte","Don't forget your passport!"],
-      ["luggage","bagagem","My luggage didn't arrive."],
-      ["flight","voo","Our flight leaves at 6 a.m."],
-      ["hotel","hotel","We booked a hotel near the beach."],
-      ["reservation","reserva","I'd like to confirm my reservation."],
-      ["map","mapa","Can you show me on the map?"],
-      ["tourist","turista","The city is full of tourists in summer."],
-      ["trip","viagem","We're planning a trip to Portugal."],
-      ["vacation","férias","I need a vacation!"],
-      ["border","fronteira","They crossed the border by bus."],
-      ["customs","alfândega","We waited an hour at customs."],
-      ["boarding pass","cartão de embarque","Please have your boarding pass ready."],
-      ["suitcase","mala","My suitcase is too heavy."],
-      ["journey","jornada / viagem","It was a long journey home."],
-      ["delay","atraso","The flight had a two-hour delay."],
-      ["destination","destino","What's your final destination?"]
+      ["airport","aeroporto","The missionaries met at the airport before their trip."],
+      ["ticket","passagem / bilhete","She bought a ticket to visit the mission field."],
+      ["passport","passaporte","Don't forget your passport for the mission trip!"],
+      ["luggage","bagagem","His luggage was full of Bibles for the village."],
+      ["flight","voo","Our flight to the mission trip leaves early Sunday."],
+      ["hotel","hotel","The pastors stayed at a small hotel during the conference."],
+      ["reservation","reserva","We made a reservation for the church retreat."],
+      ["map","mapa","The missionary used a map to find the small village."],
+      ["tourist","turista","He wasn't a tourist, he came to share the Gospel."],
+      ["trip","viagem","We're planning a mission trip to Mozambique."],
+      ["vacation","férias","Instead of a vacation, they chose a mission trip."],
+      ["border","fronteira","They crossed the border to bring Bibles to the church."],
+      ["customs","alfândega","At customs, they explained the Bibles were gifts for the church."],
+      ["boarding pass","cartão de embarque","Please have your boarding pass ready before the mission flight."],
+      ["suitcase","mala","Her suitcase was full of clothes for the orphanage."],
+      ["journey","jornada / viagem","Following Jesus is a lifelong journey of faith."],
+      ["delay","atraso","The flight delay gave us more time to pray together."],
+      ["destination","destino","Heaven is our final destination."]
     ],
     phrasal: [
-      ["give up","desistir","Don't give up on your dreams."],
-      ["look for","procurar","I always look for my keys before leaving."],
-      ["find out","descobrir","I need to find out what happened."],
-      ["get up","levantar-se","I get up at 6 a.m."],
-      ["turn off","desligar","Please turn off the lights."],
-      ["turn on","ligar","Can you turn on the TV?"],
-      ["come back","voltar","She'll come back next week."],
-      ["take off","decolar / tirar","The plane will take off soon."],
-      ["pick up","buscar / pegar","I'll pick up the kids at 8."],
-      ["put on","vestir / colocar","Put on your jacket, it's cold."],
-      ["look after","cuidar de","Can you look after my dog?"],
-      ["run out of","ficar sem","We often run out of milk."],
-      ["get along","se dar bem","They get along really well."],
-      ["break down","quebrar / enguiçar","Old cars often break down."],
-      ["figure out","entender / resolver","I can't figure out this puzzle."],
-      ["hang out","sair / curtir","Let's hang out this weekend."],
-      ["show up","aparecer","He didn't show up to the party."],
-      ["calm down","se acalmar","Calm down, everything will be fine."]
+      ["give up","desistir","Never give up on prayer, even when it's hard."],
+      ["look for","procurar","We look for God's guidance in everything we do."],
+      ["find out","descobrir","I want to find out more about God's word."],
+      ["get up","levantar-se","I get up early to pray before church."],
+      ["turn off","desligar","Turn off your phone during the sermon."],
+      ["turn on","ligar","Turn on the lights, it's time for Bible study."],
+      ["come back","voltar","The prodigal son decided to come back home."],
+      ["take off","decolar / tirar","The missionary plane will take off after our prayer."],
+      ["pick up","buscar / pegar","I'll pick up my grandmother for church on Sunday."],
+      ["put on","vestir / colocar","Put on the full armor of God."],
+      ["look after","cuidar de","The church volunteers look after the orphans."],
+      ["run out of","ficar sem","We often run out of Bibles to give away."],
+      ["get along","se dar bem","The church members get along like a real family."],
+      ["break down","quebrar / enguiçar","Her faith didn't break down, even during hard times."],
+      ["figure out","entender / resolver","It took time to figure out God's plan for my life."],
+      ["hang out","sair / curtir","The youth group likes to hang out after service."],
+      ["show up","aparecer","The whole town seems to show up for the Christmas service."],
+      ["calm down","se acalmar","Calm down, God is in control of everything."]
     ],
     work: [
-      ["job","emprego","She found a new job."],
-      ["meeting","reunião","The meeting starts at 9."],
-      ["deadline","prazo","The deadline is next Friday."],
-      ["boss","chefe","My boss is on vacation."],
-      ["colleague","colega","He's a colleague from the marketing team."],
-      ["salary","salário","They negotiated a higher salary."],
-      ["resume","currículo","Send me your resume."],
-      ["interview","entrevista","I have a job interview tomorrow."],
-      ["email","e-mail","I'll send you an email."],
-      ["project","projeto","We finished the project on time."],
-      ["schedule","agenda / horário","Check my schedule for next week."],
-      ["office","escritório","The office is downtown."],
-      ["contract","contrato","Please sign the contract."],
-      ["promotion","promoção","She got a promotion last month."],
-      ["client","cliente","The client approved the proposal."],
-      ["remote","remoto","I work remote on Fridays."],
-      ["skill","habilidade","Communication is an important skill."],
-      ["task","tarefa","I have three tasks to finish today."]
+      ["job","emprego","She found a job serving at the church office."],
+      ["meeting","reunião","The prayer meeting starts at 9."],
+      ["deadline","prazo","The mission trip deadline for donations is next Friday."],
+      ["boss","chefe","Even my boss came to church with me this Sunday."],
+      ["colleague","colega","I invited my colleague to church this Sunday."],
+      ["salary","salário","She gives ten percent of her salary to the church."],
+      ["resume","currículo","He put his mission trip experience on his resume."],
+      ["interview","entrevista","I prayed before my job interview."],
+      ["email","e-mail","I'll send you an email with the Bible study schedule."],
+      ["project","projeto","Our church finished the orphanage project this year."],
+      ["schedule","agenda / horário","Check the schedule for this week's Bible study."],
+      ["office","escritório","We prayed together in the church office."],
+      ["contract","contrato","God's promises are better than any contract."],
+      ["promotion","promoção","She thanked God for her promotion at work."],
+      ["client","cliente","Even at work, she shares God's love with every client."],
+      ["remote","remoto","Our missionaries serve in a very remote village."],
+      ["skill","habilidade","Teaching Sunday school is a skill she learned from her mother."],
+      ["task","tarefa","Serving the poor is a task the church takes seriously."]
     ],
     falsefriends: [
-      ["actually","na verdade","Actually, I don't agree with that.","Parece com \"atualmente\", mas atualmente = currently."],
-      ["college","faculdade","She's studying at college.","Parece com \"colégio\", mas colégio = high school."],
-      ["realize","perceber / dar-se conta","I didn't realize it was so late.","Parece com \"realizar\", mas realizar (um sonho) = to achieve."],
-      ["pretend","fingir","He pretended not to hear me.","Parece com \"pretender\", mas pretender = to intend."],
-      ["parents","pais","My parents live in Lisbon.","Parece com \"parentes\", mas parentes = relatives."],
-      ["fabric","tecido","This dress is made of soft fabric.","Parece com \"fábrica\", mas fábrica = factory."],
-      ["exit","saída","The emergency exit is over there.","Parece com \"êxito\", mas êxito = success."],
-      ["lecture","palestra / aula expositiva","The professor gave a lecture on climate change.","Parece com \"leitura\", mas leitura = reading."],
-      ["push","empurrar","Push the door to open it.","Soa como \"puxar\" mas é o oposto — puxar = pull."],
-      ["attend","participar de / comparecer","I need to attend the meeting.","Parece com \"atender\", mas atender = to answer/assist."],
-      ["library","biblioteca","I borrowed this book from the library.","Parece com \"livraria\", mas livraria = bookstore."],
-      ["costume","fantasia","She wore a witch costume.","Parece com \"costume\", mas costume (hábito) = habit."],
-      ["eventually","finalmente / no fim das contas","Eventually, they found a solution.","Parece com \"eventualmente\", mas eventualmente = occasionally."],
-      ["intend","pretender","I intend to visit Portugal next year.","Parece com \"entender\", mas entender = to understand."],
-      ["notice","perceber / aviso","Did you notice the new sign?","Parece com \"notícia\", mas notícia = news."],
-      ["pasta","massa","We had pasta for dinner.","Pasta (dossiê) em inglês é \"folder\"."],
-      ["mayor","prefeito","The mayor gave a speech.","Parece com \"maior\", mas não tem relação de tamanho."],
-      ["sensible","sensato","That's a very sensible decision.","Parece com \"sensível\", mas sensível = sensitive."]
+      ["actually","na verdade","Actually, prayer changed my whole life.","Parece com \"atualmente\", mas atualmente = currently."],
+      ["college","faculdade","She's studying theology at college.","Parece com \"colégio\", mas colégio = high school."],
+      ["realize","perceber / dar-se conta","I didn't realize how much God loved me until I read the Bible.","Parece com \"realizar\", mas realizar (um sonho) = to achieve."],
+      ["pretend","fingir","Never pretend to have faith you don't have.","Parece com \"pretender\", mas pretender = to intend."],
+      ["parents","pais","My parents raised me to love God.","Parece com \"parentes\", mas parentes = relatives."],
+      ["fabric","tecido","The choir robes are made of soft fabric.","Parece com \"fábrica\", mas fábrica = factory."],
+      ["exit","saída","The church has an exit near the prayer room.","Parece com \"êxito\", mas êxito = success."],
+      ["lecture","palestra / aula expositiva","The pastor gave a lecture on the book of Romans.","Parece com \"leitura\", mas leitura = reading."],
+      ["push","empurrar","Push through hard times — God is with you.","Soa como \"puxar\" mas é o oposto — puxar = pull."],
+      ["attend","participar de / comparecer","I attend church every Sunday morning.","Parece com \"atender\", mas atender = to answer/assist."],
+      ["library","biblioteca","I borrowed a book about faith from the church library.","Parece com \"livraria\", mas livraria = bookstore."],
+      ["costume","fantasia","The children wore costumes for the Christmas nativity play.","Parece com \"costume\", mas costume (hábito) = habit."],
+      ["eventually","finalmente / no fim das contas","Eventually, he gave his life to Christ.","Parece com \"eventualmente\", mas eventualmente = occasionally."],
+      ["intend","pretender","I intend to read the whole Bible this year.","Parece com \"entender\", mas entender = to understand."],
+      ["notice","perceber / aviso","Did you notice how God answered that prayer?","Parece com \"notícia\", mas notícia = news."],
+      ["pasta","massa","We had pasta at the church potluck dinner.","Pasta (dossiê) em inglês é \"folder\"."],
+      ["mayor","prefeito","The mayor thanked the church for helping the community.","Parece com \"maior\", mas não tem relação de tamanho."],
+      ["sensible","sensato","It's sensible to pray before making a big decision.","Parece com \"sensível\", mas sensível = sensitive."]
     ],
     numbers: [
-      ["one","um","I have one brother."],
-      ["two","dois","She has two children."],
-      ["three","três","We waited three hours."],
-      ["five","cinco","There are five apples left."],
-      ["ten","dez","It costs ten dollars."],
-      ["twenty","vinte","He's twenty years old."],
-      ["hundred","cem","The book has a hundred pages."],
-      ["half","metade","I ate half the pizza."],
-      ["quarter","quarto (um quarto)","Add a quarter cup of sugar."],
-      ["minute","minuto","Wait a minute, please."],
-      ["hour","hora","The trip takes one hour."],
-      ["o'clock","em ponto","The meeting starts at five o'clock."],
-      ["morning","manhã","I go for a run every morning."],
-      ["afternoon","tarde","Let's meet in the afternoon."],
-      ["week","semana","I'll see you next week."],
-      ["month","mês","Rent is due at the end of the month."],
-      ["year","ano","This is the best year of my life."],
-      ["century","século","The building is over a century old."]
+      ["one","um","There is one God who loves us all."],
+      ["two","dois","Two or three gathered in His name is enough."],
+      ["three","três","The service lasted three hours, full of worship."],
+      ["five","cinco","Jesus fed five thousand people with five loaves."],
+      ["ten","dez","Moses received the Ten Commandments."],
+      ["twenty","vinte","The youth group has twenty members now."],
+      ["hundred","cem","The parable talks about a shepherd with a hundred sheep."],
+      ["half","metade","I gave half of my savings to the mission trip."],
+      ["quarter","quarto (um quarto)","We meet for a quarter hour of prayer every morning."],
+      ["minute","minuto","Give me a minute to pray before we start."],
+      ["hour","hora","The prayer service takes about one hour."],
+      ["o'clock","em ponto","Sunday service starts at ten o'clock."],
+      ["morning","manhã","I read my Bible every morning."],
+      ["afternoon","tarde","We have Bible study in the afternoon."],
+      ["week","semana","I'll see you at church next week."],
+      ["month","mês","The mission offering is collected once a month."],
+      ["year","ano","This has been a year of growing in faith."],
+      ["century","século","The old church building is over a century old."]
     ],
     shopping: [
-      ["shop","loja","There's a new shop downtown."],
-      ["price","preço","What's the price of this jacket?"],
-      ["discount","desconto","We got a 20% discount."],
-      ["cash","dinheiro","Do you accept cash?"],
-      ["credit card","cartão de crédito","I'll pay with my credit card."],
-      ["receipt","recibo / nota fiscal","Can I have the receipt, please?"],
-      ["size","tamanho","Do you have this in a bigger size?"],
-      ["color","cor","What color do you want?"],
-      ["try on","experimentar (roupa)","Can I try on these shoes?"],
-      ["cashier","caixa (pessoa)","The cashier gave me the wrong change."],
-      ["change","troco","Keep the change."],
-      ["sale","liquidação / promoção","Everything is on sale this weekend."],
-      ["refund","reembolso","I'd like a refund for this item."],
-      ["exchange","trocar (produto)","Can I exchange this for a different size?"],
-      ["bag","sacola / bolsa","Do you need a bag?"],
-      ["cart","carrinho","Leave the cart by the door."],
-      ["store","loja / armazém","This store closes at 9 p.m."],
-      ["free shipping","frete grátis","The site offers free shipping over $50."]
+      ["shop","loja","There's a new shop that sells Bibles downtown."],
+      ["price","preço","What's the price of this study Bible?"],
+      ["discount","desconto","The bookstore gave a discount on Bibles this month."],
+      ["cash","dinheiro","We put cash in the offering basket."],
+      ["credit card","cartão de crédito","I'll pay for the mission trip supplies with my credit card."],
+      ["receipt","recibo / nota fiscal","Keep the receipt for the church's donated supplies."],
+      ["size","tamanho","Do you have this Sunday school shirt in a bigger size?"],
+      ["color","cor","What color robe does the choir wear?"],
+      ["try on","experimentar (roupa)","Can I try on this shirt for the mission trip?"],
+      ["cashier","caixa (pessoa)","The cashier gave a kind smile when I mentioned the charity drive."],
+      ["change","troco","Keep the change, and God bless you."],
+      ["sale","liquidação / promoção","The Christian bookstore has a sale this weekend."],
+      ["refund","reembolso","I'd like a refund for this damaged Bible."],
+      ["exchange","trocar (produto)","Can I exchange this Bible for a different translation?"],
+      ["bag","sacola / bolsa","She packed a bag full of Bibles for the mission trip."],
+      ["cart","carrinho","Leave the cart of donated food by the church door."],
+      ["store","loja / armazém","The Christian store closes at 9 p.m."],
+      ["free shipping","frete grátis","The Bible website offers free shipping over $50."]
     ]
   };
 
@@ -1318,6 +1404,33 @@
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; });
   }
+  // Divide uma frase em palavras clicáveis: tocar numa palavra toca só a pronúncia dela
+  // (mantém a pontuação colada, tipo vírgulas e pontos finais, fora do toque).
+  function wordsHtml(text){
+    if (!text) return "";
+    var parts = String(text).split(/(\s+)/);
+    return parts.map(function(part){
+      if (!part || /^\s+$/.test(part)) return escapeHtml(part);
+      var m = /^([“"'(]*)([^“”"'().,!?;:]*)([).,!?;:”"']*)$/.exec(part);
+      var lead = m ? m[1] : "", word = m ? m[2] : "", trail = m ? m[3] : "";
+      if (!word) return escapeHtml(part);
+      return escapeHtml(lead) + '<span class="lp-word" data-w="'+escapeHtml(word)+'">'+escapeHtml(word)+'</span>' + escapeHtml(trail);
+    }).join("");
+  }
+  // Liga o toque em cada palavra marcada por wordsHtml() dentro de um contentor.
+  function wireWordTaps(container){
+    if (!container) return;
+    container.querySelectorAll(".lp-word").forEach(function(el){
+      if (el._wired) return;
+      el._wired = true;
+      el.addEventListener("click", function(e){
+        e.stopPropagation();
+        speak(el.dataset.w, curLang().speechLang);
+        el.classList.add("tapped");
+        setTimeout(function(){ el.classList.remove("tapped"); }, 350);
+      });
+    });
+  }
   function catLabel(key){ return CATS[key] ? CATS[key].label : key; }
   function boxOf(id){ return lp().boxes[id] || 0; }
 
@@ -1544,6 +1657,7 @@
   function renderTrilha(){
     regenHearts();
     renderStatbar();
+    renderVerseOfDay();
     var all = flattenLessons();
     var nextIdx = -1;
     for (var i=0;i<all.length;i++){ if (all[i].unlocked && !all[i].done){ nextIdx = i; break; } }
@@ -1683,7 +1797,7 @@
       body =
         '<div class="lp-kicker">Nova palavra</div>'+
         '<div class="card lp-present">'+
-          '<div class="spk-row"><div class="pw-en">'+escapeHtml(item.word.en)+'</div>'+spkBtnHtml("lp-spk")+'</div>'+
+          '<div class="spk-row"><div class="pw-en">'+wordsHtml(item.word.en)+'</div>'+spkBtnHtml("lp-spk")+'</div>'+
           '<div class="pw-pt">'+escapeHtml(item.word.pt)+'</div>'+
           '<div class="pw-ex">'+escapeHtml(item.word.example)+'</div>'+
           (item.word.trap ? '<div class="pw-trap">'+escapeHtml(item.word.trap)+'</div>' : '')+
@@ -1696,7 +1810,7 @@
       body =
         '<div class="lp-kicker">'+escapeHtml(item.kicker)+'</div>'+
         '<div class="lp-prompt">'+escapeHtml(item.question)+'</div>'+
-        '<div class="spk-row"><div class="lp-phrasecard" style="flex:1;">“'+escapeHtml(item.prompt)+'”</div>'+(item.audioText?spkBtnHtml("lp-spk"):'')+'</div>'+
+        '<div class="spk-row"><div class="lp-phrasecard" style="flex:1;">“'+wordsHtml(item.prompt)+'”</div>'+(item.audioText?spkBtnHtml("lp-spk"):'')+'</div>'+
         '<div class="lp-options" id="lp-opts"></div>'+
         '<div id="lp-fb"></div>';
       footer = '<button class="btn-outline" id="lp-check" disabled>Escolha uma opção</button>';
@@ -1730,7 +1844,7 @@
       body =
         '<div class="lp-kicker">'+escapeHtml(item.kicker)+'</div>'+
         '<div class="lp-prompt">'+escapeHtml(item.question)+'</div>'+
-        '<div class="spk-row"><div class="lp-phrasecard" style="flex:1;">'+escapeHtml(item.prompt)+'</div>'+spkBtnHtml("lp-spk")+'</div>'+
+        '<div class="spk-row"><div class="lp-phrasecard" style="flex:1;">'+wordsHtml(item.prompt)+'</div>'+spkBtnHtml("lp-spk")+'</div>'+
         '<div class="lp-options" id="lp-opts">'+
           '<button class="lp-opt" data-v="1">Certo</button>'+
           '<button class="lp-opt" data-v="0">Errado</button>'+
@@ -1764,7 +1878,7 @@
     } else if (item.type === "fillblank"){
       body =
         '<div class="lp-kicker">'+escapeHtml(item.kicker)+'</div>'+
-        '<div class="lp-sentence">'+escapeHtml(item.before)+'<span class="lp-blank" id="lp-blank">_____</span>'+escapeHtml(item.after)+'</div>'+
+        '<div class="lp-sentence">'+wordsHtml(item.before)+'<span class="lp-blank" id="lp-blank">_____</span>'+wordsHtml(item.after)+'</div>'+
         '<div class="lp-tiles" id="lp-tiles"></div>'+
         '<div id="lp-fb"></div>';
       footer = '<button class="btn-outline" id="lp-check" disabled>Escolha uma opção</button>';
@@ -1798,6 +1912,7 @@
         });
       });
     }
+    wireWordTaps(overlay);
     var closeBtn = document.getElementById("lp-close");
     if (closeBtn) closeBtn.addEventListener("click", handleClose);
   }
@@ -2244,27 +2359,85 @@
   // ================= EXTRA: JOGOS E VÍDEOS =================
   var GAMES = [
     {id:"memory", icon:"🧠", title:"Jogo da Memória", sub:"Combine a palavra com a tradução"},
-    {id:"hangman", icon:"🎯", title:"Forca", sub:"Adivinha a palavra letra a letra"}
+    {id:"hangman", icon:"🎯", title:"Forca", sub:"Adivinha a palavra letra a letra"},
+    {id:"memory-biblia", icon:"📖", title:"Memória Bíblica", sub:"Combine palavras da Bíblia com a tradução", cat:"biblia"},
+    {id:"hangman-biblia", icon:"🙏", title:"Forca Bíblica", sub:"Adivinha palavras do tema bíblico", cat:"biblia"},
+    {id:"verse-puzzle", icon:"🧩", title:"Monta o Versículo", sub:"Organiza as palavras de um versículo em inglês"},
+    {id:"bible-quiz", icon:"❓", title:"Quiz Bíblico", sub:"Teste seus conhecimentos da Bíblia em inglês"}
   ];
 
-  // Vídeos curados do YouTube para praticar inglês (funcionam com qualquer idioma
-  // do app selecionado, já que o objetivo aqui é sempre o inglês).
-  // Vídeos de aulas faladas (sem música com direitos autorais), do canal engVid —
-  // confirmados como incorporáveis porque o próprio site engvid.com os usa em iframe.
+  // Louvores e hinos infantis em inglês para praticar inglês com tema evangélico —
+  // todos confirmados como incorporáveis via oEmbed do YouTube antes de entrar aqui.
   var VIDEOS = [
-    {id:"GR2o6k8aPlI", cat:"Animais", title:"Baby Shark — Super Simple Songs"},
-    {id:"MVRxGb33-oQ", cat:"Cores", title:"Colors Song for Kids — The Singing Walrus"},
-    {id:"dg0cQtVisLw", cat:"Números", title:"10 Little Fishies — Super Simple Songs"},
-    {id:"VAOOT5ZfQyU", cat:"Corpo", title:"Head, Shoulders, Knees and Toes — Super Simple Songs"},
-    {id:"mXMofxtDPUQ", cat:"Dias da semana", title:"Days of the Week Song — The Singing Walrus"},
-    {id:"zgJle_VO7Gk", cat:"Sons dos animais", title:"Animal Sounds Song — The Singing Walrus"},
-    {id:"5XEN4vtH4Ic", cat:"Alfabeto", title:"ABC Song — Super Simple Songs"},
-    {id:"frN3nvhIHUk", cat:"Comida", title:"Do You Like Broccoli Ice Cream? — Super Simple Songs"},
-    {id:"guNdJ5MtX1A", cat:"Formas", title:"3D Shapes Song — The Singing Walrus"},
-    {id:"lca7DvrlrQo", cat:"Tempo (clima)", title:"How's The Weather? — Super Simple Songs"},
-    {id:"KivttwaXQZ4", cat:"Sentimentos", title:"Feelings Song — The Singing Walrus"},
-    {id:"yDua9ms9_eg", cat:"Família", title:"The People In My Family — Super Simple Songs"}
+    {id:"U-ryg9plBM4", cat:"Amor de Deus", title:"Jesus Loves Me — Children's Song"},
+    {id:"NsbRIg-ebWg", cat:"Louvor", title:"This Little Light of Mine — Wesley's Wuppets"},
+    {id:"jAeXnSVXauk", cat:"Louvor", title:"Deep and Wide — Cedarmont Kids"},
+    {id:"9DLHLgMDLYA", cat:"Bíblia", title:"The B-I-B-L-E — Good Book Kids"},
+    {id:"wbKdSq5q26A", cat:"História bíblica", title:"Zacchaeus Was a Wee Little Man — 3LittleWords"},
+    {id:"SlcyjrkrE4I", cat:"Arca de Noé", title:"Rise and Shine (Arky Arky) — Good News Guys"},
+    {id:"UviHHtRGslw", cat:"História bíblica", title:"Father Abraham — Bible Buddies"},
+    {id:"jjYi-qTzqr4", cat:"Alegria", title:"I've Got the Joy, Joy, Joy — God's Joy Kids"},
+    {id:"7xXrp5Fnqzg", cat:"Louvor", title:"My God is So Big — Miss Kelly's Ministry"},
+    {id:"3OGMjDllEJM", cat:"Louvor", title:"Give Me Oil in My Lamp — Christian Songs for Kids"},
+    {id:"RAtwPoHVnjw", cat:"Salmos", title:"This Is the Day (Psalm 118:24) — Arts Delivery"}
   ];
+
+  // Versículo do dia: texto em inglês da King James Version (domínio público) +
+  // uma tradução livre nossa em português (não é uma tradução bíblica oficial,
+  // é só para ajudar a entender o sentido). Roda todo dia, sempre a mesma ordem.
+  var VERSE_OF_DAY = [
+    {ref:"John 3:16", en:"For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", pt:"Deus amou tanto o mundo que deu o seu único Filho, para que todo aquele que nele crê não se perca, mas tenha a vida eterna."},
+    {ref:"Psalm 23:1", en:"The LORD is my shepherd; I shall not want.", pt:"O Senhor é o meu pastor; nada me faltará."},
+    {ref:"Philippians 4:13", en:"I can do all things through Christ which strengtheneth me.", pt:"Tudo posso naquele que me fortalece."},
+    {ref:"Joshua 1:9", en:"Be strong and of a good courage; be not afraid, for the LORD thy God is with thee whithersoever thou goest.", pt:"Sê forte e corajoso; não temas, porque o Senhor teu Deus está contigo por onde quer que andares."},
+    {ref:"Proverbs 3:5", en:"Trust in the LORD with all thine heart; and lean not unto thine own understanding.", pt:"Confia no Senhor de todo o teu coração e não te apoies no teu próprio entendimento."},
+    {ref:"Psalm 46:1", en:"God is our refuge and strength, a very present help in trouble.", pt:"Deus é o nosso refúgio e fortaleza, um socorro sempre presente na hora da angústia."},
+    {ref:"Isaiah 41:10", en:"Fear thou not; for I am with thee: be not dismayed; for I am thy God.", pt:"Não temas, porque eu estou contigo; não te assombres, porque eu sou o teu Deus."},
+    {ref:"Matthew 6:33", en:"Seek ye first the kingdom of God, and all these things shall be added unto you.", pt:"Buscai primeiro o Reino de Deus, e todas as outras coisas vos serão acrescentadas."},
+    {ref:"Romans 8:28", en:"All things work together for good to them that love God.", pt:"Todas as coisas cooperam para o bem daqueles que amam a Deus."},
+    {ref:"Psalm 118:24", en:"This is the day which the LORD hath made; we will rejoice and be glad in it.", pt:"Este é o dia que o Senhor fez; alegremo-nos e regozijemo-nos nele."},
+    {ref:"Jeremiah 29:11", en:"I know the thoughts that I think toward you, thoughts of peace, and not of evil, to give you an expected end.", pt:"Eu sei os planos que tenho para vocês — planos de paz, e não de mal, para vos dar um futuro e uma esperança."},
+    {ref:"1 Corinthians 13:4", en:"Charity suffereth long, and is kind.", pt:"O amor é paciente, o amor é bondoso."},
+    {ref:"Psalm 119:105", en:"Thy word is a lamp unto my feet, and a light unto my path.", pt:"A tua palavra é lâmpada para os meus pés e luz para o meu caminho."},
+    {ref:"Matthew 11:28", en:"Come unto me, all ye that labour and are heavy laden, and I will give you rest.", pt:"Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei."},
+    {ref:"Galatians 5:22", en:"The fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith.", pt:"O fruto do Espírito é amor, alegria, paz, paciência, bondade, generosidade, fé."},
+    {ref:"Psalm 27:1", en:"The LORD is my light and my salvation; whom shall I fear?", pt:"O Senhor é a minha luz e a minha salvação; a quem temerei?"},
+    {ref:"Proverbs 17:22", en:"A merry heart doeth good like a medicine.", pt:"O coração alegre é um bom remédio."},
+    {ref:"Hebrews 11:1", en:"Faith is the substance of things hoped for, the evidence of things not seen.", pt:"A fé é a certeza daquilo que se espera e a prova das coisas que não se veem."},
+    {ref:"Psalm 121:1-2", en:"I will lift up mine eyes unto the hills. My help cometh from the LORD.", pt:"Elevo os meus olhos para os montes. O meu socorro vem do Senhor."},
+    {ref:"Colossians 3:23", en:"Whatsoever ye do, do it heartily, as to the Lord.", pt:"Tudo o que fizerem, façam de coração, como para o Senhor."},
+    {ref:"Matthew 5:9", en:"Blessed are the peacemakers: for they shall be called the children of God.", pt:"Bem-aventurados os pacificadores, porque serão chamados filhos de Deus."},
+    {ref:"Psalm 34:18", en:"The LORD is nigh unto them that are of a broken heart.", pt:"Perto está o Senhor dos que têm o coração quebrantado."},
+    {ref:"2 Timothy 1:7", en:"God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.", pt:"Deus não nos deu espírito de medo, mas de poder, de amor e de equilíbrio."},
+    {ref:"Psalm 100:5", en:"The LORD is good; his mercy is everlasting.", pt:"O Senhor é bom; a sua misericórdia dura para sempre."},
+    {ref:"Matthew 7:7", en:"Ask, and it shall be given you; seek, and ye shall find.", pt:"Pedi, e dar-se-vos-á; buscai, e encontrareis."},
+    {ref:"Romans 12:12", en:"Rejoicing in hope; patient in tribulation; continuing instant in prayer.", pt:"Alegrai-vos na esperança, sede pacientes na tribulação, perseverai na oração."},
+    {ref:"Psalm 37:4", en:"Delight thyself also in the LORD; and he shall give thee the desires of thine heart.", pt:"Deleita-te no Senhor, e ele te concederá os desejos do teu coração."},
+    {ref:"1 John 4:19", en:"We love him, because he first loved us.", pt:"Nós o amamos porque ele nos amou primeiro."},
+    {ref:"Psalm 90:2", en:"From everlasting to everlasting, thou art God.", pt:"De eternidade em eternidade, tu és Deus."},
+    {ref:"Nehemiah 8:10", en:"The joy of the LORD is your strength.", pt:"A alegria do Senhor é a vossa força."}
+  ];
+  function dayOfYear(d){
+    var start = new Date(d.getFullYear(), 0, 0);
+    return Math.floor((d - start) / 86400000);
+  }
+  function todaysVerse(){
+    var idx = dayOfYear(new Date()) % VERSE_OF_DAY.length;
+    return VERSE_OF_DAY[idx];
+  }
+  function renderVerseOfDay(){
+    var el = document.getElementById("verse-card");
+    if (!el) return;
+    var v = todaysVerse();
+    el.innerHTML =
+      '<div class="verse-head"><span class="lbl">📖 Versículo do dia</span><button class="verse-listen" id="verse-listen" type="button" aria-label="Ouvir">🔊</button></div>'+
+      '<div class="verse-en">'+wordsHtml(v.en)+'</div>'+
+      '<div class="verse-pt">'+escapeHtml(v.pt)+' <span style="opacity:.7;">(tradução livre)</span></div>'+
+      '<div class="verse-ref">'+escapeHtml(v.ref)+' · KJV</div>';
+    wireWordTaps(el);
+    var listenBtn = document.getElementById("verse-listen");
+    if (listenBtn) listenBtn.addEventListener("click", function(){ speak(v.en, "en-US"); });
+  }
 
   var extraOverlay = document.getElementById("extra-overlay");
   function openExtraOverlay(html){
@@ -2287,7 +2460,10 @@
   function renderExtras(){
     // ---- lista de jogos ----
     var gh = "";
-    GAMES.forEach(function(g){
+    // Os jogos de tema bíblico só aparecem quando essa categoria existe no idioma
+    // atual (por agora, só no inglês) — evita mostrar um jogo vazio.
+    var visibleGames = GAMES.filter(function(g){ return !g.cat || (WORDS_BY_CAT[g.cat] && WORDS_BY_CAT[g.cat].length); });
+    visibleGames.forEach(function(g){
       gh += '<button class="citem" data-game="'+g.id+'" style="margin-bottom:10px;">'+
               '<span class="cnum" style="font-size:18px;">'+g.icon+'</span>'+
               '<span class="ctext"><span class="ctitle">'+escapeHtml(g.title)+'</span><span class="csub">'+escapeHtml(g.sub)+'</span></span>'+
@@ -2298,8 +2474,12 @@
     gamesList.innerHTML = gh;
     gamesList.querySelectorAll(".citem").forEach(function(btn){
       btn.addEventListener("click", function(){
-        if (btn.dataset.game === "memory") startMemoryGame();
-        if (btn.dataset.game === "hangman") startHangmanGame();
+        var g = GAMES.filter(function(x){ return x.id === btn.dataset.game; })[0];
+        var cat = g ? g.cat : null;
+        if (btn.dataset.game === "memory" || btn.dataset.game === "memory-biblia") startMemoryGame(cat);
+        if (btn.dataset.game === "hangman" || btn.dataset.game === "hangman-biblia") startHangmanGame(cat);
+        if (btn.dataset.game === "verse-puzzle") startVersePuzzle();
+        if (btn.dataset.game === "bible-quiz") startBibleQuiz();
       });
     });
 
@@ -2330,10 +2510,12 @@
     wireExtraClose();
   }
 
-  // ---- Jogo da Memória ----
-  function startMemoryGame(){
-    var pool = WORDS.filter(function(w){ return w.en && w.en.length <= 14; });
-    if (pool.length < 6) pool = WORDS.slice();
+  // ---- Jogo da Memória ---- (catFilter opcional, ex.: "biblia", para um baralho só dessa categoria)
+  function startMemoryGame(catFilter){
+    var basePool = (catFilter && WORDS_BY_CAT[catFilter] && WORDS_BY_CAT[catFilter].length) ? WORDS_BY_CAT[catFilter] : WORDS;
+    var gameTitle = catFilter === "biblia" ? "Memória Bíblica" : "Jogo da Memória";
+    var pool = basePool.filter(function(w){ return w.en && w.en.length <= 14; });
+    if (pool.length < 6) pool = basePool.slice();
     var picks = shuffleArr(pool.slice()).slice(0, 6);
     var cards = [];
     picks.forEach(function(w){
@@ -2354,7 +2536,7 @@
     }
 
     function render(){
-      var html = extraHeader("Jogo da Memória")+
+      var html = extraHeader(gameTitle)+
         '<div class="lp-body"><div class="lp-wrap" id="mem-wrap">'+cardHtml()+'</div></div>';
       openExtraOverlay(html);
       wireExtraClose();
@@ -2401,7 +2583,7 @@
       addXp(8);
       saveState();
       renderStatbar();
-      var html = extraHeader("Jogo da Memória")+
+      var html = extraHeader(gameTitle)+
         '<div class="lp-body"><div class="extra-result">'+
           '<div class="big">🎉 Muito bem!</div>'+
           '<p>Encontraste todos os '+picks.length+' pares em '+tries+' tentativas.</p>'+
@@ -2410,7 +2592,7 @@
         '<div class="lp-footerbar"><div class="inner"><button class="action" id="mem-again" style="width:100%;">Jogar outra vez</button></div></div>';
       openExtraOverlay(html);
       wireExtraClose();
-      document.getElementById("mem-again").addEventListener("click", startMemoryGame);
+      document.getElementById("mem-again").addEventListener("click", function(){ startMemoryGame(catFilter); });
     }
 
     render();
@@ -2424,10 +2606,12 @@
     return arr;
   }
 
-  // ---- Forca ----
-  function startHangmanGame(){
-    var pool = WORDS.filter(function(w){ return /^[a-zA-Z]{3,12}$/.test(w.en); });
-    if (!pool.length) pool = WORDS.filter(function(w){ return /^[a-zA-Z ]+$/.test(w.en); });
+  // ---- Forca ---- (catFilter opcional, ex.: "biblia", para usar só palavras dessa categoria)
+  function startHangmanGame(catFilter){
+    var basePool = (catFilter && WORDS_BY_CAT[catFilter] && WORDS_BY_CAT[catFilter].length) ? WORDS_BY_CAT[catFilter] : WORDS;
+    var gameTitle = catFilter === "biblia" ? "Forca Bíblica" : "Forca";
+    var pool = basePool.filter(function(w){ return /^[a-zA-Z]{3,12}$/.test(w.en); });
+    if (!pool.length) pool = basePool.filter(function(w){ return /^[a-zA-Z ]+$/.test(w.en); });
     var word = pool[Math.floor(Math.random() * pool.length)];
     var target = (word.en || "cat").toLowerCase();
     var guessed = [];
@@ -2460,7 +2644,7 @@
     }
 
     function render(){
-      var html = extraHeader("Forca")+
+      var html = extraHeader(gameTitle)+
         '<div class="lp-body"><div class="lp-wrap" id="hg-wrap">'+
           statusHtml()+wordHtml()+keyboardHtml()+
         '</div></div>';
@@ -2493,7 +2677,7 @@
 
     function finish(won){
       if (won){ addXp(6); saveState(); renderStatbar(); }
-      var html = extraHeader("Forca")+
+      var html = extraHeader(gameTitle)+
         '<div class="lp-body"><div class="extra-result">'+
           '<div class="big">'+(won ? "🎉 Acertaste!" : "😅 Quase lá!")+'</div>'+
           '<p style="font-size:20px; font-weight:800; margin-top:10px;">'+escapeHtml(word.en)+'</p>'+
@@ -2503,9 +2687,197 @@
         '<div class="lp-footerbar"><div class="inner"><button class="action" id="hg-again" style="width:100%;">Jogar outra vez</button></div></div>';
       openExtraOverlay(html);
       wireExtraClose();
-      document.getElementById("hg-again").addEventListener("click", startHangmanGame);
+      document.getElementById("hg-again").addEventListener("click", function(){ startHangmanGame(catFilter); });
     }
 
+    render();
+  }
+
+  // ---- Monta o Versículo (organiza as palavras de um versículo em inglês) ----
+  // Frases curtas baseadas em versículos conhecidos, em inglês simples e moderno
+  // (parafraseadas quando preciso, pra caber num jogo de arrastar palavras).
+  var VERSE_PUZZLES = [
+    {ref:"1 João 4:8", en:"God is love.", pt:"Deus é amor."},
+    {ref:"Salmo 23:1", en:"The Lord is my shepherd.", pt:"O Senhor é o meu pastor."},
+    {ref:"Gênesis 1:3", en:"Let there be light.", pt:"Haja luz."},
+    {ref:"Marcos 12:31", en:"Love your neighbor as yourself.", pt:"Ama o teu próximo como a ti mesmo."},
+    {ref:"Mateus 7:7", en:"Ask and you will receive.", pt:"Pedi e recebereis."},
+    {ref:"Josué 1:9", en:"Be strong and courageous.", pt:"Sê forte e corajoso."},
+    {ref:"Provérbios 3:5", en:"Trust in the Lord always.", pt:"Confia sempre no Senhor."},
+    {ref:"Salmo 118:24", en:"This is the day to rejoice.", pt:"Este é o dia para nos alegrarmos."},
+    {ref:"Filipenses 4:13", en:"I can do all things through Christ.", pt:"Tudo posso naquele que me fortalece."},
+    {ref:"João 14:6", en:"Jesus is the way, the truth, and the life.", pt:"Jesus é o caminho, a verdade e a vida."},
+    {ref:"Salmo 107:1", en:"Give thanks to the Lord.", pt:"Dai graças ao Senhor."},
+    {ref:"Neemias 8:10", en:"The joy of the Lord is my strength.", pt:"A alegria do Senhor é a minha força."}
+  ];
+  function startVersePuzzle(){
+    var verse = VERSE_PUZZLES[Math.floor(Math.random()*VERSE_PUZZLES.length)];
+    var words = verse.en.split(" ");
+    var order = words.map(function(_,i){ return i; });
+    var shuffled = shuffleArr(order.slice());
+    var tries = 0;
+    while (words.length>1 && shuffled.join(",")===order.join(",") && tries<5){ shuffled = shuffleArr(order.slice()); tries++; }
+    var tiles = shuffled.map(function(correctIdx){ return {id:correctIdx, text:words[correctIdx]}; });
+    var answerOrder = [];
+
+    function tileById(id){ return tiles.filter(function(t){ return t.id===id; })[0]; }
+    function poolHtml(){
+      return tiles.filter(function(t){ return answerOrder.indexOf(t.id)===-1; }).map(function(t){
+        return '<button class="vp-tile" data-tid="'+t.id+'">'+escapeHtml(t.text)+'</button>';
+      }).join('');
+    }
+    function answerHtml(){
+      if (!answerOrder.length) return '<span class="vp-placeholder">Toca nas palavras abaixo, na ordem certa</span>';
+      return answerOrder.map(function(id){
+        var t = tileById(id);
+        return '<button class="vp-tile placed" data-tid="'+t.id+'">'+escapeHtml(t.text)+'</button>';
+      }).join('');
+    }
+    function bodyHtml(){
+      return '<p class="vp-hint">Organiza as palavras para formar o versículo em inglês. Toca numa palavra colocada para tirá-la.</p>'+
+        '<div class="vp-answer" id="vp-answer">'+answerHtml()+'</div>'+
+        '<div class="vp-pool" id="vp-pool">'+poolHtml()+'</div>';
+    }
+    function render(){
+      var html = extraHeader("Monta o Versículo")+
+        '<div class="lp-body"><div class="lp-wrap" id="vp-wrap">'+bodyHtml()+'</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      wire();
+    }
+    function refresh(){
+      var wrap = document.getElementById("vp-wrap");
+      if (wrap){ wrap.innerHTML = bodyHtml(); wire(); }
+    }
+    function wire(){
+      document.querySelectorAll("#vp-pool .vp-tile").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          var id = parseInt(btn.dataset.tid,10);
+          answerOrder.push(id);
+          if (answerOrder.length === tiles.length) check();
+          else refresh();
+        });
+      });
+      document.querySelectorAll("#vp-answer .vp-tile").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          var id = parseInt(btn.dataset.tid,10);
+          answerOrder = answerOrder.filter(function(x){ return x!==id; });
+          refresh();
+        });
+      });
+    }
+    function check(){
+      var correct = true;
+      for (var i=0;i<answerOrder.length;i++){ if (answerOrder[i] !== i){ correct = false; break; } }
+      if (correct){
+        addXp(10); saveState(); renderStatbar();
+        var html = extraHeader("Monta o Versículo")+
+          '<div class="lp-body"><div class="extra-result">'+
+            '<div class="big">🎉 Isso mesmo!</div>'+
+            '<p style="font-size:17px; font-weight:700; margin-top:10px;">“'+escapeHtml(verse.en)+'”</p>'+
+            '<p style="color:var(--ink-soft);">'+escapeHtml(verse.pt)+'</p>'+
+            '<p class="verse-ref" style="text-align:center; margin-top:6px;">'+escapeHtml(verse.ref)+'</p>'+
+            '<p style="color:var(--accent-ink); font-weight:700; margin-top:8px;">+10 XP</p>'+
+          '</div></div>'+
+          '<div class="lp-footerbar"><div class="inner"><button class="action" id="vp-again" style="width:100%;">Jogar outra vez</button></div></div>';
+        openExtraOverlay(html);
+        wireExtraClose();
+        document.getElementById("vp-again").addEventListener("click", startVersePuzzle);
+      } else {
+        var html2 = extraHeader("Monta o Versículo")+
+          '<div class="lp-body"><div class="extra-result">'+
+            '<div class="big">🤔 Quase!</div>'+
+            '<p>A ordem ainda não está certa. Toca em “Tentar de novo”.</p>'+
+          '</div></div>'+
+          '<div class="lp-footerbar"><div class="inner"><button class="action" id="vp-retry" style="width:100%;">Tentar de novo</button></div></div>';
+        openExtraOverlay(html2);
+        wireExtraClose();
+        document.getElementById("vp-retry").addEventListener("click", function(){
+          answerOrder = [];
+          render();
+        });
+      }
+    }
+    render();
+  }
+
+  // ---- Quiz Bíblico (perguntas de múltipla escolha em inglês) ----
+  var BIBLE_QUIZ = [
+    {q:"Who built the ark?", options:["Noah","Moses","Abraham","David"], correct:0},
+    {q:"How many days and nights did it rain during the flood?", options:["40","7","100","3"], correct:0},
+    {q:"Who led the Israelites out of Egypt?", options:["Moses","Joshua","Aaron","Samuel"], correct:0},
+    {q:"Who was thrown into the lions' den?", options:["Daniel","Jonah","Elijah","Peter"], correct:0},
+    {q:"What did David use to defeat Goliath?", options:["A sling","A sword","A spear","A bow"], correct:0},
+    {q:"In which city was Jesus born?", options:["Bethlehem","Nazareth","Jerusalem","Jericho"], correct:0},
+    {q:"How many apostles did Jesus choose?", options:["Twelve","Ten","Seven","Twenty"], correct:0},
+    {q:"Who denied Jesus three times?", options:["Peter","John","Judas","Thomas"], correct:0},
+    {q:"What did Jesus turn water into?", options:["Wine","Oil","Milk","Honey"], correct:0},
+    {q:"Who was swallowed by a great fish?", options:["Jonah","Noah","Elijah","Paul"], correct:0},
+    {q:"What is the first book of the Bible?", options:["Genesis","Exodus","Matthew","Psalms"], correct:0},
+    {q:"Who wrote many letters in the New Testament?", options:["Paul","John","Peter","Luke"], correct:0},
+    {q:"What did God create on the first day?", options:["Light","Animals","Man","Stars"], correct:0},
+    {q:"Who was Jesus' mother?", options:["Mary","Martha","Ruth","Esther"], correct:0},
+    {q:"How many days was Jesus in the tomb before rising?", options:["Three","Seven","One","Forty"], correct:0}
+  ];
+  function startBibleQuiz(){
+    var pool = shuffleArr(BIBLE_QUIZ.slice());
+    var questions = pool.slice(0, Math.min(8, pool.length)).map(function(item){
+      var correctText = item.options[item.correct];
+      return {q:item.q, options:shuffleArr(item.options.slice()), correct:correctText};
+    });
+    var idx = 0, score = 0, answered = false;
+
+    function render(){
+      var item = questions[idx];
+      var optsHtml = item.options.map(function(o){
+        return '<button class="lp-opt">'+escapeHtml(o)+'</button>';
+      }).join('');
+      var html = extraHeader("Quiz Bíblico")+
+        '<div class="lp-body"><div class="lp-wrap">'+
+          '<div class="hg-status">Pergunta '+(idx+1)+' de '+questions.length+' · Acertos: '+score+'</div>'+
+          '<div class="card" style="margin:14px 0; padding:18px;"><p style="font-size:17px; font-weight:700;">'+escapeHtml(item.q)+'</p></div>'+
+          '<div class="lp-options" id="bq-opts">'+optsHtml+'</div>'+
+        '</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      answered = false;
+      wire();
+    }
+    function wire(){
+      document.querySelectorAll("#bq-opts .lp-opt").forEach(function(btn){
+        btn.addEventListener("click", function(){
+          if (answered) return;
+          answered = true;
+          var item = questions[idx];
+          var isCorrect = btn.textContent === item.correct;
+          if (isCorrect) score++;
+          document.querySelectorAll("#bq-opts .lp-opt").forEach(function(b){
+            if (b.textContent === item.correct) b.classList.add("correct");
+            else if (b === btn) b.classList.add("wrong");
+            b.disabled = true;
+          });
+          setTimeout(function(){
+            idx++;
+            if (idx < questions.length) render();
+            else finish();
+          }, 900);
+        });
+      });
+    }
+    function finish(){
+      var xp = score * 2;
+      if (xp>0){ addXp(xp); saveState(); renderStatbar(); }
+      var html = extraHeader("Quiz Bíblico")+
+        '<div class="lp-body"><div class="extra-result">'+
+          '<div class="big">'+(score===questions.length ? "🏆 Perfeito!" : "📖 Boa!")+'</div>'+
+          '<p>Você acertou '+score+' de '+questions.length+' perguntas.</p>'+
+          (xp>0 ? '<p style="color:var(--accent-ink); font-weight:700;">+'+xp+' XP</p>' : '')+
+        '</div></div>'+
+        '<div class="lp-footerbar"><div class="inner"><button class="action" id="bq-again" style="width:100%;">Jogar outra vez</button></div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      document.getElementById("bq-again").addEventListener("click", startBibleQuiz);
+    }
     render();
   }
 
