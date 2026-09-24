@@ -252,6 +252,42 @@
   nav.tabbar button svg{width:21px; height:21px;}
   nav.tabbar button.active{color:var(--accent-ink);}
 
+  /* ---- Splash (toda vez que abre) ---- */
+  .splash-screen{position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(160deg,#3a2f7a,#0c0d16 70%); transition:opacity .4s ease, visibility .4s ease;}
+  .splash-screen.hide{opacity:0; visibility:hidden; pointer-events:none;}
+  .splash-inner{display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; max-width:340px;}
+  .splash-logo{width:96px; height:96px; border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,.5); margin-bottom:6px; animation:splashLogoIn .7s cubic-bezier(.2,.9,.3,1.3) both;}
+  .splash-title{color:#fff; font-size:23px; font-weight:800; animation:splashFadeUp .6s ease .15s both;}
+  .splash-tagline{color:#d8d3ff; font-size:14px; font-weight:700; animation:splashFadeUp .6s ease .28s both;}
+  .splash-verse{color:#a89fe0; font-size:12.5px; font-style:italic; margin-top:18px; line-height:1.5; min-height:36px; animation:splashFadeUp .6s ease .45s both;}
+  @keyframes splashLogoIn{ from{opacity:0; transform:scale(.6) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);} }
+  @keyframes splashFadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion: reduce){
+    .splash-logo, .splash-title, .splash-tagline, .splash-verse{ animation:none; }
+  }
+
+  /* ---- Boas-vindas (só na primeira vez) ---- */
+  .onboarding-screen{position:fixed; inset:0; z-index:190; background:var(--bg); display:flex; flex-direction:column; justify-content:space-between; padding:32px 24px calc(24px + env(safe-area-inset-bottom)); touch-action:pan-y;}
+  .ob-slide{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:16px; animation:obSlideIn .35s ease both;}
+  .ob-slide.out-left{animation:obSlideOutLeft .22s ease both;}
+  .ob-slide.out-right{animation:obSlideOutRight .22s ease both;}
+  .ob-slide.in-left{animation:obSlideInLeft .35s ease both;}
+  @keyframes obSlideIn{ from{opacity:0; transform:translateX(28px);} to{opacity:1; transform:translateX(0);} }
+  @keyframes obSlideInLeft{ from{opacity:0; transform:translateX(-28px);} to{opacity:1; transform:translateX(0);} }
+  @keyframes obSlideOutLeft{ from{opacity:1; transform:translateX(0);} to{opacity:0; transform:translateX(-28px);} }
+  @keyframes obSlideOutRight{ from{opacity:1; transform:translateX(0);} to{opacity:0; transform:translateX(28px);} }
+  @media (prefers-reduced-motion: reduce){
+    .ob-slide, .ob-slide.out-left, .ob-slide.out-right, .ob-slide.in-left{ animation:none; }
+  }
+  .ob-icon{font-size:52px; line-height:1;}
+  .ob-title{font-size:22px; font-weight:800; color:var(--ink); max-width:320px;}
+  .ob-text{font-size:14.5px; color:var(--ink-soft); line-height:1.55; max-width:320px;}
+  .ob-dots{display:flex; justify-content:center; gap:7px; margin:18px 0;}
+  .ob-dot{width:7px; height:7px; border-radius:999px; background:var(--border); transition:width .2s, background .2s;}
+  .ob-dot.on{background:var(--accent); width:20px;}
+  .ob-actions{display:flex; align-items:center; gap:14px;}
+  .ob-skip{appearance:none; background:none; border:none; cursor:pointer; color:var(--ink-faint); font-weight:700; font-size:14px; font-family:'Inter',sans-serif; padding:13px 6px;}
+
   /* ---- Lesson player ---- */
   .lesson-overlay{position:fixed; inset:0; background:var(--bg); z-index:50; display:flex; flex-direction:column;}
   .lp-header{display:flex; align-items:center; gap:14px; padding:16px 18px 10px; flex-shrink:0;}
@@ -571,6 +607,17 @@
 
 <div class="lesson-overlay" id="lesson-overlay" hidden></div>
 <div class="lesson-overlay" id="extra-overlay" hidden></div>
+
+<div class="splash-screen" id="splash-screen">
+  <div class="splash-inner">
+    <img src="icons/icon-192.png" class="splash-logo" alt="" width="96" height="96">
+    <div class="splash-title">TheKing Idiomas</div>
+    <div class="splash-tagline">Aprende inglês com a Bíblia 👑📖</div>
+    <div class="splash-verse" id="splash-verse"></div>
+  </div>
+</div>
+
+<div class="onboarding-screen" id="onboarding-screen" hidden></div>
 
 <script>
 (function(){
@@ -3147,6 +3194,104 @@
     }
   }
 
+  // ================= SPLASH + BOAS-VINDAS =================
+  // Splash: aparece sempre que a app abre, por um tempinho mínimo (mesmo se o
+  // carregamento for instantâneo), pra dar aquele momento de marca antes da Trilha.
+  var SPLASH_MIN_MS = 1400;
+  var splashStartTime = Date.now();
+  function hideSplashScreen(){
+    var el = document.getElementById("splash-screen");
+    if (!el) return;
+    el.classList.add("hide");
+    setTimeout(function(){ el.hidden = true; }, 420);
+  }
+
+  // Boas-vindas: só na primeiríssima vez que alguém abre a app neste aparelho.
+  var ONBOARDING_KEY = "caixaDePalavras_onboarded_v1";
+  var ONBOARDING_SLIDES = [
+    {icon:"👑📖", title:"Bem-vindo(a) ao TheKing Idiomas", text:"Aprende inglês do jeito certo — com a Bíblia no centro de cada lição."},
+    {icon:"🎮", title:"Lições, jogos e desafios", text:"Vocabulário bíblico, Quiz Bíblico, Monta o Versículo e um versículo novo todo dia."},
+    {icon:"🏆", title:"Cresçam juntos", text:"Entra na Liga, convida amigos e cresçam juntos na fé e no inglês."}
+  ];
+  var obIndex = 0;
+  function showOnboardingIfNeeded(){
+    var seen = false;
+    try{ seen = localStorage.getItem(ONBOARDING_KEY) === "1"; }catch(e){}
+    if (seen) return;
+    obIndex = 0;
+    var el = document.getElementById("onboarding-screen");
+    if (!el) return;
+    el.hidden = false;
+    renderOnboardingSlide();
+    wireOnboardingSwipe(el);
+  }
+  function finishOnboarding(){
+    try{ localStorage.setItem(ONBOARDING_KEY, "1"); }catch(e){}
+    var el = document.getElementById("onboarding-screen");
+    if (el) el.hidden = true;
+  }
+  // direction: "next" | "prev" | undefined (primeira renderização, sem animação de saída)
+  function goToOnboardingSlide(newIndex, direction){
+    if (newIndex < 0 || newIndex >= ONBOARDING_SLIDES.length) return;
+    var current = document.querySelector("#onboarding-screen .ob-slide");
+    if (current && direction){
+      current.classList.add(direction === "next" ? "out-left" : "out-right");
+      setTimeout(function(){ obIndex = newIndex; renderOnboardingSlide(direction); }, 180);
+    } else {
+      obIndex = newIndex;
+      renderOnboardingSlide();
+    }
+  }
+  function renderOnboardingSlide(direction){
+    var el = document.getElementById("onboarding-screen");
+    if (!el) return;
+    var s = ONBOARDING_SLIDES[obIndex];
+    var isLast = obIndex === ONBOARDING_SLIDES.length - 1;
+    var dots = ONBOARDING_SLIDES.map(function(_, i){ return '<span class="ob-dot'+(i===obIndex?' on':'')+'"></span>'; }).join('');
+    var slideCls = "ob-slide" + (direction === "prev" ? " in-left" : "");
+    el.innerHTML =
+      '<div class="'+slideCls+'">'+
+        '<div class="ob-icon">'+s.icon+'</div>'+
+        '<div class="ob-title">'+escapeHtml(s.title)+'</div>'+
+        '<div class="ob-text">'+escapeHtml(s.text)+'</div>'+
+      '</div>'+
+      '<div class="ob-dots">'+dots+'</div>'+
+      '<div class="ob-actions">'+
+        (isLast ? '' : '<button class="ob-skip" id="ob-skip" type="button">Pular</button>')+
+        '<button class="action" id="ob-next" type="button" style="'+(isLast?'width:100%;':'flex:1;')+'">'+(isLast ? "Vamos começar! 👑" : "Próximo")+'</button>'+
+      '</div>';
+    var nextBtn = document.getElementById("ob-next");
+    if (nextBtn) nextBtn.addEventListener("click", function(){
+      if (isLast) finishOnboarding();
+      else goToOnboardingSlide(obIndex+1, "next");
+    });
+    var skipBtn = document.getElementById("ob-skip");
+    if (skipBtn) skipBtn.addEventListener("click", finishOnboarding);
+  }
+  // Deslizar com o dedo também navega entre os slides, pra parecer nativo — além
+  // dos botões, que continuam funcionando normalmente com mouse/teclado.
+  function wireOnboardingSwipe(el){
+    var startX = null, startY = null;
+    el.addEventListener("touchstart", function(e){
+      if (!e.touches || !e.touches.length) return;
+      startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+    }, {passive:true});
+    el.addEventListener("touchend", function(e){
+      if (startX === null) return;
+      var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
+      var endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : startY;
+      var dx = endX - startX, dy = endY - startY;
+      startX = null; startY = null;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx < 0){
+        if (obIndex < ONBOARDING_SLIDES.length - 1) goToOnboardingSlide(obIndex+1, "next");
+        else finishOnboarding();
+      } else {
+        if (obIndex > 0) goToOnboardingSlide(obIndex-1, "prev");
+      }
+    }, {passive:true});
+  }
+
   // ================= INIT =================
   async function init(){
     captureLigaRef();
@@ -3164,6 +3309,22 @@
     saveState();
     // Sem await: a confirmação do pagamento pode demorar e não deve travar o app.
     checkPendingOrder();
+
+    var splashVerseEl = document.getElementById("splash-verse");
+    if (splashVerseEl){
+      var v = todaysVerse();
+      splashVerseEl.textContent = "“"+v.en+"”";
+    }
+    // Navegadores automatizados (testes, crawlers) anunciam navigator.webdriver=true;
+    // pulamos a espera mínima e o carrossel de onboarding nesse caso, pra não travar
+    // scripts que interagem com o app logo após o carregamento.
+    var isAutomatedBrowser = (function(){ try{ return !!navigator.webdriver; }catch(e){ return false; } })();
+    var elapsed = Date.now() - splashStartTime;
+    var splashDelay = isAutomatedBrowser ? 0 : Math.max(0, SPLASH_MIN_MS - elapsed);
+    setTimeout(function(){
+      hideSplashScreen();
+      if (!isAutomatedBrowser) showOnboardingIfNeeded();
+    }, splashDelay);
   }
   init();
 
