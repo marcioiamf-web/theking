@@ -248,7 +248,7 @@
   nav.tabbar{position:fixed; left:0; right:0; bottom:0; z-index:40; background:rgba(12,13,22,0.92); backdrop-filter:blur(10px); border-top:1px solid var(--border); display:flex; justify-content:center;}
   .tabbar-logo{display:none;}
   nav.tabbar .inner{max-width:460px; width:100%; display:flex;}
-  nav.tabbar button{flex:1; appearance:none; border:none; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 4px 12px; color:var(--ink-faint); font-size:11px; font-weight:600; font-family:'Inter',sans-serif;}
+  nav.tabbar button{flex:1; appearance:none; border:none; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 1px 12px; min-width:0; color:var(--ink-faint); font-size:10.5px; font-weight:600; font-family:'Inter',sans-serif;}
   nav.tabbar button svg{width:21px; height:21px;}
   nav.tabbar button.active{color:var(--accent-ink);}
 
@@ -287,6 +287,49 @@
   .ob-dot.on{background:var(--accent); width:20px;}
   .ob-actions{display:flex; align-items:center; gap:14px;}
   .ob-skip{appearance:none; background:none; border:none; cursor:pointer; color:var(--ink-faint); font-weight:700; font-size:14px; font-family:'Inter',sans-serif; padding:13px 6px;}
+
+  /* ---- Bíblia (leitor inglês + português) ---- */
+  .bible-nav{display:flex; align-items:center; gap:8px; margin-bottom:12px;}
+  .bible-nav .bn-arrow{appearance:none; cursor:pointer; flex-shrink:0; width:42px; height:42px; border-radius:12px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-size:18px; font-family:'Inter',sans-serif; display:flex; align-items:center; justify-content:center;}
+  .bible-nav .bn-arrow[disabled]{opacity:.3; cursor:default;}
+  .bible-nav .bn-pick{appearance:none; cursor:pointer; flex:1; min-width:0; height:42px; border-radius:12px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--ink); font-family:'Inter',sans-serif; font-weight:800; font-size:15px; display:flex; align-items:center; justify-content:center; gap:8px; padding:0 10px;}
+  .bible-nav .bn-pick small{font-weight:600; color:var(--accent-ink); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .bible-tools{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
+  .bible-tools .chip{opacity:1;}
+  .bible-tools .chip.playing{background:var(--accent); color:#0c0d16; border-color:var(--accent);}
+  .bible-hint{font-size:12px; color:var(--ink-faint); margin:0 0 14px; line-height:1.45;}
+  .bible-text{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:6px 14px;}
+  .bv{display:flex; gap:10px; padding:11px 0; border-bottom:1px solid var(--border-soft); scroll-margin-top:80px; transition:background .3s;}
+  .bv:last-child{border-bottom:none;}
+  .bv.hl, .bv.reading{background:var(--accent-soft); margin:0 -14px; padding-left:14px; padding-right:14px;}
+  .bv-num{appearance:none; cursor:pointer; flex-shrink:0; min-width:28px; height:24px; border-radius:7px; border:none; background:var(--surface-alt); color:var(--accent-ink); font-size:11.5px; font-weight:800; font-family:'Inter',sans-serif; padding:0 5px; margin-top:1px;}
+  .bv-num:hover, .bv.reading .bv-num{background:var(--accent); color:#0c0d16;}
+  .bv-body{flex:1; min-width:0;}
+  .bv-en{font-size:15.5px; line-height:1.6; color:var(--ink); font-weight:500;}
+  .bv-en .lp-word{text-decoration-color:var(--border);}
+  .bv-pt{font-size:13.5px; line-height:1.55; color:var(--ink-soft); margin-top:4px; transition:filter .25s;}
+  .bible-hide-pt .bv-pt{filter:blur(5px); cursor:pointer; user-select:none;}
+  .bible-hide-pt .bv-pt.revealed{filter:none; cursor:auto; user-select:auto;}
+  .bible-status{padding:28px 10px; text-align:center; color:var(--ink-soft); font-size:14px; line-height:1.5;}
+  .bible-done{margin-top:14px;}
+  .bible-done .btn-outline.done{border-color:var(--success); color:var(--success); cursor:default;}
+  .bible-count{font-size:12px; color:var(--ink-faint); text-align:center; margin-top:8px;}
+  .bible-credit{font-size:11px; color:var(--ink-faint); line-height:1.5; margin-top:18px; text-align:center;}
+  .bible-credit a{color:var(--ink-soft);}
+  .verse-more{appearance:none; cursor:pointer; border:none; background:none; color:var(--accent-ink); font-weight:700; font-size:12.5px; font-family:'Inter',sans-serif; padding:0;}
+  .verse-foot{display:flex; justify-content:space-between; align-items:center; gap:10px;}
+  .bp-body{flex:1; overflow-y:auto; padding:4px 18px 28px;}
+  .bp-sec{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--ink-faint); margin:14px 0 8px;}
+  .bp-books{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:7px;}
+  .bp-book{appearance:none; cursor:pointer; text-align:left; border:1px solid var(--border); background:var(--surface); color:var(--ink); border-radius:11px; padding:9px 11px; font-family:'Inter',sans-serif;}
+  .bp-book b{display:block; font-size:13.5px; font-weight:700;}
+  .bp-book span{display:block; font-size:11px; color:var(--ink-faint); margin-top:1px;}
+  .bp-book.cur{border-color:var(--accent); background:var(--accent-soft);}
+  .bp-chaps{display:grid; grid-template-columns:repeat(auto-fill, minmax(48px, 1fr)); gap:7px;}
+  .bp-chap{appearance:none; cursor:pointer; height:46px; border-radius:11px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-weight:700; font-size:14.5px; font-family:'Inter',sans-serif; position:relative;}
+  .bp-chap.cur{border-color:var(--accent); background:var(--accent-soft);}
+  .bp-chap.read::after{content:""; position:absolute; top:6px; right:6px; width:6px; height:6px; border-radius:50%; background:var(--success);}
+  .bp-back{appearance:none; cursor:pointer; border:none; background:none; color:var(--accent-ink); font-weight:700; font-size:13.5px; font-family:'Inter',sans-serif; padding:6px 0; margin-top:4px;}
 
   /* ---- Lesson player ---- */
   .lesson-overlay{position:fixed; inset:0; background:var(--bg); z-index:50; display:flex; flex-direction:column;}
@@ -502,6 +545,11 @@
     <div class="clist" id="continue-list"></div>
   </section>
 
+  <section class="panel" id="panel-biblia">
+    <h3 class="sec">Bíblia · inglês e português</h3>
+    <div id="bible-reader"></div>
+  </section>
+
   <section class="panel" id="panel-practice">
     <p class="intro-line">Revise livremente qualquer categoria com flashcards — sem corações, sem pressa.</p>
     <div class="chipbar" id="study-chips"></div>
@@ -578,6 +626,10 @@
     <button data-tab="trilha" class="active">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
       <span>Início</span>
+    </button>
+    <button data-tab="biblia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg>
+      <span>Bíblia</span>
     </button>
     <button data-tab="practice">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
@@ -1224,7 +1276,8 @@
       xp:0, xpToday:0, xpTodayDate:null,
       hearts:5, heartsUpdatedAt:Date.now(),
       gems:0, streakFreezes:0,
-      voiceNames:{ en:null, es:null }
+      voiceNames:{ en:null, es:null },
+      bible:{ b:"jo", c:1, showPt:true, read:{} }
     };
   }
   var state = defaultState();
@@ -1465,14 +1518,14 @@
     }).join("");
   }
   // Liga o toque em cada palavra marcada por wordsHtml() dentro de um contentor.
-  function wireWordTaps(container){
+  function wireWordTaps(container, lang){
     if (!container) return;
     container.querySelectorAll(".lp-word").forEach(function(el){
       if (el._wired) return;
       el._wired = true;
       el.addEventListener("click", function(e){
         e.stopPropagation();
-        speak(el.dataset.w, curLang().speechLang);
+        speak(el.dataset.w, lang || curLang().speechLang);
         el.classList.add("tapped");
         setTimeout(function(){ el.classList.remove("tapped"); }, 350);
       });
@@ -1689,6 +1742,7 @@
       if (btn.dataset.tab === "trilha") renderTrilha();
       if (btn.dataset.tab === "extras") renderExtras();
       if (btn.dataset.tab === "liga") renderLiga();
+      if (btn.dataset.tab === "biblia") renderBible(); else stopBibleAudio();
       window.scrollTo(0,0);
     });
   });
@@ -2480,8 +2534,11 @@
       '<div class="verse-head"><span class="lbl">📖 Versículo do dia</span><button class="verse-listen" id="verse-listen" type="button" aria-label="Ouvir">🔊</button></div>'+
       '<div class="verse-en">'+wordsHtml(v.en)+'</div>'+
       '<div class="verse-pt">'+escapeHtml(v.pt)+' <span style="opacity:.7;">(tradução livre)</span></div>'+
-      '<div class="verse-ref">'+escapeHtml(v.ref)+' · KJV</div>';
-    wireWordTaps(el);
+      '<div class="verse-foot">'+(parseBibleRef(v.ref) ? '<button class="verse-more" id="verse-more" type="button">Ler o capítulo →</button>' : '<span></span>')+
+      '<span class="verse-ref">'+escapeHtml(v.ref)+' · KJV</span></div>';
+    wireWordTaps(el, "en-US");
+    var moreBtn = document.getElementById("verse-more");
+    if (moreBtn) moreBtn.addEventListener("click", function(){ openBibleAt(v.ref); });
     var listenBtn = document.getElementById("verse-listen");
     if (listenBtn) listenBtn.addEventListener("click", function(){ speak(v.en, "en-US"); });
   }
@@ -3197,6 +3254,290 @@
   // ================= SPLASH + BOAS-VINDAS =================
   // Splash: aparece sempre que a app abre, por um tempinho mínimo (mesmo se o
   // carregamento for instantâneo), pra dar aquele momento de marca antes da Trilha.
+  // ================= BÍBLIA (leitor inglês KJV + português Bíblia Livre) =================
+  // O texto vive em ficheiros separados (biblia/<livro>.json), um por livro, e só é
+  // descarregado quando a pessoa abre esse livro. O service worker guarda cada livro
+  // aberto em cache, por isso depois funciona sem internet.
+  // Cada entrada: [sigla do ficheiro, nome em inglês, nome em português, nº de capítulos]
+  var BIBLE_BOOKS = [["gn","Genesis","Gênesis",50],["ex","Exodus","Êxodo",40],["lv","Leviticus","Levítico",27],["nm","Numbers","Números",36],["dt","Deuteronomy","Deuteronômio",34],["js","Joshua","Josué",24],["jz","Judges","Juízes",21],["rt","Ruth","Rute",4],["1sm","1 Samuel","1 Samuel",31],["2sm","2 Samuel","2 Samuel",24],["1rs","1 Kings","1 Reis",22],["2rs","2 Kings","2 Reis",25],["1cr","1 Chronicles","1 Crônicas",29],["2cr","2 Chronicles","2 Crônicas",36],["ed","Ezra","Esdras",10],["ne","Nehemiah","Neemias",13],["et","Esther","Ester",10],["job","Job","Jó",42],["sl","Psalms","Salmos",150],["pv","Proverbs","Provérbios",31],["ec","Ecclesiastes","Eclesiastes",12],["ct","Song of Solomon","Cantares",8],["is","Isaiah","Isaías",66],["jr","Jeremiah","Jeremias",52],["lm","Lamentations","Lamentações",5],["ez","Ezekiel","Ezequiel",48],["dn","Daniel","Daniel",12],["os","Hosea","Oseias",14],["jl","Joel","Joel",3],["am","Amos","Amós",9],["ob","Obadiah","Obadias",1],["jn","Jonah","Jonas",4],["mq","Micah","Miqueias",7],["na","Nahum","Naum",3],["hc","Habakkuk","Habacuque",3],["sf","Zephaniah","Sofonias",3],["ag","Haggai","Ageu",2],["zc","Zechariah","Zacarias",14],["ml","Malachi","Malaquias",4],["mt","Matthew","Mateus",28],["mc","Mark","Marcos",16],["lc","Luke","Lucas",24],["jo","John","João",21],["at","Acts","Atos",28],["rm","Romans","Romanos",16],["1co","1 Corinthians","1 Coríntios",16],["2co","2 Corinthians","2 Coríntios",13],["gl","Galatians","Gálatas",6],["ef","Ephesians","Efésios",6],["fp","Philippians","Filipenses",4],["cl","Colossians","Colossenses",4],["1ts","1 Thessalonians","1 Tessalonicenses",5],["2ts","2 Thessalonians","2 Tessalonicenses",3],["1tm","1 Timothy","1 Timóteo",6],["2tm","2 Timothy","2 Timóteo",4],["tt","Titus","Tito",3],["fm","Philemon","Filemom",1],["hb","Hebrews","Hebreus",13],["tg","James","Tiago",5],["1pe","1 Peter","1 Pedro",5],["2pe","2 Peter","2 Pedro",3],["1jo","1 John","1 João",5],["2jo","2 John","2 João",1],["3jo","3 John","3 João",1],["jd","Jude","Judas",1],["ap","Revelation","Apocalipse",22]];
+  var BIBLE_NT_START = 39; // Mateus é o 40º livro (índice 39)
+  var BIBLE_READ_XP = 5;
+  var bibleCache = {};
+  var bibleRenderSeq = 0;
+  var bibleAudioToken = 0;
+
+  function bibleState(){
+    if (!state.bible || typeof state.bible !== "object") state.bible = {};
+    var b = state.bible;
+    if (bibleBookIndex(b.b) < 0) b.b = "jo";
+    var bk = BIBLE_BOOKS[bibleBookIndex(b.b)];
+    b.c = Math.max(1, Math.min(bk[3], parseInt(b.c, 10) || 1));
+    if (typeof b.showPt !== "boolean") b.showPt = true;
+    if (!b.read || typeof b.read !== "object") b.read = {};
+    return b;
+  }
+  function bibleBookIndex(ab){
+    for (var i = 0; i < BIBLE_BOOKS.length; i++) if (BIBLE_BOOKS[i][0] === ab) return i;
+    return -1;
+  }
+  function bibleReadCount(){
+    var r = bibleState().read, n = 0;
+    for (var k in r) if (r[k]) n++;
+    return n;
+  }
+  var BIBLE_TOTAL_CHAPTERS = BIBLE_BOOKS.reduce(function(s, b){ return s + b[3]; }, 0);
+
+  function loadBibleBook(ab){
+    if (bibleCache[ab]) return Promise.resolve(bibleCache[ab]);
+    return fetch("biblia/" + ab + ".json").then(function(res){
+      if (!res.ok) throw new Error("http " + res.status);
+      return res.json();
+    }).then(function(data){
+      bibleCache[ab] = data;
+      return data;
+    });
+  }
+
+  // Aceita referências em inglês ou português ("1 John 4:19", "Psalm 23:1", "Salmo 23:1",
+  // "Psalm 121:1-2") e devolve {b, c, v} — ou null se não reconhecer o livro.
+  function parseBibleRef(ref){
+    var m = /^(.+?)\s+(\d+):(\d+)/.exec(String(ref || "").trim());
+    if (!m) return null;
+    var name = m[1].toLowerCase().replace(/^psalm$/, "psalms").replace(/^salmo$/, "salmos");
+    for (var i = 0; i < BIBLE_BOOKS.length; i++){
+      var bk = BIBLE_BOOKS[i];
+      if (bk[1].toLowerCase() === name || bk[2].toLowerCase() === name){
+        return { b: bk[0], c: parseInt(m[2], 10), v: parseInt(m[3], 10) };
+      }
+    }
+    return null;
+  }
+
+  function openBibleAt(ref){
+    var r = parseBibleRef(ref);
+    if (!r) return;
+    var bs = bibleState();
+    bs.b = r.b; bs.c = r.c;
+    saveState();
+    var btn = document.querySelector('nav.tabbar button[data-tab="biblia"]');
+    if (btn) btn.click();
+    renderBible({ highlight: r.v });
+  }
+
+  function bibleStep(delta){
+    var bs = bibleState();
+    var i = bibleBookIndex(bs.b), c = bs.c + delta;
+    if (c < 1){
+      if (i === 0) return;
+      i -= 1; c = BIBLE_BOOKS[i][3];
+    } else if (c > BIBLE_BOOKS[i][3]){
+      if (i === BIBLE_BOOKS.length - 1) return;
+      i += 1; c = 1;
+    }
+    bs.b = BIBLE_BOOKS[i][0]; bs.c = c;
+    saveState();
+    renderBible();
+    window.scrollTo(0, 0);
+  }
+
+  function stopBibleAudio(){
+    bibleAudioToken++;
+    try{ if (window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+    document.querySelectorAll("#bible-reader .bv.reading").forEach(function(el){ el.classList.remove("reading"); });
+    var b = document.getElementById("bible-play");
+    if (b){ b.classList.remove("playing"); b.textContent = "▶ Ouvir capítulo"; }
+  }
+
+  // Lê os versículos um a um (cada um é uma frase curta, o que evita o corte de
+  // falas longas em alguns navegadores) e destaca o versículo que está a ser lido.
+  function playBibleChapter(rows, startIdx){
+    if (!('speechSynthesis' in window)) return;
+    stopBibleAudio();
+    var token = bibleAudioToken;
+    var btn = document.getElementById("bible-play");
+    if (btn){ btn.classList.add("playing"); btn.textContent = "■ Parar"; }
+    var i = startIdx || 0;
+    function next(){
+      if (token !== bibleAudioToken) return;
+      document.querySelectorAll("#bible-reader .bv.reading").forEach(function(el){ el.classList.remove("reading"); });
+      if (i >= rows.length){ stopBibleAudio(); return; }
+      var row = document.querySelector('#bible-reader .bv[data-v="' + (i + 1) + '"]');
+      if (row){
+        row.classList.add("reading");
+        try{ row.scrollIntoView({ block: "center", behavior: "smooth" }); }catch(e){}
+      }
+      var u = new SpeechSynthesisUtterance(rows[i][0]);
+      u.lang = "en-US";
+      u.rate = 0.9;
+      var voice = pickBestVoice(state.voiceNames && state.voiceNames.en, "en");
+      if (voice) u.voice = voice;
+      u.onend = function(){ i++; setTimeout(next, 250); };
+      u.onerror = function(){ if (token === bibleAudioToken){ i++; setTimeout(next, 250); } };
+      window.speechSynthesis.speak(u);
+    }
+    setTimeout(next, 60);
+  }
+
+  function renderBible(opts){
+    opts = opts || {};
+    var el = document.getElementById("bible-reader");
+    if (!el) return;
+    stopBibleAudio();
+    var bs = bibleState();
+    var bi = bibleBookIndex(bs.b), bk = BIBLE_BOOKS[bi];
+    var atStart = bi === 0 && bs.c === 1;
+    var atEnd = bi === BIBLE_BOOKS.length - 1 && bs.c === bk[3];
+    var seq = ++bibleRenderSeq;
+
+    el.innerHTML =
+      '<div class="bible-nav">' +
+        '<button class="bn-arrow" id="bible-prev" type="button" aria-label="Capítulo anterior"' + (atStart ? ' disabled' : '') + '>‹</button>' +
+        '<button class="bn-pick" id="bible-pick" type="button">' + escapeHtml(bk[1] + ' ' + bs.c) + ' <small>· ' + escapeHtml(bk[2]) + '</small></button>' +
+        '<button class="bn-arrow" id="bible-next" type="button" aria-label="Próximo capítulo"' + (atEnd ? ' disabled' : '') + '>›</button>' +
+      '</div>' +
+      '<div class="bible-tools">' +
+        '<button class="chip" id="bible-play" type="button">▶ Ouvir capítulo</button>' +
+        '<button class="chip' + (bs.showPt ? ' on' : '') + '" id="bible-pt-toggle" type="button">' + (bs.showPt ? '🇧🇷 Tradução visível' : '🙈 Tradução escondida') + '</button>' +
+      '</div>' +
+      '<p class="bible-hint">' + (bs.showPt
+        ? 'Toca numa palavra para ouvir a pronúncia · toca no número para ouvir o versículo inteiro.'
+        : 'Modo desafio: tenta entender o inglês primeiro — toca na tradução desfocada para a ver.') + '</p>' +
+      '<div class="bible-text' + (bs.showPt ? '' : ' bible-hide-pt') + '" id="bible-text"><div class="bible-status">A abrir ' + escapeHtml(bk[2]) + '…</div></div>' +
+      '<div class="bible-done" id="bible-done"></div>' +
+      '<p class="bible-credit">Inglês: King James Version (KJV), domínio público.<br>Português: <a href="https://sites.google.com/site/biblialivre/" target="_blank" rel="noopener">Bíblia Livre</a>, licença <a href="https://creativecommons.org/licenses/by/3.0/deed.pt_BR" target="_blank" rel="noopener">CC BY 3.0</a> — com pequenos ajustes de espaçamento.</p>';
+
+    document.getElementById("bible-prev").addEventListener("click", function(){ bibleStep(-1); });
+    document.getElementById("bible-next").addEventListener("click", function(){ bibleStep(1); });
+    document.getElementById("bible-pick").addEventListener("click", function(){ openBiblePicker(null); });
+    document.getElementById("bible-pt-toggle").addEventListener("click", function(){
+      bs.showPt = !bs.showPt;
+      saveState();
+      renderBible();
+    });
+
+    loadBibleBook(bk[0]).then(function(data){
+      if (seq !== bibleRenderSeq) return; // a pessoa já mudou de capítulo entretanto
+      var rows = (data.c && data.c[bs.c - 1]) || [];
+      var html = rows.map(function(r, i){
+        var n = i + 1;
+        return '<div class="bv" data-v="' + n + '">' +
+          '<button class="bv-num" type="button" data-play="' + i + '" aria-label="Ouvir versículo ' + n + '">' + n + '</button>' +
+          '<div class="bv-body">' +
+            '<div class="bv-en">' + wordsHtml(r[0]) + '</div>' +
+            (r[1] ? '<div class="bv-pt">' + escapeHtml(r[1]) + '</div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join("");
+      var textEl = document.getElementById("bible-text");
+      textEl.innerHTML = html || '<div class="bible-status">Capítulo não encontrado.</div>';
+      wireWordTaps(textEl, "en-US");
+      textEl.querySelectorAll(".bv-num").forEach(function(b){
+        b.addEventListener("click", function(){
+          stopBibleAudio();
+          var idx = parseInt(b.dataset.play, 10);
+          var row = b.closest(".bv");
+          if (row){ row.classList.add("reading"); setTimeout(function(){ row.classList.remove("reading"); }, 1500); }
+          speak(rows[idx][0], "en-US", { rate: 0.9 });
+        });
+      });
+      textEl.querySelectorAll(".bv-pt").forEach(function(p){
+        p.addEventListener("click", function(){ p.classList.add("revealed"); });
+      });
+      var playBtn = document.getElementById("bible-play");
+      if (playBtn) playBtn.addEventListener("click", function(){
+        if (playBtn.classList.contains("playing")) stopBibleAudio();
+        else playBibleChapter(rows, 0);
+      });
+      renderBibleDone();
+      if (opts.highlight){
+        var target = textEl.querySelector('.bv[data-v="' + opts.highlight + '"]');
+        if (target){
+          target.classList.add("hl");
+          setTimeout(function(){ try{ target.scrollIntoView({ block: "center" }); }catch(e){} }, 50);
+          setTimeout(function(){ target.classList.remove("hl"); }, 3500);
+        }
+      }
+    }).catch(function(){
+      if (seq !== bibleRenderSeq) return;
+      document.getElementById("bible-text").innerHTML =
+        '<div class="bible-status">📶 Não foi possível abrir este livro.<br>Liga-te à internet e tenta outra vez — depois de aberto uma vez, fica guardado para ler offline.<br><br><button class="chip on" id="bible-retry" type="button">Tentar outra vez</button></div>';
+      var r = document.getElementById("bible-retry");
+      if (r) r.addEventListener("click", function(){ renderBible(opts); });
+    });
+  }
+
+  function renderBibleDone(){
+    var el = document.getElementById("bible-done");
+    if (!el) return;
+    var bs = bibleState();
+    var key = bs.b + "." + bs.c;
+    var done = !!bs.read[key];
+    el.innerHTML =
+      (done
+        ? '<button class="btn-outline done" type="button" disabled>✓ Capítulo lido</button>'
+        : '<button class="btn-outline" id="bible-mark" type="button">✅ Li este capítulo (+' + BIBLE_READ_XP + ' XP)</button>') +
+      '<div class="bible-count">Capítulos lidos: ' + bibleReadCount() + ' de ' + BIBLE_TOTAL_CHAPTERS + '</div>';
+    var b = document.getElementById("bible-mark");
+    if (b) b.addEventListener("click", function(){
+      if (bs.read[key]) return;
+      bs.read[key] = 1;
+      addXp(BIBLE_READ_XP);
+      saveState();
+      renderStatbar();
+      renderBibleDone();
+    });
+  }
+
+  // Seletor de livro/capítulo, aberto por cima da app (reaproveita o overlay dos jogos).
+  function openBiblePicker(bookAb){
+    var bs = bibleState();
+    var html = extraHeader(bookAb ? "Escolhe o capítulo" : "Escolhe o livro") + '<div class="bp-body">';
+    if (!bookAb){
+      var booksHtml = function(from, to){
+        var h = '';
+        for (var i = from; i < to; i++){
+          var bk = BIBLE_BOOKS[i];
+          h += '<button class="bp-book' + (bk[0] === bs.b ? ' cur' : '') + '" type="button" data-book="' + bk[0] + '"><b>' + escapeHtml(bk[2]) + '</b><span>' + escapeHtml(bk[1]) + '</span></button>';
+        }
+        return h;
+      };
+      html += '<div class="bp-sec">Antigo Testamento</div><div class="bp-books">' + booksHtml(0, BIBLE_NT_START) + '</div>' +
+              '<div class="bp-sec">Novo Testamento</div><div class="bp-books">' + booksHtml(BIBLE_NT_START, BIBLE_BOOKS.length) + '</div>';
+    } else {
+      var bk = BIBLE_BOOKS[bibleBookIndex(bookAb)];
+      html += '<button class="bp-back" id="bp-back" type="button">‹ Todos os livros</button>' +
+              '<div class="bp-sec">' + escapeHtml(bk[2]) + ' · ' + escapeHtml(bk[1]) + '</div><div class="bp-chaps">';
+      for (var c = 1; c <= bk[3]; c++){
+        var cls = 'bp-chap' + (bk[0] === bs.b && c === bs.c ? ' cur' : '') + (bs.read[bk[0] + '.' + c] ? ' read' : '');
+        html += '<button class="' + cls + '" type="button" data-chap="' + c + '">' + c + '</button>';
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    extraOverlay.querySelectorAll(".bp-book").forEach(function(b){
+      b.addEventListener("click", function(){
+        var ab = b.dataset.book;
+        if (BIBLE_BOOKS[bibleBookIndex(ab)][3] === 1){ // livros de 1 capítulo abrem direto
+          bs.b = ab; bs.c = 1; saveState(); closeExtraOverlay(); renderBible(); window.scrollTo(0, 0);
+        } else {
+          openBiblePicker(ab);
+        }
+      });
+    });
+    extraOverlay.querySelectorAll(".bp-chap").forEach(function(b){
+      b.addEventListener("click", function(){
+        bs.b = bookAb; bs.c = parseInt(b.dataset.chap, 10);
+        saveState(); closeExtraOverlay(); renderBible(); window.scrollTo(0, 0);
+      });
+    });
+    var back = document.getElementById("bp-back");
+    if (back) back.addEventListener("click", function(){ openBiblePicker(null); });
+    var cur = extraOverlay.querySelector(".bp-book.cur, .bp-chap.cur");
+    if (cur){ try{ cur.scrollIntoView({ block: "center" }); }catch(e){} }
+  }
+
   var SPLASH_MIN_MS = 1400;
   var splashStartTime = Date.now();
   function hideSplashScreen(){
