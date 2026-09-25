@@ -251,6 +251,27 @@
   nav.tabbar button{flex:1; appearance:none; border:none; background:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 1px 12px; min-width:0; color:var(--ink-faint); font-size:10.5px; font-weight:600; font-family:'Inter',sans-serif;}
   nav.tabbar button svg{width:21px; height:21px;}
   nav.tabbar button.active{color:var(--accent-ink);}
+  /* Celular: 5 itens — Início, Bíblia, [Lição no centro], Jogos, Perfil.
+     Praticar e Palavras abrem pela tela Início; a Liga abre pelo Perfil. */
+  nav.tabbar .tab-desk{display:none;}
+  nav.tabbar button.active-parent{color:var(--accent-ink);}
+  nav.tabbar .tab-lesson{color:var(--ink-soft); justify-content:flex-end; gap:5px; padding-top:0;}
+  nav.tabbar .tab-lesson .tl-circle{position:relative; width:58px; height:58px; margin-top:-26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:26px; background:linear-gradient(150deg,#a99cff 0%,#7c6df2 55%,#5b4bd6 100%); box-shadow:0 0 0 5px var(--bg), 0 10px 24px rgba(124,109,242,.55); transition:transform .15s ease;}
+  nav.tabbar .tab-lesson:active .tl-circle{transform:scale(.93);}
+  nav.tabbar .tab-lesson.pulse .tl-circle::after{content:""; position:absolute; inset:-4px; border-radius:50%; border:2px solid var(--accent); animation:tlPulse 2.2s ease-out infinite; pointer-events:none;}
+  @keyframes tlPulse{ 0%{opacity:.9; transform:scale(1);} 80%,100%{opacity:0; transform:scale(1.35);} }
+  @media (prefers-reduced-motion: reduce){ nav.tabbar .tab-lesson.pulse .tl-circle::after{animation:none; opacity:.6;} }
+  .quick-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;}
+  .quick-card{appearance:none; cursor:pointer; display:flex; align-items:center; gap:11px; text-align:left; width:100%; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:13px 13px; color:var(--ink); font-family:'Inter',sans-serif;}
+  .quick-card:active{transform:scale(.98);}
+  .quick-card .qc-ic{width:38px; height:38px; flex-shrink:0; border-radius:11px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:19px;}
+  .quick-card .qc-text{flex:1; min-width:0;}
+  .quick-card b{display:block; font-size:14.5px; font-weight:700;}
+  .quick-card small{display:block; font-size:11.5px; color:var(--ink-faint); margin-top:2px; line-height:1.3;}
+  .quick-card .qc-chev{color:var(--ink-faint); font-size:22px; flex-shrink:0;}
+  .liga-entry{margin-bottom:20px; background:linear-gradient(155deg, var(--gold-soft), var(--surface) 75%);}
+  .liga-entry .qc-ic{background:rgba(245,200,107,.18);}
+  .subnav-back{appearance:none; cursor:pointer; border:none; background:none; color:var(--accent-ink); font-weight:700; font-size:14px; font-family:'Inter',sans-serif; padding:2px 0 12px;}
 
   /* ---- Splash (toda vez que abre) ---- */
   .splash-screen{position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; padding:24px; background:linear-gradient(160deg,#3a2f7a,#0c0d16 70%); transition:opacity .4s ease, visibility .4s ease;}
@@ -483,6 +504,10 @@
     }
     nav.tabbar button svg{width:19px; height:19px; flex-shrink:0;}
     nav.tabbar button.active{background:var(--accent-soft);}
+    nav.tabbar .tab-desk{display:flex;}
+    nav.tabbar .tab-lesson{display:none;}
+    nav.tabbar button.active-parent:not(.active){color:var(--ink-faint);}
+    .mobile-only{display:none !important;}
 
     .paybanner{ left:calc(50% + 112px); }
 
@@ -541,6 +566,10 @@
     </div>
     <div class="goal-card" id="goal-card"></div>
     <div class="verse-card" id="verse-card"></div>
+    <div class="quick-grid mobile-only">
+      <button class="quick-card" type="button" data-go="practice"><span class="qc-ic">🎤</span><span class="qc-text"><b>Praticar</b><small>Revisão com flashcards</small></span></button>
+      <button class="quick-card" type="button" data-go="grammar"><span class="qc-ic">📚</span><span class="qc-text"><b>Palavras</b><small>Dicas de gramática</small></span></button>
+    </div>
     <h3 class="sec">Continue assim</h3>
     <div class="clist" id="continue-list"></div>
   </section>
@@ -551,6 +580,7 @@
   </section>
 
   <section class="panel" id="panel-practice">
+    <button class="subnav-back mobile-only" type="button" data-go="trilha">‹ Início</button>
     <p class="intro-line">Revise livremente qualquer categoria com flashcards — sem corações, sem pressa.</p>
     <div class="chipbar" id="study-chips"></div>
     <div class="studytoolbar">
@@ -577,6 +607,7 @@
   </section>
 
   <section class="panel" id="panel-grammar">
+    <button class="subnav-back mobile-only" type="button" data-go="trilha">‹ Início</button>
     <h3 class="sec">Dicas de gramática</h3>
     <div id="grammar-list"></div>
   </section>
@@ -590,11 +621,13 @@
   </section>
 
   <section class="panel" id="panel-liga">
+    <button class="subnav-back mobile-only" type="button" data-go="progress">‹ Perfil</button>
     <h3 class="sec">Liga semanal</h3>
     <div id="liga-content"></div>
   </section>
 
   <section class="panel" id="panel-progress">
+    <button class="quick-card liga-entry mobile-only" type="button" data-go="liga"><span class="qc-ic">🏆</span><span class="qc-text"><b>Liga semanal</b><small>Compete com outros jogadores e sobe de liga</small></span><span class="qc-chev">›</span></button>
     <h3 class="sec">Seu progresso</h3>
     <div class="voice-row" id="voice-row" hidden>
       <label for="voice-select">Voz do áudio 🔊</label>
@@ -631,19 +664,23 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg>
       <span>Bíblia</span>
     </button>
-    <button data-tab="practice">
+    <button class="tab-lesson" id="tab-lesson" type="button" aria-label="Começar a próxima lição">
+      <span class="tl-circle">👑</span>
+      <span>Lição</span>
+    </button>
+    <button data-tab="practice" class="tab-desk">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
       <span>Praticar</span>
     </button>
-    <button data-tab="grammar">
+    <button data-tab="grammar" class="tab-desk">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5v-17Z"/><path d="M4 19a2.5 2.5 0 0 1 2.5-2.5H20"/></svg>
       <span>Palavras</span>
     </button>
     <button data-tab="extras">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M7 9v6M4.3 12h5.4"/><circle cx="15.5" cy="10.5" r="1"/><circle cx="18" cy="13" r="1"/></svg>
-      <span>Extra</span>
+      <span>Jogos</span>
     </button>
-    <button data-tab="liga">
+    <button data-tab="liga" class="tab-desk">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4v2a3 3 0 0 0 3 2.8M17 5h3v2a3 3 0 0 1-3 2.8"/></svg>
       <span>Liga</span>
     </button>
@@ -1732,20 +1769,45 @@
   }
 
   // ================= TAB BAR (bottom) =================
-  document.querySelectorAll("nav.tabbar button").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      document.querySelectorAll("nav.tabbar button").forEach(function(b){b.classList.remove("active");});
-      document.querySelectorAll("section.panel").forEach(function(p){p.classList.remove("active");});
-      btn.classList.add("active");
-      document.getElementById("panel-"+btn.dataset.tab).classList.add("active");
-      if (btn.dataset.tab === "progress") renderProgress();
-      if (btn.dataset.tab === "trilha") renderTrilha();
-      if (btn.dataset.tab === "extras") renderExtras();
-      if (btn.dataset.tab === "liga") renderLiga();
-      if (btn.dataset.tab === "biblia") renderBible(); else stopBibleAudio();
-      window.scrollTo(0,0);
-    });
+  // No celular, Praticar/Palavras vivem "dentro" do Início e a Liga "dentro" do Perfil:
+  // ao abrir uma delas, o ícone da aba-mãe fica aceso na barra de baixo.
+  var TAB_PARENT = { practice:"trilha", grammar:"trilha", liga:"progress" };
+  function goTab(tab){
+    var panel = document.getElementById("panel-"+tab);
+    if (!panel) return;
+    document.querySelectorAll("nav.tabbar button[data-tab]").forEach(function(b){ b.classList.remove("active","active-parent"); });
+    document.querySelectorAll("section.panel").forEach(function(p){ p.classList.remove("active"); });
+    var btn = document.querySelector('nav.tabbar button[data-tab="'+tab+'"]');
+    if (btn) btn.classList.add("active");
+    var parentBtn = TAB_PARENT[tab] && document.querySelector('nav.tabbar button[data-tab="'+TAB_PARENT[tab]+'"]');
+    if (parentBtn) parentBtn.classList.add("active-parent");
+    panel.classList.add("active");
+    if (tab === "progress") renderProgress();
+    if (tab === "trilha") renderTrilha();
+    if (tab === "extras") renderExtras();
+    if (tab === "liga") renderLiga();
+    if (tab === "biblia") renderBible(); else stopBibleAudio();
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll("nav.tabbar button[data-tab]").forEach(function(btn){
+    btn.addEventListener("click", function(){ goTab(btn.dataset.tab); });
   });
+  document.querySelectorAll("[data-go]").forEach(function(el){
+    el.addEventListener("click", function(){ goTab(el.dataset.go); });
+  });
+  // Botão central: abre direto a próxima lição. Se não houver corações, leva ao Início
+  // (onde aparece quanto falta para o próximo); se já fez todas, leva ao Praticar.
+  function startNextLessonFromTabbar(){
+    regenHearts();
+    var all = flattenLessons();
+    var next = null;
+    for (var i=0;i<all.length;i++){ if (all[i].unlocked && !all[i].done){ next = all[i]; break; } }
+    if (!next){ goTab("practice"); return; }
+    if (state.hearts <= 0){ goTab("trilha"); return; }
+    openLesson(next.catKey, next.lessonIdx);
+  }
+  var tabLessonBtn = document.getElementById("tab-lesson");
+  if (tabLessonBtn) tabLessonBtn.addEventListener("click", startNextLessonFromTabbar);
 
   // ================= HOME DASHBOARD (goal card + continue list) =================
   function svgIcon(kind){
@@ -2304,6 +2366,8 @@
 
   // ================= HEADER STATS (hearts / gems / streak pills) =================
   function renderStatbar(){
+    var tl = document.getElementById("tab-lesson");
+    if (tl){ ensureDailyGoalFresh(); tl.classList.toggle("pulse", state.xpToday < DAILY_GOAL_XP); }
     regenHearts();
     document.getElementById("stat-streak").textContent = state.streak;
     document.getElementById("stat-hearts").textContent = state.hearts;
