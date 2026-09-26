@@ -269,6 +269,7 @@
   .quick-card b{display:block; font-size:14.5px; font-weight:700;}
   .quick-card small{display:block; font-size:11.5px; color:var(--ink-faint); margin-top:2px; line-height:1.3;}
   .quick-card .qc-chev{color:var(--ink-faint); font-size:22px; flex-shrink:0;}
+  .install-entry{margin-bottom:10px;}
   .liga-entry{margin-bottom:20px; background:linear-gradient(155deg, var(--gold-soft), var(--surface) 75%);}
   .liga-entry .qc-ic{background:rgba(245,200,107,.18);}
   .subnav-back{appearance:none; cursor:pointer; border:none; background:none; color:var(--accent-ink); font-weight:700; font-size:14px; font-family:'Inter',sans-serif; padding:2px 0 12px;}
@@ -351,6 +352,28 @@
   .bp-chap.cur{border-color:var(--accent); background:var(--accent-soft);}
   .bp-chap.read::after{content:""; position:absolute; top:6px; right:6px; width:6px; height:6px; border-radius:50%; background:var(--success);}
   .bp-back{appearance:none; cursor:pointer; border:none; background:none; color:var(--accent-ink); font-weight:700; font-size:13.5px; font-family:'Inter',sans-serif; padding:6px 0; margin-top:4px;}
+
+  /* ---- Tutorial "Adicionar à tela inicial" (só no celular) ---- */
+  .install-sheet{position:fixed; inset:0; z-index:180; display:flex; align-items:flex-end; justify-content:center; background:rgba(5,5,12,.62); backdrop-filter:blur(3px); animation:isFade .25s ease both;}
+  .install-card{width:100%; max-width:480px; background:var(--surface); border:1px solid var(--border); border-bottom:none; border-radius:24px 24px 0 0; padding:10px 20px calc(20px + env(safe-area-inset-bottom)); box-shadow:0 -20px 50px rgba(0,0,0,.5); animation:isUp .32s cubic-bezier(.2,.9,.3,1.05) both; max-height:92vh; overflow-y:auto;}
+  .install-grip{width:40px; height:4px; border-radius:99px; background:var(--border); margin:0 auto 14px;}
+  .install-head{display:flex; align-items:center; gap:14px; margin-bottom:6px;}
+  .install-head img{width:56px; height:56px; border-radius:14px; flex-shrink:0; box-shadow:0 6px 18px rgba(0,0,0,.4);}
+  .install-head h4{margin:0; font-size:18px; font-weight:800; color:var(--ink); line-height:1.25;}
+  .install-sub{font-size:13.5px; color:var(--ink-soft); line-height:1.5; margin:8px 0 16px;}
+  .install-steps{list-style:none; margin:0 0 16px; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .install-steps li{display:flex; align-items:center; gap:12px; background:var(--surface-sunken); border:1px solid var(--border-soft); border-radius:14px; padding:11px 13px; font-size:14px; color:var(--ink); line-height:1.45;}
+  .install-steps .n{width:26px; height:26px; flex-shrink:0; border-radius:50%; background:var(--accent); color:#0c0d16; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center;}
+  .install-steps .ico{display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; width:26px; height:26px; border-radius:7px; background:var(--surface-alt); color:var(--accent-ink); margin:0 2px;}
+  .install-steps .ico svg{width:17px; height:17px;}
+  .install-steps b{color:var(--accent-ink);}
+  .install-perks{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 16px;}
+  .install-perks span{font-size:12px; font-weight:600; color:var(--ink-soft); background:var(--surface-alt); border-radius:999px; padding:5px 10px;}
+  .install-go{width:100%; margin-bottom:8px; background:var(--accent); color:#0c0d16; border:none; font-size:15.5px; padding:14px;}
+  .install-later{appearance:none; cursor:pointer; width:100%; border:none; background:none; color:var(--ink-faint); font-weight:700; font-size:14px; font-family:'Inter',sans-serif; padding:10px;}
+  @keyframes isFade{ from{opacity:0;} to{opacity:1;} }
+  @keyframes isUp{ from{transform:translateY(40px); opacity:.4;} to{transform:translateY(0); opacity:1;} }
+  @media (prefers-reduced-motion: reduce){ .install-sheet, .install-card{animation:none;} }
 
   /* ---- Lesson player ---- */
   .lesson-overlay{position:fixed; inset:0; background:var(--bg); z-index:50; display:flex; flex-direction:column;}
@@ -627,6 +650,7 @@
   </section>
 
   <section class="panel" id="panel-progress">
+    <button class="quick-card install-entry" id="install-entry" type="button" hidden><span class="qc-ic">📲</span><span class="qc-text"><b>Instalar na tela inicial</b><small>Abre o TheKing com um toque, como um app</small></span><span class="qc-chev">›</span></button>
     <button class="quick-card liga-entry mobile-only" type="button" data-go="liga"><span class="qc-ic">🏆</span><span class="qc-text"><b>Liga semanal</b><small>Compete com outros jogadores e sobe de liga</small></span><span class="qc-chev">›</span></button>
     <h3 class="sec">Seu progresso</h3>
     <div class="voice-row" id="voice-row" hidden>
@@ -707,6 +731,8 @@
 </div>
 
 <div class="onboarding-screen" id="onboarding-screen" hidden></div>
+
+<div class="install-sheet" id="install-sheet" hidden></div>
 
 <script>
 (function(){
@@ -3607,6 +3633,165 @@
     if (cur){ try{ cur.scrollIntoView({ block: "center" }); }catch(e){} }
   }
 
+
+  // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
+  // Só aparece no celular e só se o app ainda não estiver instalado. No Android (Chrome,
+  // Edge, Samsung…) usamos o pedido de instalação nativo quando o navegador o oferece;
+  // no iPhone não existe esse pedido, por isso mostramos o passo a passo do Safari.
+  var INSTALL_SNOOZE_KEY = "theking_install_snooze_until";
+  var INSTALL_DONE_KEY = "theking_install_done";
+  var INSTALL_SNOOZE_DAYS = 3;
+  var deferredInstallPrompt = null;
+
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault(); // guardamos o pedido para o mostrar no nosso tutorial, no momento certo
+    deferredInstallPrompt = e;
+    refreshInstallEntry();
+    var sheet = document.getElementById("install-sheet");
+    if (sheet && !sheet.hidden) renderInstallSheet();
+  });
+  window.addEventListener("appinstalled", function(){
+    try{ localStorage.setItem(INSTALL_DONE_KEY, "1"); }catch(e){}
+    deferredInstallPrompt = null;
+    closeInstallSheet();
+    refreshInstallEntry();
+    showLigaBanner("🎉 App instalado! Agora é só abrir pelo ícone na tela inicial.", "ok", 5000);
+  });
+
+  function isStandaloneApp(){
+    try{
+      if (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) return true;
+      if (window.matchMedia && window.matchMedia("(display-mode: fullscreen)").matches) return true;
+    }catch(e){}
+    return window.navigator.standalone === true; // iPhone
+  }
+  function installPlatform(){
+    var ua = navigator.userAgent || "";
+    var isIOS = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    // Navegadores dentro de apps (Instagram, Facebook, TikTok…) não deixam instalar.
+    if (/Instagram|FBAN|FBAV|FB_IAB|musical_ly|BytedanceWebview|TikTok|Snapchat|Line\//i.test(ua)) return "inapp";
+    if (isIOS) return /CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua) ? "ios-other" : "ios-safari";
+    if (/Android/i.test(ua)) return "android";
+    return null; // computador
+  }
+  function installAlreadyDone(){
+    try{ return localStorage.getItem(INSTALL_DONE_KEY) === "1"; }catch(e){ return false; }
+  }
+  function canOfferInstall(){
+    return !!installPlatform() && !isStandaloneApp() && !installAlreadyDone();
+  }
+  function refreshInstallEntry(){
+    var b = document.getElementById("install-entry");
+    if (b) b.hidden = !canOfferInstall();
+  }
+  // Chamado no arranque (depois da abertura e das boas-vindas).
+  function maybeShowInstallTutorial(){
+    if (!canOfferInstall()) return;
+    var until = 0;
+    try{ until = parseInt(localStorage.getItem(INSTALL_SNOOZE_KEY) || "0", 10) || 0; }catch(e){}
+    if (Date.now() < until) return;
+    openInstallSheet();
+  }
+
+  var ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>';
+  var ICON_PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M12 8v8M8 12h8"/></svg>';
+  var ICON_DOTS = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>';
+  var ICON_DOTS_H = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>';
+  function ico(svg){ return '<span class="ico">' + svg + '</span>'; }
+
+  function installStepsHtml(platform){
+    var steps;
+    if (platform === "ios-safari"){
+      steps = [
+        'Toca no botão <b>Compartilhar</b> ' + ico(ICON_SHARE) + ' na barra do Safari (se não o vires, toca antes em ' + ico(ICON_DOTS_H) + ').',
+        'Desce na lista e toca em <b>Adicionar à Tela de Início</b> ' + ico(ICON_PLUS) + '.',
+        'Toca em <b>Adicionar</b>, no canto de cima. Pronto! 👑'
+      ];
+    } else if (platform === "ios-other"){
+      steps = [
+        'Toca no botão <b>Compartilhar</b> ' + ico(ICON_SHARE) + ' (no Chrome fica em cima, ao lado do endereço).',
+        'Escolhe <b>Adicionar à Tela de Início</b> ' + ico(ICON_PLUS) + '.',
+        'Toca em <b>Adicionar</b>. Se a opção não aparecer, abre este link no <b>Safari</b> e repete.'
+      ];
+    } else if (platform === "inapp"){
+      steps = [
+        'Estás a ver o app dentro de outro app (Instagram, Facebook…), que não deixa instalar.',
+        'Toca em ' + ico(ICON_DOTS_H) + ' ou ' + ico(ICON_DOTS) + ' no canto de cima e escolhe <b>Abrir no navegador</b>.',
+        'No navegador, abre o <b>Perfil</b> → <b>Instalar na tela inicial</b> e segue os passos.'
+      ];
+    } else {
+      steps = [
+        'Toca no menu do navegador ' + ico(ICON_DOTS) + ' (no canto de cima, no Chrome).',
+        'Toca em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b> ' + ico(ICON_PLUS) + '.',
+        'Confirma em <b>Instalar</b> / <b>Adicionar</b>. Pronto! 👑'
+      ];
+    }
+    return '<ol class="install-steps">' + steps.map(function(t, i){
+      return '<li><span class="n">' + (i + 1) + '</span><span>' + t + '</span></li>';
+    }).join('') + '</ol>';
+  }
+
+  function renderInstallSheet(){
+    var sheet = document.getElementById("install-sheet");
+    if (!sheet) return;
+    var platform = installPlatform() || "android";
+    var logoImg = document.querySelector(".tabbar-logo img");
+    var logoSrc = logoImg ? logoImg.getAttribute("src") : "";
+    var native = platform === "android" && deferredInstallPrompt;
+    sheet.innerHTML =
+      '<div class="install-card" role="dialog" aria-modal="true" aria-labelledby="install-title">' +
+        '<div class="install-grip"></div>' +
+        '<div class="install-head">' + (logoSrc ? '<img src="' + logoSrc + '" alt="">' : '') +
+          '<h4 id="install-title">Coloca o TheKing na tela inicial do teu celular</h4></div>' +
+        '<p class="install-sub">Fica com ícone próprio, abre num toque em tela cheia — como um app de verdade, sem precisar de loja.</p>' +
+        '<div class="install-perks"><span>👑 1 toque para abrir</span><span>📖 Bíblia sempre à mão</span><span>⚡ Abre mais rápido</span></div>' +
+        (native
+          ? '<button class="btn-outline install-go" id="install-go" type="button">📲 Instalar agora</button>'
+          : installStepsHtml(platform)) +
+        '<button class="install-later" id="install-later" type="button">' + (native ? 'Agora não' : 'Entendi, faço depois') + '</button>' +
+      '</div>';
+    var go = document.getElementById("install-go");
+    if (go) go.addEventListener("click", function(){
+      var ev = deferredInstallPrompt;
+      if (!ev) return;
+      deferredInstallPrompt = null; // o navegador só deixa usar o pedido uma vez
+      try{
+        ev.prompt();
+        Promise.resolve(ev.userChoice).then(function(choice){
+          if (choice && choice.outcome === "accepted"){
+            try{ localStorage.setItem(INSTALL_DONE_KEY, "1"); }catch(e){}
+            closeInstallSheet();
+            refreshInstallEntry();
+          } else {
+            renderInstallSheet(); // recusou o pedido: mostramos o caminho manual
+          }
+        }).catch(function(){ renderInstallSheet(); });
+      }catch(e){ renderInstallSheet(); }
+    });
+    document.getElementById("install-later").addEventListener("click", snoozeInstallSheet);
+  }
+  function openInstallSheet(){
+    var sheet = document.getElementById("install-sheet");
+    if (!sheet) return;
+    renderInstallSheet();
+    sheet.hidden = false;
+  }
+  function closeInstallSheet(){
+    var sheet = document.getElementById("install-sheet");
+    if (sheet){ sheet.hidden = true; sheet.innerHTML = ""; }
+  }
+  function snoozeInstallSheet(){
+    try{ localStorage.setItem(INSTALL_SNOOZE_KEY, String(Date.now() + INSTALL_SNOOZE_DAYS * 86400000)); }catch(e){}
+    closeInstallSheet();
+  }
+  (function wireInstallSheet(){
+    var sheet = document.getElementById("install-sheet");
+    if (sheet) sheet.addEventListener("click", function(e){ if (e.target === sheet) snoozeInstallSheet(); });
+    var entry = document.getElementById("install-entry");
+    if (entry) entry.addEventListener("click", openInstallSheet);
+    refreshInstallEntry();
+  })();
+
   var SPLASH_MIN_MS = 1400;
   var splashStartTime = Date.now();
   // Rede de segurança: aconteça o que acontecer no arranque, a abertura some em 5 s.
@@ -3629,18 +3814,20 @@
   function showOnboardingIfNeeded(){
     var seen = false;
     try{ seen = localStorage.getItem(ONBOARDING_KEY) === "1"; }catch(e){}
-    if (seen) return;
+    if (seen) return false;
     obIndex = 0;
     var el = document.getElementById("onboarding-screen");
-    if (!el) return;
+    if (!el) return false;
     el.hidden = false;
     renderOnboardingSlide();
     wireOnboardingSwipe(el);
+    return true;
   }
   function finishOnboarding(){
     try{ localStorage.setItem(ONBOARDING_KEY, "1"); }catch(e){}
     var el = document.getElementById("onboarding-screen");
     if (el) el.hidden = true;
+    setTimeout(maybeShowInstallTutorial, 450);
   }
   // direction: "next" | "prev" | undefined (primeira renderização, sem animação de saída)
   function goToOnboardingSlide(newIndex, direction){
@@ -3735,7 +3922,9 @@
     var splashDelay = isAutomatedBrowser ? 0 : Math.max(0, SPLASH_MIN_MS - elapsed);
     setTimeout(function(){
       hideSplashScreen();
-      if (!isAutomatedBrowser) showOnboardingIfNeeded();
+      if (isAutomatedBrowser) return;
+      var onboardingShown = showOnboardingIfNeeded();
+      if (!onboardingShown) setTimeout(maybeShowInstallTutorial, 700);
     }, splashDelay);
   }
   init();
