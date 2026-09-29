@@ -470,6 +470,10 @@
   .auth-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 18px; box-shadow:var(--shadow);}
   .auth-switch{background:none; border:none; color:var(--accent-ink); font-weight:700; font-size:13px; cursor:pointer; font-family:'Inter',sans-serif; padding:10px 0 0; width:100%; text-align:center;}
   .auth-intro{font-size:13px; color:var(--ink-soft); margin:0 0 16px; line-height:1.5;}
+  .auth-forgot{display:block; margin:-6px 0 14px auto; background:none; border:none; color:var(--accent-ink); font-weight:600; font-size:12.5px; cursor:pointer; font-family:'Inter',sans-serif; padding:2px 0;}
+  .auth-title{font-size:17px; font-weight:800; color:var(--ink); margin:0 0 8px;}
+  .auth-done{text-align:center; padding:6px 0 4px;}
+  .auth-done .big{font-size:40px; line-height:1; margin-bottom:10px;}
 
   .liga-header{background:linear-gradient(135deg,var(--accent-soft),var(--surface)); border:1px solid var(--accent); border-radius:var(--radius); padding:20px 18px; text-align:center; margin-bottom:16px;}
   .liga-header .lg-icon{font-size:38px; line-height:1;}
@@ -3083,7 +3087,11 @@
   // ================= LIGA (ranking semanal, ao estilo Duolingo) =================
   var LIGA_TOKEN_KEY = "caixaDePalavras_liga_token";
   var LIGA_REF_KEY = "caixaDePalavras_liga_ref";
-  var ligaAuthMode = "login"; // ou "signup"
+  var ligaAuthMode = "login"; // "login" | "signup" | "forgot" (esqueci a senha)
+  // Código do link "criar nova senha" que chega por e-mail (?reset=...). Fica só em memória
+  // (e na sessão do separador, para sobreviver a um recarregar), nunca no endereço.
+  var pendingResetToken = null;
+  var RESET_SESSION_KEY = "theking_reset_token";
   var ligaMe = null; // último /me devolvido pelo servidor
 
   function ligaApi(){ return (LIGA_API || "").replace(/\/+$/, ""); }
@@ -3106,6 +3114,31 @@
         }
       }
     }catch(e){}
+  }
+  function captureResetToken(){
+    try{
+      var params = new URLSearchParams(window.location.search);
+      var t = (params.get("reset") || "").trim().toLowerCase();
+      if (t){
+        if (/^[a-f0-9]{64}$/.test(t)){
+          pendingResetToken = t;
+          try{ sessionStorage.setItem(RESET_SESSION_KEY, t); }catch(e){}
+        }
+        if (window.history && window.history.replaceState){
+          params.delete("reset");
+          var qs = params.toString();
+          window.history.replaceState({}, "", window.location.pathname + (qs ? "?"+qs : ""));
+        }
+      } else {
+        var saved = null;
+        try{ saved = sessionStorage.getItem(RESET_SESSION_KEY); }catch(e){}
+        if (saved && /^[a-f0-9]{64}$/.test(saved)) pendingResetToken = saved;
+      }
+    }catch(e){}
+  }
+  function clearResetToken(){
+    pendingResetToken = null;
+    try{ sessionStorage.removeItem(RESET_SESSION_KEY); }catch(e){}
   }
   function ligaRef(){ try{ return localStorage.getItem(LIGA_REF_KEY) || ""; }catch(e){ return ""; } }
   function clearLigaRef(){ try{ localStorage.removeItem(LIGA_REF_KEY); }catch(e){} }
@@ -3164,6 +3197,7 @@
   }
 
   function renderLigaAuth(){
+    if (ligaAuthMode === "forgot"){ renderLigaForgot(); return; }
     var el = document.getElementById("liga-content");
     var isLogin = ligaAuthMode === "login";
     var refHint = (!isLogin && ligaRef())
@@ -3178,6 +3212,7 @@
         ) +
         '<div class="field"><label for="liga-email">Email</label><input id="liga-email" type="email" autocomplete="email" placeholder="teu@email.com"></div>' +
         '<div class="field"><label for="liga-pass">Senha</label><input id="liga-pass" type="password" autocomplete="'+(isLogin ? "current-password" : "new-password")+'" placeholder="mínimo 6 caracteres"></div>' +
+        (isLogin ? '<button class="auth-forgot" id="liga-forgot" type="button">Esqueci a senha</button>' : '') +
         '<button class="btn-outline" id="liga-submit" style="border-style:solid; background:var(--accent); color:#0c0d16;">'+(isLogin ? "Entrar" : "Criar conta")+'</button>' +
         '<button class="auth-switch" id="liga-switch">'+(isLogin ? "Ainda não tens conta? Cria uma" : "Já tens conta? Entra aqui")+'</button>' +
       '</div>';
@@ -3186,6 +3221,13 @@
       ligaAuthMode = isLogin ? "signup" : "login";
       hideLigaBanner();
       renderLigaAuth();
+    });
+    var forgotBtn = document.getElementById("liga-forgot");
+    if (forgotBtn) forgotBtn.addEventListener("click", function(){
+      var typed = (document.getElementById("liga-email") || {}).value || "";
+      ligaAuthMode = "forgot";
+      hideLigaBanner();
+      renderLigaForgot(typed.trim());
     });
     document.getElementById("liga-submit").addEventListener("click", async function(){
       var email = document.getElementById("liga-email").value.trim();
@@ -3209,6 +3251,97 @@
       } catch(e){
         showLigaBanner(e.message || "Não foi possível continuar. Tenta outra vez.", "err");
         btn.disabled = false;
+      }
+    });
+  }
+
+  // ---- "Esqueci a senha": pede o link por e-mail ----
+  function renderLigaForgot(prefill){
+    var el = document.getElementById("liga-content");
+    el.innerHTML =
+      '<div class="auth-card">' +
+        '<p class="auth-title">Esqueceste a senha? 🔑</p>' +
+        '<p class="auth-intro">Escreve o e-mail da tua conta. Vamos enviar-te um link para criares uma senha nova.</p>' +
+        '<div class="field"><label for="forgot-email">Email</label><input id="forgot-email" type="email" autocomplete="email" placeholder="teu@email.com" value="'+escapeHtml(prefill || "")+'"></div>' +
+        '<button class="btn-outline" id="forgot-submit" style="border-style:solid; background:var(--accent); color:#0c0d16;">Enviar link</button>' +
+        '<button class="auth-switch" id="forgot-back">‹ Voltar ao login</button>' +
+      '</div>';
+    document.getElementById("forgot-back").addEventListener("click", function(){
+      ligaAuthMode = "login"; hideLigaBanner(); renderLigaAuth();
+    });
+    document.getElementById("forgot-submit").addEventListener("click", async function(){
+      var email = document.getElementById("forgot-email").value.trim();
+      var btn = document.getElementById("forgot-submit");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showLigaBanner("Escreve um e-mail válido.", "err", 4000); return; }
+      btn.disabled = true; btn.textContent = "A enviar…";
+      hideLigaBanner();
+      try{
+        await ligaFetch("/password/forgot", { method:"POST", body:{ email: email } });
+        el.innerHTML =
+          '<div class="auth-card auth-done">' +
+            '<div class="big">📬</div>' +
+            '<p class="auth-title">Vê o teu e-mail</p>' +
+            '<p class="auth-intro">Se existir uma conta com <b>'+escapeHtml(email)+'</b>, enviámos um link para criares uma senha nova. O link vale 30 minutos.</p>' +
+            '<p class="auth-intro">Não chegou? Espera um minuto e vê também a pasta de <b>spam</b> ou <b>promoções</b>.</p>' +
+            '<button class="auth-switch" id="forgot-done-back">‹ Voltar ao login</button>' +
+          '</div>';
+        document.getElementById("forgot-done-back").addEventListener("click", function(){
+          ligaAuthMode = "login"; renderLigaAuth();
+        });
+      } catch(e){
+        showLigaBanner(e.message || "Não foi possível enviar agora. Tenta outra vez.", "err");
+        btn.disabled = false; btn.textContent = "Enviar link";
+      }
+    });
+  }
+
+  // ---- Link do e-mail aberto: escolher a senha nova ----
+  function renderLigaReset(){
+    var el = document.getElementById("liga-content");
+    el.innerHTML =
+      '<div class="auth-card">' +
+        '<p class="auth-title">Cria a tua nova senha 🔒</p>' +
+        '<p class="auth-intro">Escolhe uma senha nova para a tua conta. Depois disso já entras automaticamente.</p>' +
+        '<div class="field"><label for="reset-pass">Nova senha</label><input id="reset-pass" type="password" autocomplete="new-password" placeholder="mínimo 6 caracteres"></div>' +
+        '<div class="field"><label for="reset-pass2">Repete a nova senha</label><input id="reset-pass2" type="password" autocomplete="new-password" placeholder="igual à de cima"></div>' +
+        '<button class="btn-outline" id="reset-submit" style="border-style:solid; background:var(--accent); color:#0c0d16;">Guardar nova senha</button>' +
+        '<button class="auth-switch" id="reset-cancel">Cancelar</button>' +
+      '</div>';
+    document.getElementById("reset-cancel").addEventListener("click", function(){
+      clearResetToken(); ligaAuthMode = "login"; hideLigaBanner(); renderLiga();
+    });
+    document.getElementById("reset-submit").addEventListener("click", async function(){
+      var p1 = document.getElementById("reset-pass").value;
+      var p2 = document.getElementById("reset-pass2").value;
+      if (p1.length < 6){ showLigaBanner("A senha precisa de pelo menos 6 caracteres.", "err", 4000); return; }
+      if (p1 !== p2){ showLigaBanner("As duas senhas não são iguais.", "err", 4000); return; }
+      var btn = document.getElementById("reset-submit");
+      btn.disabled = true; btn.textContent = "A guardar…";
+      hideLigaBanner();
+      try{
+        var data = await ligaFetch("/password/reset", { method:"POST", body:{ token: pendingResetToken, password: p1 } });
+        clearResetToken();
+        setLigaToken(data.token);
+        ligaMe = data.user || null;
+        await renderLiga();
+        showLigaBanner("✅ Senha alterada! Já entraste na tua conta.", "ok", 5000);
+      } catch(e){
+        if (e.status === 400 && /link/.test(e.message || "")){
+          clearResetToken();
+          el.innerHTML =
+            '<div class="auth-card auth-done">' +
+              '<div class="big">⏳</div>' +
+              '<p class="auth-title">Este link já não vale</p>' +
+              '<p class="auth-intro">Os links valem 30 minutos e só podem ser usados uma vez. Pede um novo — é rápido.</p>' +
+              '<button class="btn-outline" id="reset-again" style="border-style:solid; background:var(--accent); color:#0c0d16;">Pedir novo link</button>' +
+            '</div>';
+          document.getElementById("reset-again").addEventListener("click", function(){
+            ligaAuthMode = "forgot"; renderLigaAuth();
+          });
+        } else {
+          showLigaBanner(e.message || "Não foi possível guardar agora. Tenta outra vez.", "err");
+          btn.disabled = false; btn.textContent = "Guardar nova senha";
+        }
       }
     });
   }
@@ -3319,6 +3452,10 @@
     var el = document.getElementById("liga-content");
     if (!ligaApi()){
       el.innerHTML = '<p class="auth-intro">A liga ainda está a ser preparada — volta em breve! 🏆</p>';
+      return;
+    }
+    if (pendingResetToken){
+      renderLigaReset();
       return;
     }
     if (!ligaToken()){
@@ -3894,6 +4031,7 @@
   // ================= INIT =================
   async function init(){
     captureLigaRef();
+    captureResetToken();
     renderHeaderGreeting();
     await loadState();
     renderLangSwitch();
@@ -3922,6 +4060,8 @@
     var splashDelay = isAutomatedBrowser ? 0 : Math.max(0, SPLASH_MIN_MS - elapsed);
     setTimeout(function(){
       hideSplashScreen();
+      // Veio do link "criar nova senha" do e-mail: vai direto para esse ecrã.
+      if (pendingResetToken){ goTab("liga"); return; }
       if (isAutomatedBrowser) return;
       var onboardingShown = showOnboardingIfNeeded();
       if (!onboardingShown) setTimeout(maybeShowInstallTutorial, 700);
