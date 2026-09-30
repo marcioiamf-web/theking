@@ -571,6 +571,140 @@
     .mem-grid{ grid-template-columns:repeat(4,1fr); }
     .gemstore{ max-width:420px; }
   }
+  /* ---- v3: estudo, medalhas, premium, igreja, lembrete ---- */
+  .study-hub{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:18px;}
+  .study-hub .quick-card{padding:12px; align-items:flex-start;}
+  .study-hub .quick-card small{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .today-study{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:6px 6px 4px; margin-bottom:16px;}
+  .ts-head{font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--accent-ink); padding:10px 10px 6px;}
+  .ts-row{appearance:none; cursor:pointer; width:100%; display:flex; align-items:center; gap:11px; background:none; border:none; border-top:1px solid var(--border-soft); padding:11px 10px; text-align:left; color:var(--ink); font-family:'Inter',sans-serif;}
+  .ts-row:first-of-type{border-top:none;}
+  .ts-ic{width:34px; height:34px; border-radius:10px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;}
+  .ts-t{flex:1; min-width:0;}
+  .ts-t b{display:block; font-size:14px;}
+  .ts-t small{display:block; font-size:12px; color:var(--ink-soft); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .ts-st{font-size:12px; font-weight:700; color:var(--accent-ink); flex-shrink:0;}
+  .ts-st.ok{color:var(--success);}
+  .devo-kicker{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; color:var(--gold); margin-bottom:4px;}
+  .devo-title{font-size:24px; font-weight:800; margin-bottom:14px;}
+  .devo-verse{background:var(--accent-soft); border-radius:var(--radius-sm); padding:14px 14px 12px; margin-bottom:16px;}
+  .devo-text{font-size:16px; line-height:1.7; color:var(--ink); margin-bottom:12px;}
+  .devo-tools{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;}
+  .devo-tools .chip{opacity:1;}
+  .devo-pt{font-size:14px; line-height:1.6; color:var(--ink-soft); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px;}
+  .devo-q{margin-bottom:16px;}
+  .devo-qt{font-size:15px; font-weight:700; margin-bottom:2px;}
+  .devo-qpt{font-size:12.5px; color:var(--ink-faint); margin-bottom:8px;}
+  .devo-opt{text-align:left; font-family:'Inter',sans-serif; width:100%;}
+  .cz-verse{font-size:19px; line-height:2.1; font-weight:600; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:6px;}
+  .cz-word{color:var(--ink);}
+  .cz-filled{color:var(--success);}
+  .cz-blank{display:inline-block; border-bottom:2.5px solid var(--border); min-width:34px; line-height:1.2;}
+  .cz-blank.cz-cur{border-bottom-color:var(--accent); background:var(--accent-soft); border-radius:4px 4px 0 0;}
+  .cz-ref{font-size:12px; color:var(--ink-faint); font-weight:700; text-align:right; margin-bottom:14px;}
+  .cz-mistakes{font-size:12.5px; color:var(--danger); font-weight:700; margin-bottom:10px;}
+  .vp-tile.wrong{border-color:var(--danger); background:var(--danger-soft); color:var(--danger); animation:czshake .35s;}
+  @keyframes czshake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+  .memo-card{margin-bottom:12px;}
+  .memo-step{margin:0;}
+  .memo-sunday{background:linear-gradient(155deg, var(--gold-soft), var(--surface) 75%);}
+  .memo-count{font-size:12px; color:var(--ink-faint); text-align:center; margin-top:14px;}
+  .memo-listen-row{display:flex; gap:10px;}
+  .memo-listen-row .btn-outline{flex:1;}
+  .memo-listen-count{font-size:12.5px; color:var(--ink-soft); text-align:center; margin-top:10px;}
+  .plan-head{display:flex; gap:14px; align-items:center; margin-bottom:16px;}
+  .plan-ic{font-size:34px;}
+  .plan-head > div{flex:1; min-width:0;}
+  .plan-sub{font-size:13.5px; color:var(--ink-soft);}
+  .plan-count{font-size:12px; color:var(--ink-faint);}
+  .plan-days{display:grid; grid-template-columns:repeat(auto-fill, minmax(96px, 1fr)); gap:7px;}
+  .plan-day{appearance:none; cursor:pointer; text-align:left; border:1px solid var(--border); background:var(--surface); color:var(--ink); border-radius:11px; padding:8px 10px; font-family:'Inter',sans-serif; position:relative;}
+  .plan-day .pd-n{display:block; font-size:10.5px; color:var(--ink-faint); font-weight:700; text-transform:uppercase; letter-spacing:.06em;}
+  .plan-day .pd-ref{display:block; font-size:13px; font-weight:700; margin-top:2px;}
+  .plan-day .pd-st{position:absolute; top:7px; right:8px; font-size:11px; font-weight:800; color:var(--accent-ink);}
+  .plan-day.done{border-color:var(--success); background:var(--success-soft);}
+  .plan-day.done .pd-st{color:var(--success);}
+  .plan-day.next{border-color:var(--accent); background:var(--accent-soft);}
+  .prem-tag{font-size:10px; font-weight:800; color:var(--gold); border:1px solid var(--gold); border-radius:999px; padding:1px 6px; margin-left:4px; vertical-align:middle;}
+  .hy-author{font-size:12.5px; color:var(--ink-faint); margin-bottom:12px;}
+  .hy-lines{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:12px 16px;}
+  .hy-line{padding:6px 0; border-radius:8px; transition:background .3s;}
+  .hy-line.reading{background:var(--accent-soft); margin:0 -8px; padding-left:8px; padding-right:8px;}
+  .hy-en{font-size:16px; font-weight:600; line-height:1.5;}
+  .hy-pt{font-size:13px; color:var(--ink-soft); line-height:1.45;}
+  .hy-gap{height:12px;}
+  .hy-vocabs{display:flex; flex-wrap:wrap; gap:7px;}
+  .hy-vocab{appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface); color:var(--ink-soft); border-radius:999px; padding:7px 12px; font-size:12.5px; font-family:'Inter',sans-serif;}
+  .hy-vocab b{color:var(--ink);}
+  .hy-vocab span{color:var(--accent-ink); font-weight:800; margin-left:3px;}
+  .hy-vocab.saved{border-color:var(--success);}
+  .hy-vocab.saved span{color:var(--success);}
+  .share-preview{display:block; width:100%; max-width:300px; margin:0 auto 16px; border-radius:14px; box-shadow:var(--shadow); border:1px solid var(--border);}
+  .share-dl{text-align:center; text-decoration:none; margin-top:10px;}
+  .verse-actions{display:flex; gap:7px; flex-wrap:wrap; margin-top:8px;}
+  .verse-actions button{appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface-alt); color:var(--accent-ink); border-radius:999px; padding:6px 11px; font-size:12px; font-weight:700; font-family:'Inter',sans-serif;}
+  .word-bubble{position:fixed; left:50%; transform:translateX(-50%); bottom:84px; z-index:45; display:flex; align-items:center; gap:12px; max-width:420px; width:calc(100% - 32px); background:var(--surface-alt); border:1px solid var(--accent); border-radius:14px; padding:10px 10px 10px 14px; box-shadow:var(--shadow);}
+  .word-bubble .wb-word{flex:1; min-width:0; font-weight:800; font-size:15px;}
+  .word-bubble .wb-word small{font-weight:600; color:var(--ink-soft); font-size:12.5px; margin-left:4px;}
+  .word-bubble button{appearance:none; cursor:pointer; border:none; border-radius:10px; background:var(--accent); color:#0c0d16; font-weight:800; font-size:13px; padding:9px 12px; font-family:'Inter',sans-serif; flex-shrink:0;}
+  .word-bubble .wb-saved{font-size:12.5px; color:var(--success); font-weight:700; flex-shrink:0;}
+  .sw-word{display:flex; align-items:center; gap:12px; font-size:30px; font-weight:800; margin:6px 0 18px;}
+  .sw-context{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:12px;}
+  .sw-ctx-lbl{font-size:11.5px; font-weight:700; color:var(--accent-ink); margin-bottom:4px;}
+  .sw-ctx-en{font-size:14px; line-height:1.5;}
+  .sw-ctx-pt{font-size:12.5px; color:var(--ink-soft); line-height:1.45; margin-top:4px;}
+  .mw-list{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
+  .mw-row{display:flex; align-items:center; gap:8px; padding:10px 12px; border-bottom:1px solid var(--border-soft);}
+  .mw-row:last-child{border-bottom:none;}
+  .mw-text{flex:1; min-width:0;}
+  .mw-text b{display:block; font-size:15px;}
+  .mw-text span{display:block; font-size:12px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .mw-speak, .mw-del{appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface-alt); border-radius:9px; width:36px; height:34px; font-size:15px; flex-shrink:0;}
+  .mywords-entry{margin:-4px 0 14px;}
+  .medals-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-bottom:20px;}
+  .medal{appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface-sunken); border-radius:12px; padding:10px 4px 8px; text-align:center; font-family:'Inter',sans-serif; color:var(--ink-faint);}
+  .medal .md-ic{display:block; font-size:24px; filter:grayscale(1); opacity:.35;}
+  .medal .md-t{display:block; font-size:10px; font-weight:700; margin-top:4px; line-height:1.2;}
+  .medal.got{background:linear-gradient(160deg, var(--gold-soft), var(--surface) 80%); border-color:rgba(245,200,107,.5); color:var(--ink);}
+  .medal.got .md-ic{filter:none; opacity:1;}
+  .premium-card{border-radius:var(--radius); padding:16px; margin-bottom:16px; border:1px solid rgba(245,200,107,.55); background:linear-gradient(155deg, #3a2f18, var(--surface) 70%); transition:box-shadow .3s;}
+  .premium-card.flash{box-shadow:0 0 0 3px var(--gold);}
+  .prem-top{display:flex; gap:12px; align-items:center;}
+  .prem-crown{font-size:30px;}
+  .prem-top b{display:block; font-size:16px;}
+  .prem-top small{display:block; font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .prem-perks{margin:12px 0 14px; padding:0; list-style:none; display:grid; gap:6px; font-size:13.5px; color:var(--ink);}
+  .prem-btn{appearance:none; cursor:pointer; width:100%; border:none; border-radius:12px; background:var(--gold); color:#1a1405; font-weight:800; font-size:15px; padding:12px; font-family:'Inter',sans-serif;}
+  .prem-btn.small{width:auto; padding:10px 14px; font-size:13.5px; flex-shrink:0;}
+  .prem-btn[disabled]{opacity:.5;}
+  .prem-note{font-size:12.5px; color:var(--ink-soft); margin:8px 0 0;}
+  .gift-toggle{appearance:none; cursor:pointer; width:100%; text-align:left; border:1px dashed var(--border); background:var(--surface-sunken); color:var(--ink-soft); border-radius:12px; padding:10px 12px; font-size:12.5px; font-weight:700; font-family:'Inter',sans-serif; margin-bottom:10px;}
+  .gift-toggle.on{border-style:solid; border-color:#f58bb8; color:#f8a9cb; background:rgba(245,139,184,.08);}
+  .gemstore.gift-mode .gempack{border-color:#f58bb8;}
+  .gift-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:12px; margin-bottom:20px;}
+  .gift-row{display:flex; gap:8px; align-items:center;}
+  .gift-row input{text-transform:uppercase;}
+  .gift-msg{font-size:12.5px; color:var(--ink-soft); margin-top:8px; min-height:1px;}
+  .gift-msg.err{color:var(--danger);}
+  .gift-mine{margin-top:10px; font-size:13px; color:var(--ink-soft);}
+  .gift-mine summary{cursor:pointer; font-weight:700;}
+  .gift-item{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border-soft);}
+  .gift-item button{appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface-alt); color:var(--accent-ink); border-radius:999px; padding:5px 10px; font-size:12px; font-weight:700; font-family:'Inter',sans-serif;}
+  .gift-code{font-size:30px; font-weight:800; letter-spacing:.08em; color:var(--gold); margin:10px 0;}
+  .church-card{background:linear-gradient(155deg, rgba(74,222,128,.10), var(--surface) 70%); border:1px solid rgba(74,222,128,.35); border-radius:var(--radius); padding:16px; margin:18px 0;}
+  .ch-title{font-size:16px; font-weight:800; margin-bottom:6px;}
+  .ch-sub{font-size:12.5px; color:var(--ink-soft); margin-bottom:10px;}
+  .ch-or{text-align:center; font-size:12px; color:var(--ink-faint); margin:14px 0;}
+  .church-card .liga-list{margin-bottom:12px;}
+  .reminder-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; margin-bottom:20px;}
+  .rem-top{display:flex; gap:12px; align-items:flex-start;}
+  .rem-ic{font-size:24px;}
+  .rem-top b{display:block; font-size:15px;}
+  .rem-top small{display:block; font-size:12.5px; color:var(--ink-soft); margin-top:2px; line-height:1.4;}
+  .rem-row{display:flex; align-items:center; gap:10px; margin-top:12px;}
+  .rem-row label{font-size:13px; font-weight:700; color:var(--ink-soft);}
+  .rem-row select{flex:1; background:var(--surface-alt); color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:9px; font-size:14px; font-family:'Inter',sans-serif;}
+  .stat-pill.hearts-pill.inf{border-color:var(--gold); background:var(--gold-soft); color:var(--gold);}
 </style>
 
 <div class="wrap">
@@ -605,6 +739,7 @@
     </div>
     <div class="goal-card" id="goal-card"></div>
     <div class="verse-card" id="verse-card"></div>
+    <div class="today-study" id="today-study" hidden></div>
     <div class="cloud-nudge" id="cloud-nudge" hidden></div>
     <div class="quick-grid mobile-only">
       <button class="quick-card" type="button" data-go="practice"><span class="qc-ic">🎤</span><span class="qc-text"><b>Praticar</b><small>Revisão com flashcards</small></span></button>
@@ -615,6 +750,8 @@
   </section>
 
   <section class="panel" id="panel-biblia">
+    <h3 class="sec">Estudo bíblico</h3>
+    <div class="study-hub" id="study-hub"></div>
     <h3 class="sec">Bíblia · inglês e português</h3>
     <div id="bible-reader"></div>
   </section>
@@ -623,6 +760,7 @@
     <button class="subnav-back mobile-only" type="button" data-go="trilha">‹ Início</button>
     <p class="intro-line">Revise livremente qualquer categoria com flashcards — sem corações, sem pressa.</p>
     <div class="chipbar" id="study-chips"></div>
+    <button class="quick-card mywords-entry" id="mywords-entry" type="button"></button>
     <div class="studytoolbar">
       <div class="dirtoggle">
         <button data-dir="en2pt" id="dir-en2pt">Inglês → Português</button>
@@ -668,13 +806,16 @@
 
   <section class="panel" id="panel-progress">
     <button class="quick-card install-entry" id="install-entry" type="button" hidden><span class="qc-ic">📲</span><span class="qc-text"><b>Instalar na tela inicial</b><small>Abre o TheKing com um toque, como um app</small></span><span class="qc-chev">›</span></button>
-    <button class="quick-card liga-entry mobile-only" type="button" data-go="liga"><span class="qc-ic">🏆</span><span class="qc-text"><b>Liga semanal</b><small>Compete com outros jogadores e sobe de liga</small></span><span class="qc-chev">›</span></button>
+    <button class="quick-card liga-entry mobile-only" type="button" data-go="liga"><span class="qc-ic">🏆</span><span class="qc-text"><b>Liga semanal</b><small>Liga semanal e liga da tua igreja</small></span><span class="qc-chev">›</span></button>
     <h3 class="sec">Seu progresso</h3>
     <div class="voice-row" id="voice-row" hidden>
       <label for="voice-select">Voz do áudio 🔊</label>
       <select id="voice-select"></select>
     </div>
     <div class="progress-grid" id="progress-grid"></div>
+    <h3 class="sec" id="medals-title">Medalhas</h3>
+    <div class="medals-grid" id="medals-grid"></div>
+    <div class="reminder-card" id="reminder-card" hidden></div>
     <h3 class="sec">Loja de gemas</h3>
     <div class="shop-card" id="shop-card"></div>
     <h3 class="sec" id="gemstore-title" hidden>Comprar gemas</h3>
@@ -682,8 +823,11 @@
       <button type="button" data-cur="brl">🇧🇷 Real (R$)</button>
       <button type="button" data-cur="eur">🇪🇺 Euro (€)</button>
     </div>
+    <button class="gift-toggle" id="gift-toggle" type="button" hidden></button>
     <div class="gemstore" id="gemstore" hidden></div>
     <div class="gemstore-note" id="gemstore-note" hidden>pagamento seguro por cartão ou MB WAY</div>
+    <div class="premium-card" id="premium-card"></div>
+    <div class="gift-card" id="gift-card" hidden></div>
     <h3 class="sec">Distribuição do Praticar por caixa</h3>
     <div class="boxbar" id="boxbar"></div>
     <div class="boxlegend">
@@ -738,6 +882,7 @@
 
 <div class="paybanner" id="paybanner" hidden></div>
 <div class="paybanner" id="ligabanner" hidden></div>
+<div class="word-bubble" id="word-bubble" hidden></div>
 
 <div class="lesson-overlay" id="lesson-overlay" hidden></div>
 <div class="lesson-overlay" id="extra-overlay" hidden></div>
@@ -796,9 +941,10 @@
     work:{label:"Trabalho", level:"B1"},
     falsefriends:{label:"Falsos cognatos", level:"B1"},
     numbers:{label:"Números e horas", level:"A1"},
-    shopping:{label:"Compras", level:"A2"}
+    shopping:{label:"Compras", level:"A2"},
+    frases:{label:"Frases para a igreja e missões", level:"A2–B1"}
   };
-  var UNIT_ORDER_EN = ["essentials","biblia","personagens","verbs","adjectives","igreja","food","travel","phrasal","work","falsefriends","numbers","shopping"];
+  var UNIT_ORDER_EN = ["essentials","biblia","personagens","verbs","adjectives","igreja","food","travel","phrasal","work","falsefriends","numbers","shopping","frases"];
 
   var RAW_EN = {
     essentials: [
@@ -1060,6 +1206,26 @@
       ["cart","carrinho","Leave the cart of donated food by the church door."],
       ["store","loja / armazém","The Christian store closes at 9 p.m."],
       ["free shipping","frete grátis","The Bible website offers free shipping over $50."]
+    ],
+    frases: [
+      ["welcome to our church","bem-vindo(a) à nossa igreja","Welcome to our church! We are glad you are here."],
+      ["nice to meet you","prazer em conhecer","Nice to meet you, I am the youth leader."],
+      ["may I pray for you","posso orar por você?","May I pray for you before you go?"],
+      ["God bless you","Deus te abençoe","Thank you for coming, God bless you!"],
+      ["let us pray","vamos orar","Let us pray for our city and our families."],
+      ["please take a seat","por favor, sente-se","Please take a seat, the service starts soon."],
+      ["the service starts at","o culto começa às","The service starts at seven o'clock."],
+      ["open your Bible to","abram a Bíblia em","Open your Bible to John chapter three."],
+      ["I will be praying for you","vou orar por você","Don't worry, I will be praying for you this week."],
+      ["Jesus changed my life","Jesus mudou a minha vida","I want to tell you how Jesus changed my life."],
+      ["do you know Jesus","você conhece Jesus?","Can I ask you a question: do you know Jesus?"],
+      ["you are not alone","você não está sozinho(a)","In hard times, remember: you are not alone."],
+      ["praise the Lord","louvado seja o Senhor","We found a place to live, praise the Lord!"],
+      ["see you on Sunday","até domingo","Great to see you today, see you on Sunday!"],
+      ["how can I help you","como posso ajudar?","Hello, how can I help you today?"],
+      ["we are a mission team","somos uma equipe missionária","Hi, we are a mission team from Brazil."],
+      ["where are you from","de onde você é?","Where are you from? Is this your first time here?"],
+      ["thank you for your prayers","obrigado(a) pelas suas orações","Thank you for your prayers, my mother is better now."]
     ]
   };
 
@@ -1361,7 +1527,8 @@
       hearts:5, heartsUpdatedAt:Date.now(),
       gems:0, streakFreezes:0,
       voiceNames:{ en:null, es:null },
-      bible:{ b:"jo", c:1, showPt:true, read:{} }
+      bible:{ b:"jo", c:1, showPt:true, read:{} },
+      study:{}, myWords:{}, medals:{}, premiumUntil:0, gifts:[], bestStreak:0
     };
   }
   var state = defaultState();
@@ -1393,10 +1560,12 @@
     state.xp += amount;
     state.xpToday += amount;
     syncXpToLiga(amount);
+    reportStudyActive();
   }
   function addGems(amount){ state.gems = Math.max(0, state.gems + amount); }
   // Hearts regenerate slowly over real time, like Duolingo. Call before reading state.hearts.
   function regenHearts(){
+    if (isPremium()){ state.hearts = HEARTS_MAX; state.heartsUpdatedAt = Date.now(); return; }
     if (state.hearts >= HEARTS_MAX){ state.heartsUpdatedAt = Date.now(); return; }
     var elapsed = Date.now() - (state.heartsUpdatedAt || Date.now());
     if (elapsed <= 0) return;
@@ -1408,6 +1577,7 @@
     }
   }
   function loseHeart(){
+    if (isPremium()) return; // Premium: corações ilimitados
     state.hearts = Math.max(0, state.hearts - 1);
     if (state.hearts < HEARTS_MAX && !state.heartsUpdatedAt) state.heartsUpdatedAt = Date.now();
     saveState();
@@ -1564,6 +1734,13 @@
       if (typeof state.gems !== "number") state.gems = 0;
       if (typeof state.streakFreezes !== "number") state.streakFreezes = 0;
       if (!state.voiceNames) state.voiceNames = { en: loaded.voiceName || null, es: null };
+      ensureStudy();
+      // v3: a unidade nova "Frases para a igreja" entra também no filtro do Praticar.
+      if (!state.study.v3){
+        state.study.v3 = 1;
+        var enp = state.progress.en;
+        if (enp && enp.selectedCats.indexOf("frases") === -1) enp.selectedCats.push("frases");
+      }
   }
   function todayStr_offset(days){
     var d = new Date();
@@ -1574,6 +1751,7 @@
     clearTimeout(saveTimer);
     saveTimer = setTimeout(persistNow, 250);
     scheduleCloudPush();
+    scheduleMedalCheck();
   }
   async function persistNow(){
     if (dbNS){ try{ await dbNS.doc("progress/state").set(state); return; }catch(e){} }
@@ -1624,7 +1802,7 @@
       });
     });
   }
-  function catLabel(key){ return CATS[key] ? CATS[key].label : key; }
+  function catLabel(key){ if (key === "mine") return "⭐ Minhas palavras"; return CATS[key] ? CATS[key].label : key; }
   function boxOf(id){ return lp().boxes[id] || 0; }
 
   function findBlankToken(sentence, headword){
@@ -1842,7 +2020,8 @@
     if (tab === "trilha") renderTrilha();
     if (tab === "extras") renderExtras();
     if (tab === "liga") renderLiga();
-    if (tab === "biblia") renderBible(); else stopBibleAudio();
+    if (tab === "biblia"){ renderStudyHub(); renderBible(); } else stopBibleAudio();
+    if (tab === "practice") renderMyWordsEntry();
     window.scrollTo(0,0);
   }
   document.querySelectorAll("nav.tabbar button[data-tab]").forEach(function(btn){
@@ -1877,6 +2056,7 @@
     regenHearts();
     renderStatbar();
     renderVerseOfDay();
+    renderTodayStudy();
     renderCloudNudge();
     var all = flattenLessons();
     var nextIdx = -1;
@@ -2225,6 +2405,21 @@
       });
       chipsEl.appendChild(chip);
     });
+    // Filtro extra com as palavras guardadas da Bíblia/hinos (só no inglês).
+    if (state.language === "en" && myWordsCount() > 0){
+      var mine = document.createElement("span");
+      mine.className = "chip" + (lp().selectedCats.indexOf(MY_CAT) !== -1 ? " on" : "");
+      mine.dataset.cat = MY_CAT;
+      mine.textContent = "⭐ Minhas palavras";
+      mine.addEventListener("click", function(){
+        var idx = lp().selectedCats.indexOf(MY_CAT);
+        if (idx === -1){ lp().selectedCats.push(MY_CAT); mine.classList.add("on"); }
+        else { if (lp().selectedCats.length === 1) return; lp().selectedCats.splice(idx, 1); mine.classList.remove("on"); }
+        saveState(); nextCard();
+      });
+      chipsEl.appendChild(mine);
+    }
+    renderMyWordsEntry();
   }
   function syncChips(){
     chipsEl.querySelectorAll(".chip").forEach(function(c){ c.classList.toggle("on", lp().selectedCats.indexOf(c.dataset.cat)!==-1); });
@@ -2243,7 +2438,11 @@
   }
   var currentWord = null;
   var fc = document.getElementById("flashcard");
-  function filteredWords(){ return WORDS.filter(function(w){return lp().selectedCats.indexOf(w.category)!==-1;}); }
+  function filteredWords(){
+    var base = WORDS.filter(function(w){return lp().selectedCats.indexOf(w.category)!==-1;});
+    if (state.language === "en" && lp().selectedCats.indexOf(MY_CAT) !== -1) base = base.concat(myWordObjects());
+    return base;
+  }
   function pickWord(){
     var pool = filteredWords();
     if (!pool.length) return null;
@@ -2346,6 +2545,11 @@
     renderShop();
     renderGemStore();
     renderVoicePicker();
+    renderMedals();
+    renderGiftToggle();
+    renderPremiumCard();
+    renderGiftCard();
+    renderReminderCard();
     var footerNote = document.getElementById("footer-note");
     if (footerNote) footerNote.textContent = total+" palavras · "+UNIT_ORDER.length+" unidades · "+totalLessons+" lições · seu progresso fica salvo automaticamente";
     renderStatbar();
@@ -2429,7 +2633,9 @@
     if (tl){ ensureDailyGoalFresh(); tl.classList.toggle("pulse", state.xpToday < DAILY_GOAL_XP); }
     regenHearts();
     document.getElementById("stat-streak").textContent = state.streak;
-    document.getElementById("stat-hearts").textContent = state.hearts;
+    document.getElementById("stat-hearts").textContent = isPremium() ? "∞" : state.hearts;
+    var heartsPill = document.getElementById("hearts-pill");
+    if (heartsPill) heartsPill.classList.toggle("inf", isPremium());
     document.getElementById("stat-gems").textContent = state.gems;
   }
 
@@ -2523,14 +2729,14 @@
 
   async function startPurchase(packId){
     if (!payApi()) return;
-    var botoes = document.querySelectorAll(".gempack");
+    var botoes = document.querySelectorAll(".gempack, #prem-buy");
     botoes.forEach(function(b){ b.disabled = true; });
     showPayBanner("A abrir o pagamento…");
     try{
       var res = await fetch(payApi()+"/create-checkout", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({pack: packId, currency: payCurrency()})
+        body: JSON.stringify({pack: packId, currency: payCurrency(), gift: !!giftMode})
       });
       var data = await res.json();
       if (!res.ok || !data.url) throw new Error("falhou");
@@ -2548,7 +2754,7 @@
   // exatamente como ficou (com "A abrir o pagamento…" e os pacotes bloqueados). Aqui limpamos isso
   // e verificamos em silêncio se, entretanto, o pagamento foi feito (ex.: Pix pago noutra app).
   function resetPurchaseUi(){
-    document.querySelectorAll(".gempack").forEach(function(b){ b.disabled = false; });
+    document.querySelectorAll(".gempack, #prem-buy").forEach(function(b){ b.disabled = false; });
     var el = document.getElementById("paybanner");
     if (el && !el.hidden && /A abrir o pagamento/.test(el.textContent)) hidePayBanner();
   }
@@ -2567,13 +2773,22 @@
     try{
       var res = await fetch(payApi()+"/status?id="+encodeURIComponent(orderId));
       var data = await res.json();
+      if (data.gift && data.code && (data.status === "paid" || data.status === "credited")){
+        // Compra para oferecer: não credita nada aqui, mostra o código do presente.
+        try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
+        var gift = rememberGift(data);
+        hidePayBanner();
+        if (gift) showGiftCode(gift);
+        return true;
+      }
       if (data.status === "paid"){
-        addGems(data.gems || 0);
+        if (data.gems) addGems(data.gems);
+        if (data.premiumDays) extendPremium(data.premiumDays);
         saveState();
         renderStatbar();
         renderProgress();
         try{ localStorage.removeItem(PENDING_KEY); }catch(e){}
-        showPayBanner("Pagamento confirmado! +"+(data.gems||0)+" gemas 💎", "ok", 6000);
+        showPayBanner(data.premiumDays ? "Pagamento confirmado! 👑 Premium ativo por "+data.premiumDays+" dias" : "Pagamento confirmado! +"+(data.gems||0)+" gemas 💎", "ok", 6000);
         return true;
       }
       if (data.status === "credited" || data.status === "unknown"){
@@ -2709,7 +2924,7 @@
     if (!el) return;
     var v = todaysVerse();
     el.innerHTML =
-      '<div class="verse-head"><span class="lbl">📖 Versículo do dia</span><button class="verse-listen" id="verse-listen" type="button" aria-label="Ouvir">🔊</button></div>'+
+      '<div class="verse-head"><span class="lbl">📖 Versículo do dia</span><span style="display:flex; gap:6px;"><button class="verse-listen" id="verse-share" type="button" aria-label="Partilhar">📤</button><button class="verse-listen" id="verse-listen" type="button" aria-label="Ouvir">🔊</button></span></div>'+
       '<div class="verse-en">'+wordsHtml(v.en)+'</div>'+
       '<div class="verse-pt">'+escapeHtml(v.pt)+' <span style="opacity:.7;">(tradução livre)</span></div>'+
       '<div class="verse-foot">'+(parseBibleRef(v.ref) ? '<button class="verse-more" id="verse-more" type="button">Ler o capítulo →</button>' : '<span></span>')+
@@ -2719,6 +2934,8 @@
     if (moreBtn) moreBtn.addEventListener("click", function(){ openBibleAt(v.ref); });
     var listenBtn = document.getElementById("verse-listen");
     if (listenBtn) listenBtn.addEventListener("click", function(){ speak(v.en, "en-US"); });
+    var shareBtn = document.getElementById("verse-share");
+    if (shareBtn) shareBtn.addEventListener("click", function(){ openShareCard({ en: v.en, pt: v.pt, ref: v.ref, label: "Versículo do dia" }); });
   }
 
   var extraOverlay = document.getElementById("extra-overlay");
@@ -3468,8 +3685,17 @@
   }
   function adoptRemote(data, uid, rev){
     var voices = state.voiceNames;
+    var sameAccount = !(state.cloud && state.cloud.uid && state.cloud.uid !== uid);
+    var keep = { premiumUntil: Number(state.premiumUntil) || 0, myWords: state.myWords || {}, medals: state.medals || {}, gifts: state.gifts || [] };
     applyLoadedState(data || {});
     if (voices) state.voiceNames = voices;
+    if (sameAccount){
+      ensureStudy();
+      state.premiumUntil = Math.max(Number(state.premiumUntil) || 0, keep.premiumUntil);
+      Object.keys(keep.myWords).forEach(function(k){ if (!state.myWords[k]) state.myWords[k] = keep.myWords[k]; });
+      Object.keys(keep.medals).forEach(function(k){ if (!state.medals[k]) state.medals[k] = keep.medals[k]; });
+      keep.gifts.forEach(function(g){ if (!state.gifts.some(function(x){ return x.code === g.code; })) state.gifts.push(g); });
+    }
     regenHearts(); ensureDailyGoalFresh();
     state.cloud = { uid: uid, rev: rev };
     saveLocalOnly();
@@ -3601,6 +3827,7 @@
         '<div class="lg-timer" id="liga-timer">termina em '+formatCountdown(resetMs)+'</div>' +
       '</div>' +
       '<div class="liga-list">'+rowsHtml+'</div>' +
+      '<div id="church-box"></div>' +
       '<div class="liga-referral">' +
         '<div class="lref-title">👑 Convida amigos, ganhem gemas</div>' +
         '<p class="lref-desc">Partilha o teu código — quando um amigo criar conta, ganham <strong>40 gemas</strong> cada um.'+
@@ -3639,6 +3866,7 @@
       renderCloudNudge();
     });
 
+    loadChurch();
     clearInterval(window._ligaTimerInt);
     window._ligaTimerInt = setInterval(function(){
       var t = document.getElementById("liga-timer");
@@ -3879,6 +4107,13 @@
       var textEl = document.getElementById("bible-text");
       textEl.innerHTML = html || '<div class="bible-status">Capítulo não encontrado.</div>';
       wireWordTaps(textEl, "en-US");
+      var refBase = bk[1] + " " + bs.c;
+      textEl.querySelectorAll(".lp-word").forEach(function(w){
+        w.addEventListener("click", function(){ var row = w.closest(".bv"); offerSaveWord(w.dataset.w, row, refBase + ":" + (row ? row.dataset.v : "")); });
+      });
+      textEl.querySelectorAll(".bv-num").forEach(function(b){
+        b.addEventListener("click", function(){ toggleVerseActions(b.closest(".bv"), rows, bk, bs.c); });
+      });
       textEl.querySelectorAll(".bv-num").forEach(function(b){
         b.addEventListener("click", function(){
           stopBibleAudio();
@@ -3933,6 +4168,7 @@
       saveState();
       renderStatbar();
       renderBibleDone();
+      studyAfterChapterRead();
     });
   }
 
@@ -3986,6 +4222,1545 @@
     if (cur){ try{ cur.scrollIntoView({ block: "center" }); }catch(e){} }
   }
 
+
+  // ================= ESTUDO: CONTEÚDO =================
+  // Devocionais curtos em inglês fácil (nível A2), escritos para o app. O versículo vem da
+  // lista VERSE_OF_DAY (KJV, domínio público) pela referência. Um por dia, em rotação.
+  var DEVOTIONALS = [
+    {ref:"John 3:16", title:"God Loves You", titlePt:"Deus te ama",
+     en:"God does not love us because we are perfect. He loves us because He is love. He gave His only Son for the whole world, and that includes you. When you feel small or forgotten, remember this verse. You are not an accident. You are loved, and you can have a new life in Jesus today.",
+     pt:"Deus não nos ama porque somos perfeitos. Ele nos ama porque Ele é amor. Ele deu o seu único Filho pelo mundo inteiro, e isso inclui você. Quando se sentir pequeno ou esquecido, lembre-se deste versículo. Você não é um acidente. Você é amado e pode ter uma vida nova em Jesus hoje.",
+     q:[{q:"Why does God love us?", pt:"Por que Deus nos ama?", o:["Because we are perfect","Because He is love","Because we go to church"], a:1},
+        {q:"What did God give for the world?", pt:"O que Deus deu pelo mundo?", o:["His only Son","A big house","A lot of money"], a:0}]},
+    {ref:"Psalm 23:1", title:"The Good Shepherd", titlePt:"O Bom Pastor",
+     en:"A shepherd takes care of his sheep every day. He finds food and water for them, and he protects them at night. David says that the Lord is his shepherd. This means that God guides us and gives us what we really need. We do not need to be afraid of tomorrow, because our Shepherd is already there.",
+     pt:"Um pastor cuida das suas ovelhas todos os dias. Ele encontra comida e água para elas e as protege à noite. Davi diz que o Senhor é o seu pastor. Isso quer dizer que Deus nos guia e nos dá o que realmente precisamos. Não precisamos ter medo do amanhã, porque o nosso Pastor já está lá.",
+     q:[{q:"What does a shepherd do?", pt:"O que um pastor faz?", o:["He sells the sheep","He takes care of the sheep","He sleeps all day"], a:1},
+        {q:"Who is David's shepherd?", pt:"Quem é o pastor de Davi?", o:["The Lord","His father","The king"], a:0}]},
+    {ref:"Philippians 4:13", title:"Strength for Today", titlePt:"Força para hoje",
+     en:"Paul wrote these words in prison. His life was not easy, but he was not alone. This verse does not mean that we can do anything we want. It means that Christ gives us strength for everything He asks us to do. When a day is hard, pray and ask Him for strength for the next step.",
+     pt:"Paulo escreveu estas palavras na prisão. A vida dele não era fácil, mas ele não estava sozinho. Este versículo não quer dizer que podemos fazer qualquer coisa que quisermos. Quer dizer que Cristo nos dá força para tudo o que Ele nos pede. Quando um dia estiver difícil, ore e peça força para o próximo passo.",
+     q:[{q:"Where was Paul when he wrote this?", pt:"Onde Paulo estava quando escreveu isto?", o:["On a beach","In prison","In a palace"], a:1},
+        {q:"Who gives us strength?", pt:"Quem nos dá força?", o:["Christ","Our phone","Money"], a:0}]},
+    {ref:"Joshua 1:9", title:"Do Not Be Afraid", titlePt:"Não tenha medo",
+     en:"Joshua had a big job. Moses was gone, and now Joshua had to lead the people into a new land. God did not say, \"This will be easy.\" He said, \"I am with you.\" Courage is not the absence of fear. Courage is walking forward because God walks with us wherever we go.",
+     pt:"Josué tinha uma grande tarefa. Moisés já tinha partido, e agora Josué tinha de guiar o povo para uma nova terra. Deus não disse: \"Isto vai ser fácil.\" Ele disse: \"Eu estou com você.\" Coragem não é a falta de medo. Coragem é seguir em frente porque Deus caminha conosco por onde formos.",
+     q:[{q:"What did God tell Joshua?", pt:"O que Deus disse a Josué?", o:["This will be easy","I am with you","Go home"], a:1},
+        {q:"What is courage?", pt:"O que é coragem?", o:["Never feeling fear","Walking forward with God","Running away"], a:1}]},
+    {ref:"Proverbs 3:5", title:"Trust, Not Worry", titlePt:"Confiar, não se preocupar",
+     en:"Sometimes we want to understand everything before we trust God. But our understanding is small, and God sees the whole picture. To trust with all your heart means to give Him your plans, your fears and your questions. You can still think and plan, but let God have the last word.",
+     pt:"Às vezes queremos entender tudo antes de confiar em Deus. Mas o nosso entendimento é pequeno, e Deus vê o quadro inteiro. Confiar de todo o coração é entregar a Ele os seus planos, os seus medos e as suas perguntas. Você ainda pode pensar e planejar, mas deixe a última palavra para Deus.",
+     q:[{q:"Who sees the whole picture?", pt:"Quem vê o quadro inteiro?", o:["God","Our friends","Nobody"], a:0},
+        {q:"How should we trust God?", pt:"Como devemos confiar em Deus?", o:["A little","With all our heart","Only on Sunday"], a:1}]},
+    {ref:"Psalm 119:105", title:"A Light for My Path", titlePt:"Uma luz no meu caminho",
+     en:"Imagine walking on a dark road at night with a small lamp. You cannot see the whole road, but you can see the next step. The Bible is like that lamp. It may not show us all of our future, but it shows us how to live today. Read a little of God's Word every day, and take the next step.",
+     pt:"Imagine andar numa estrada escura à noite com uma lâmpada pequena. Você não consegue ver a estrada toda, mas consegue ver o próximo passo. A Bíblia é como essa lâmpada. Talvez não nos mostre todo o futuro, mas mostra como viver hoje. Leia um pouco da Palavra de Deus todos os dias e dê o próximo passo.",
+     q:[{q:"What is the Bible like in this text?", pt:"Com o que a Bíblia é comparada?", o:["A lamp","A map of the world","A song"], a:0},
+        {q:"What can we see with a small lamp?", pt:"O que dá para ver com uma lâmpada pequena?", o:["The whole road","The next step","The sun"], a:1}]},
+    {ref:"Matthew 11:28", title:"Rest for the Tired", titlePt:"Descanso para os cansados",
+     en:"Many people are tired today. They work a lot, they worry a lot, and they sleep little. Jesus does not say, \"Try harder.\" He says, \"Come to me.\" His rest is more than sleep. It is peace in the heart. Today, stop for a moment, breathe, and give your heavy things to Jesus.",
+     pt:"Muitas pessoas estão cansadas hoje. Trabalham muito, preocupam-se muito e dormem pouco. Jesus não diz: \"Esforce-se mais.\" Ele diz: \"Venha a mim.\" O descanso dele é mais do que sono. É paz no coração. Hoje, pare um momento, respire e entregue a Jesus as coisas pesadas.",
+     q:[{q:"What does Jesus say?", pt:"O que Jesus diz?", o:["Try harder","Come to me","Go away"], a:1},
+        {q:"What is His rest?", pt:"O que é o descanso dele?", o:["Only sleep","Peace in the heart","A holiday"], a:1}]},
+    {ref:"Matthew 7:7", title:"Ask, Seek, Knock", titlePt:"Pedir, buscar, bater",
+     en:"Jesus uses three simple verbs: ask, seek and knock. Prayer is not only for big problems. God is a good Father who likes to hear His children. Some answers come fast, and some take time. Keep praying. Keep looking for Him. Keep knocking. He listens to you.",
+     pt:"Jesus usa três verbos simples: pedir, buscar e bater. A oração não é só para problemas grandes. Deus é um Pai bom que gosta de ouvir os seus filhos. Algumas respostas chegam rápido e outras demoram. Continue orando. Continue buscando. Continue batendo. Ele ouve você.",
+     q:[{q:"Which three verbs does Jesus use?", pt:"Quais são os três verbos?", o:["Eat, drink, sleep","Ask, seek, knock","Run, jump, sing"], a:1},
+        {q:"What kind of Father is God?", pt:"Que tipo de Pai é Deus?", o:["A good Father","An angry Father","A busy Father"], a:0}]},
+    {ref:"1 Corinthians 13:4", title:"Love Is Patient", titlePt:"O amor é paciente",
+     en:"In old English, \"charity\" means love. Paul says that true love is patient and kind. Patience is love when people are slow. Kindness is love in small actions, like a smile or a kind word. Who needs your patience today? Who needs your kindness?",
+     pt:"No inglês antigo, \"charity\" quer dizer amor. Paulo diz que o amor verdadeiro é paciente e bondoso. Paciência é amor quando as pessoas são lentas. Bondade é amor em pequenas ações, como um sorriso ou uma palavra gentil. Quem precisa da sua paciência hoje? Quem precisa da sua bondade?",
+     q:[{q:"What does \"charity\" mean here?", pt:"O que quer dizer \"charity\" aqui?", o:["Money","Love","Food"], a:1},
+        {q:"What is kindness?", pt:"O que é bondade?", o:["Love in small actions","A long sermon","Being angry"], a:0}]},
+    {ref:"Galatians 5:22", title:"The Fruit of the Spirit", titlePt:"O fruto do Espírito",
+     en:"A tree does not work hard to make fruit. The fruit grows because the tree is alive and connected to its roots. The Holy Spirit grows love, joy and peace in us in the same way. We stay close to God, and He changes us slowly from the inside.",
+     pt:"Uma árvore não se esforça para dar fruto. O fruto cresce porque a árvore está viva e ligada às raízes. O Espírito Santo faz crescer amor, alegria e paz em nós do mesmo jeito. Nós ficamos perto de Deus, e Ele nos muda devagar, por dentro.",
+     q:[{q:"Why does the fruit grow?", pt:"Por que o fruto cresce?", o:["The tree works hard","The tree is alive","Somebody paints it"], a:1},
+        {q:"Who grows love and joy in us?", pt:"Quem faz crescer amor e alegria em nós?", o:["The Holy Spirit","Our teacher","Nobody"], a:0}]},
+    {ref:"Psalm 118:24", title:"This Is the Day", titlePt:"Este é o dia",
+     en:"We often live in yesterday or in tomorrow. But the Lord made today. Today is a gift, even when it is a normal day. You can thank God for small things: coffee, a friend, a new English word. Joy grows when we see God's gifts in the day we have now.",
+     pt:"Muitas vezes vivemos no ontem ou no amanhã. Mas o Senhor fez o hoje. Hoje é um presente, mesmo quando é um dia normal. Você pode agradecer a Deus por coisas pequenas: um café, um amigo, uma palavra nova em inglês. A alegria cresce quando vemos os presentes de Deus no dia que temos agora.",
+     q:[{q:"Who made today?", pt:"Quem fez o hoje?", o:["The Lord","The weather","We did"], a:0},
+        {q:"When does joy grow?", pt:"Quando a alegria cresce?", o:["When we see God's gifts","When we are busy","When we complain"], a:0}]},
+    {ref:"Psalm 46:1", title:"God Is Our Refuge", titlePt:"Deus é o nosso refúgio",
+     en:"A refuge is a safe place in a storm. God is not only near when life is calm. He is a very present help in trouble. You can run to Him in prayer at any time: in the car, at work or at night. He is strong when we are weak.",
+     pt:"Um refúgio é um lugar seguro numa tempestade. Deus não está perto só quando a vida está calma. Ele é um socorro sempre presente na angústia. Você pode correr para Ele em oração a qualquer hora: no carro, no trabalho ou à noite. Ele é forte quando somos fracos.",
+     q:[{q:"What is a refuge?", pt:"O que é um refúgio?", o:["A safe place","A big storm","A long trip"], a:0},
+        {q:"When can you pray?", pt:"Quando você pode orar?", o:["Only at church","At any time","Only in the morning"], a:1}]},
+    {ref:"Matthew 6:33", title:"First Things First", titlePt:"Primeiro o mais importante",
+     en:"Every day we choose what comes first. For some people it is work, for others it is the phone. Jesus asks us to put God's kingdom first. This does not mean we forget food, work or family. It means that God is the center, and everything else finds its right place around Him.",
+     pt:"Todos os dias escolhemos o que vem primeiro. Para algumas pessoas é o trabalho, para outras é o celular. Jesus nos pede para colocar o Reino de Deus em primeiro lugar. Isso não quer dizer esquecer a comida, o trabalho ou a família. Quer dizer que Deus é o centro, e todo o resto encontra o seu lugar certo ao redor dele.",
+     q:[{q:"What should come first?", pt:"O que deve vir primeiro?", o:["The phone","God's kingdom","Work"], a:1},
+        {q:"Do we forget our family?", pt:"Esquecemos a nossa família?", o:["Yes","No"], a:1}]},
+    {ref:"1 John 4:19", title:"He Loved Us First", titlePt:"Ele nos amou primeiro",
+     en:"We did not start the story of love. God did. Before we prayed, before we knew His name, He already loved us. Our love for God is an answer to His love. When it is hard to love other people, remember how much you are loved first.",
+     pt:"Não fomos nós que começamos a história do amor. Foi Deus. Antes de orarmos, antes de sabermos o nome dele, Ele já nos amava. O nosso amor por Deus é uma resposta ao amor dele. Quando for difícil amar outras pessoas, lembre-se de quanto você foi amado primeiro.",
+     q:[{q:"Who loved first?", pt:"Quem amou primeiro?", o:["We did","God did","Our parents"], a:1},
+        {q:"Our love for God is...", pt:"O nosso amor por Deus é...", o:["an answer to His love","a job","a test"], a:0}]},
+    {ref:"Proverbs 17:22", title:"A Joyful Heart", titlePt:"Um coração alegre",
+     en:"This verse says that a happy heart is like good medicine. Joy does not mean that everything is perfect. It means we know that God is good, even on bad days. Singing, laughing with friends and saying thank you can help a tired heart. Share some joy with someone today.",
+     pt:"Este versículo diz que um coração alegre é como um bom remédio. Alegria não quer dizer que tudo está perfeito. Quer dizer que sabemos que Deus é bom, mesmo nos dias ruins. Cantar, rir com amigos e dizer obrigado podem ajudar um coração cansado. Compartilhe um pouco de alegria com alguém hoje.",
+     q:[{q:"A merry heart is like...", pt:"Um coração alegre é como...", o:["good medicine","a heavy stone","cold water"], a:0},
+        {q:"Does joy mean everything is perfect?", pt:"Alegria quer dizer que tudo é perfeito?", o:["Yes","No"], a:1}]},
+    {ref:"Hebrews 11:1", title:"Faith You Cannot See", titlePt:"Fé no que não se vê",
+     en:"You cannot see the wind, but you can see the trees move. Faith is like that. We cannot see God with our eyes, but we can see what He does in our lives. Faith is being sure of what we hope for. It is not a feeling. It is trust in a faithful God.",
+     pt:"Você não consegue ver o vento, mas consegue ver as árvores se mexerem. A fé é assim. Não conseguimos ver Deus com os olhos, mas conseguimos ver o que Ele faz na nossa vida. Fé é ter certeza daquilo que esperamos. Não é um sentimento. É confiança num Deus fiel.",
+     q:[{q:"What can we not see?", pt:"O que não conseguimos ver?", o:["The trees","The wind","The sky"], a:1},
+        {q:"Faith is trust in...", pt:"Fé é confiança em...", o:["a faithful God","luck","ourselves"], a:0}]},
+    {ref:"Colossians 3:23", title:"Work for the Lord", titlePt:"Trabalhar para o Senhor",
+     en:"Many jobs are not seen by anyone. Washing the dishes, studying for a test, cleaning the church. Paul says: do it with all your heart, as for the Lord. God sees the small work, too. When you do your best, even in simple things, you worship Him.",
+     pt:"Muitos trabalhos não são vistos por ninguém. Lavar a louça, estudar para uma prova, limpar a igreja. Paulo diz: faça de todo o coração, como para o Senhor. Deus também vê o trabalho pequeno. Quando você faz o seu melhor, mesmo nas coisas simples, você o adora.",
+     q:[{q:"How should we work?", pt:"Como devemos trabalhar?", o:["With all our heart","Only when people see","Slowly"], a:0},
+        {q:"Does God see small work?", pt:"Deus vê o trabalho pequeno?", o:["Yes","No"], a:0}]},
+    {ref:"Matthew 5:9", title:"Peacemakers", titlePt:"Os pacificadores",
+     en:"It is easy to start a fight and hard to make peace. A peacemaker is a person who builds bridges between people. Sometimes this means saying sorry first. Sometimes it means listening before speaking. Jesus says that peacemakers will be called children of God.",
+     pt:"É fácil começar uma briga e difícil fazer a paz. Um pacificador é uma pessoa que constrói pontes entre as pessoas. Às vezes isso quer dizer pedir desculpa primeiro. Às vezes quer dizer ouvir antes de falar. Jesus diz que os pacificadores serão chamados filhos de Deus.",
+     q:[{q:"What does a peacemaker build?", pt:"O que um pacificador constrói?", o:["Walls","Bridges between people","Houses"], a:1},
+        {q:"What will peacemakers be called?", pt:"Como serão chamados os pacificadores?", o:["Children of God","Kings","Teachers"], a:0}]},
+    {ref:"Psalm 34:18", title:"Near to the Broken", titlePt:"Perto dos quebrantados",
+     en:"When our heart is broken, we sometimes think that God is far away. This verse says the opposite. The Lord is near to people with a broken heart. You do not need to hide your pain from Him. Tell Him everything. He stays close and He heals in His time.",
+     pt:"Quando o nosso coração está partido, às vezes pensamos que Deus está longe. Este versículo diz o contrário. O Senhor está perto das pessoas de coração quebrantado. Você não precisa esconder a sua dor dele. Conte-lhe tudo. Ele fica perto e cura no tempo dele.",
+     q:[{q:"Where is God when our heart is broken?", pt:"Onde Deus está quando o coração está partido?", o:["Far away","Near","Nowhere"], a:1},
+        {q:"Do we need to hide our pain from God?", pt:"Precisamos esconder a dor de Deus?", o:["Yes","No"], a:1}]},
+    {ref:"2 Timothy 1:7", title:"Not a Spirit of Fear", titlePt:"Não um espírito de medo",
+     en:"Timothy was young and sometimes shy. Paul reminded him that fear does not come from God. God gives power to do what is right, love for other people and a sound mind to think clearly. When you feel afraid to speak English or to share your faith, remember this gift.",
+     pt:"Timóteo era jovem e às vezes tímido. Paulo lembrou-lhe que o medo não vem de Deus. Deus dá poder para fazer o que é certo, amor pelas outras pessoas e equilíbrio para pensar com clareza. Quando tiver medo de falar inglês ou de compartilhar a sua fé, lembre-se deste presente.",
+     q:[{q:"Who was young and sometimes shy?", pt:"Quem era jovem e às vezes tímido?", o:["Paul","Timothy","David"], a:1},
+        {q:"Does fear come from God?", pt:"O medo vem de Deus?", o:["Yes","No"], a:1}]},
+    {ref:"Romans 12:12", title:"Hope and Prayer", titlePt:"Esperança e oração",
+     en:"This verse is a small plan for hard times. First, rejoice in hope: God has a good future for us. Second, be patient when problems come. Third, keep praying, every day, not only once. Hope, patience and prayer walk together.",
+     pt:"Este versículo é um pequeno plano para tempos difíceis. Primeiro, alegre-se na esperança: Deus tem um bom futuro para nós. Segundo, seja paciente quando os problemas vierem. Terceiro, continue orando, todos os dias, não só uma vez. Esperança, paciência e oração caminham juntas.",
+     q:[{q:"How many parts does this small plan have?", pt:"Quantas partes tem este pequeno plano?", o:["Two","Three","Five"], a:1},
+        {q:"How often should we pray?", pt:"Com que frequência devemos orar?", o:["Only once","Every day","Never"], a:1}]}
+  ];
+
+  // Hinos clássicos — todos em domínio público (autores falecidos há mais de 70 anos).
+  // A tradução em português é nossa, livre, linha a linha, só para ajudar a entender.
+  var HYMNS = [
+    {id:"amazing-grace", title:"Amazing Grace", author:"John Newton, 1779", pt:"Maravilhosa graça",
+     lines:[
+      ["Amazing grace! How sweet the sound","Maravilhosa graça! Que doce é o som"],
+      ["That saved a wretch like me!","Que salvou um miserável como eu!"],
+      ["I once was lost, but now am found;","Eu estava perdido, mas agora fui encontrado;"],
+      ["Was blind, but now I see.","Era cego, mas agora vejo."],
+      ["",""],
+      ["'Twas grace that taught my heart to fear,","Foi a graça que ensinou o meu coração a temer,"],
+      ["And grace my fears relieved;","E a graça aliviou os meus medos;"],
+      ["How precious did that grace appear","Como pareceu preciosa essa graça"],
+      ["The hour I first believed.","Na hora em que eu cri pela primeira vez."],
+      ["",""],
+      ["Through many dangers, toils and snares,","Por muitos perigos, trabalhos e armadilhas"],
+      ["I have already come;","Eu já passei;"],
+      ["'Tis grace hath brought me safe thus far,","Foi a graça que me trouxe em segurança até aqui,"],
+      ["And grace will lead me home.","E a graça me levará para casa."]
+     ],
+     words:[["grace","graça"],["wretch","miserável, coitado"],["lost","perdido"],["found","encontrado"],["blind","cego"],["snares","armadilhas"]]},
+    {id:"jesus-loves-me", title:"Jesus Loves Me", author:"Anna B. Warner, 1860", pt:"Jesus me ama",
+     lines:[
+      ["Jesus loves me! This I know,","Jesus me ama! Isto eu sei,"],
+      ["For the Bible tells me so;","Porque a Bíblia assim me diz;"],
+      ["Little ones to Him belong;","Os pequeninos pertencem a Ele;"],
+      ["They are weak, but He is strong.","Eles são fracos, mas Ele é forte."],
+      ["",""],
+      ["Yes, Jesus loves me!","Sim, Jesus me ama!"],
+      ["Yes, Jesus loves me!","Sim, Jesus me ama!"],
+      ["Yes, Jesus loves me!","Sim, Jesus me ama!"],
+      ["The Bible tells me so.","A Bíblia assim me diz."]
+     ],
+     words:[["know","saber"],["tells","diz, conta"],["belong","pertencer"],["weak","fraco"],["strong","forte"]]},
+    {id:"what-a-friend", title:"What a Friend We Have in Jesus", author:"Joseph M. Scriven, 1855", pt:"Que amigo temos em Jesus",
+     lines:[
+      ["What a friend we have in Jesus,","Que amigo nós temos em Jesus,"],
+      ["All our sins and griefs to bear!","Que leva todos os nossos pecados e tristezas!"],
+      ["What a privilege to carry","Que privilégio é levar"],
+      ["Everything to God in prayer!","Tudo a Deus em oração!"],
+      ["O what peace we often forfeit,","Ó, quanta paz muitas vezes perdemos,"],
+      ["O what needless pain we bear,","Ó, quanta dor sem necessidade carregamos,"],
+      ["All because we do not carry","Tudo porque não levamos"],
+      ["Everything to God in prayer!","Tudo a Deus em oração!"]
+     ],
+     words:[["griefs","tristezas, dores"],["bear","suportar, carregar"],["privilege","privilégio"],["carry","levar, carregar"],["forfeit","perder, abrir mão"],["needless","desnecessário"]]},
+    {id:"it-is-well", title:"It Is Well with My Soul", author:"Horatio G. Spafford, 1873", pt:"Está tudo bem com a minha alma",
+     lines:[
+      ["When peace like a river attendeth my way,","Quando a paz, como um rio, acompanha o meu caminho,"],
+      ["When sorrows like sea billows roll;","Quando as tristezas rolam como ondas do mar;"],
+      ["Whatever my lot, Thou hast taught me to say,","Seja qual for a minha sorte, Tu me ensinaste a dizer:"],
+      ["It is well, it is well with my soul.","Está tudo bem, está tudo bem com a minha alma."],
+      ["",""],
+      ["It is well with my soul,","Está tudo bem com a minha alma,"],
+      ["It is well, it is well with my soul.","Está tudo bem, está tudo bem com a minha alma."]
+     ],
+     words:[["peace","paz"],["river","rio"],["sorrows","tristezas"],["billows","ondas grandes"],["lot","sorte, destino"],["soul","alma"]]},
+    {id:"blessed-assurance", title:"Blessed Assurance", author:"Fanny J. Crosby, 1873", pt:"Bendita certeza",
+     lines:[
+      ["Blessed assurance, Jesus is mine!","Bendita certeza: Jesus é meu!"],
+      ["O what a foretaste of glory divine!","Ó, que antegosto da glória divina!"],
+      ["Heir of salvation, purchase of God,","Herdeiro da salvação, comprado por Deus,"],
+      ["Born of His Spirit, washed in His blood.","Nascido do seu Espírito, lavado no seu sangue."],
+      ["",""],
+      ["This is my story, this is my song,","Esta é a minha história, este é o meu canto,"],
+      ["Praising my Savior all the day long;","Louvando o meu Salvador o dia inteiro;"],
+      ["This is my story, this is my song,","Esta é a minha história, este é o meu canto,"],
+      ["Praising my Savior all the day long.","Louvando o meu Salvador o dia inteiro."]
+     ],
+     words:[["assurance","certeza, segurança"],["foretaste","antegosto, amostra"],["heir","herdeiro"],["purchase","compra"],["praising","louvando"],["Savior","Salvador"]]},
+    {id:"holy-holy-holy", title:"Holy, Holy, Holy", author:"Reginald Heber, 1826", pt:"Santo, santo, santo",
+     lines:[
+      ["Holy, holy, holy! Lord God Almighty!","Santo, santo, santo! Senhor Deus Todo-Poderoso!"],
+      ["Early in the morning our song shall rise to Thee;","Bem cedo, de manhã, o nosso canto subirá a Ti;"],
+      ["Holy, holy, holy! Merciful and mighty!","Santo, santo, santo! Misericordioso e poderoso!"],
+      ["God in three Persons, blessed Trinity!","Deus em três Pessoas, bendita Trindade!"]
+     ],
+     words:[["holy","santo"],["Almighty","Todo-Poderoso"],["early","cedo"],["merciful","misericordioso"],["mighty","poderoso"]]},
+    {id:"rock-of-ages", title:"Rock of Ages", author:"Augustus M. Toplady, 1776", pt:"Rocha eterna",
+     lines:[
+      ["Rock of Ages, cleft for me,","Rocha eterna, aberta por mim,"],
+      ["Let me hide myself in Thee;","Deixa-me esconder em Ti;"],
+      ["Let the water and the blood,","Que a água e o sangue,"],
+      ["From Thy wounded side which flowed,","Que correram do teu lado ferido,"],
+      ["Be of sin the double cure,","Sejam a dupla cura do pecado,"],
+      ["Save from wrath and make me pure.","Me salvem da ira e me tornem puro."]
+     ],
+     words:[["rock","rocha"],["hide","esconder"],["wounded","ferido"],["flowed","correu, fluiu"],["cure","cura"],["pure","puro"]]},
+    {id:"joy-to-the-world", title:"Joy to the World", author:"Isaac Watts, 1719", pt:"Alegria para o mundo",
+     lines:[
+      ["Joy to the world, the Lord is come!","Alegria para o mundo, o Senhor chegou!"],
+      ["Let earth receive her King;","Que a terra receba o seu Rei;"],
+      ["Let every heart prepare Him room,","Que cada coração prepare lugar para Ele,"],
+      ["And heaven and nature sing,","E o céu e a natureza cantem,"],
+      ["And heaven and nature sing,","E o céu e a natureza cantem,"],
+      ["And heaven, and heaven, and nature sing.","E o céu, e o céu, e a natureza cantem."]
+     ],
+     words:[["joy","alegria"],["earth","terra"],["receive","receber"],["prepare","preparar"],["room","lugar, espaço"],["heaven","céu"]]},
+    {id:"silent-night", title:"Silent Night", author:"Joseph Mohr (trad. John F. Young, 1859)", pt:"Noite silenciosa",
+     lines:[
+      ["Silent night, holy night,","Noite silenciosa, noite santa,"],
+      ["All is calm, all is bright","Tudo está calmo, tudo brilha"],
+      ["Round yon virgin mother and Child.","Ao redor da virgem mãe e do Menino."],
+      ["Holy Infant so tender and mild,","Santo Menino tão terno e manso,"],
+      ["Sleep in heavenly peace,","Dorme em paz celestial,"],
+      ["Sleep in heavenly peace.","Dorme em paz celestial."]
+     ],
+     words:[["silent","silencioso"],["calm","calmo"],["bright","brilhante"],["tender","terno"],["mild","manso, suave"],["heavenly","celestial"]]},
+    {id:"doxology", title:"Doxology", author:"Thomas Ken, 1674", pt:"Doxologia",
+     lines:[
+      ["Praise God, from whom all blessings flow;","Louvai a Deus, de quem vêm todas as bênçãos;"],
+      ["Praise Him, all creatures here below;","Louvai-o, todas as criaturas aqui em baixo;"],
+      ["Praise Him above, ye heavenly host;","Louvai-o lá em cima, exército celestial;"],
+      ["Praise Father, Son, and Holy Ghost.","Louvai o Pai, o Filho e o Espírito Santo."]
+     ],
+     words:[["praise","louvar"],["blessings","bênçãos"],["flow","fluir, vir"],["creatures","criaturas"],["below","abaixo"],["host","exército, multidão"]]}
+  ];
+
+  // Planos de leitura: cada dia é um capítulo [livro, capítulo]. Os marcados premium:true
+  // são exclusivos do TheKing Premium.
+  function planRange(ab, from, to){ var out = []; for (var c = from; c <= to; c++) out.push([ab, c]); return out; }
+  var READING_PLANS = [
+    {id:"joao21", icon:"✝️", title:"João em 21 dias", sub:"O Evangelho de João, um capítulo por dia", days: planRange("jo", 1, 21)},
+    {id:"salmos30", icon:"🌅", title:"Salmos da manhã", sub:"30 salmos para começar o dia com Deus", days: [1,8,16,19,23,27,32,34,37,40,42,46,51,62,63,84,90,91,96,100,103,107,116,121,127,139,145,146,148,150].map(function(c){ return ["sl", c]; })},
+    {id:"prov31", icon:"💡", title:"Provérbios em 31 dias", sub:"Sabedoria para o dia a dia, um capítulo por dia", days: planRange("pv", 1, 31)},
+    {id:"marcos16", icon:"🦁", title:"Marcos em 16 dias", sub:"O Evangelho mais curto, cheio de ação", days: planRange("mc", 1, 16)},
+    {id:"genesis12", icon:"🌍", title:"Histórias do Gênesis", sub:"12 dias: criação, Noé, Abraão, José", days: [1,2,3,6,7,12,15,22,28,37,41,45].map(function(c){ return ["gn", c]; })},
+    {id:"vidajesus14", icon:"👑", premium:true, title:"A vida de Jesus em 14 dias", sub:"Do nascimento à ressurreição", days: [["lc",1],["lc",2],["mt",3],["mt",4],["mt",5],["mt",6],["jo",3],["jo",4],["lc",15],["jo",11],["mt",26],["mt",27],["mt",28],["at",1]]},
+    {id:"atos28", icon:"🔥", premium:true, title:"Atos em 28 dias", sub:"A igreja nasce e o Evangelho chega ao mundo", days: planRange("at", 1, 28)},
+    {id:"romanos16", icon:"📜", premium:true, title:"Romanos em 16 dias", sub:"A carta que explica a graça", days: planRange("rm", 1, 16)}
+  ];
+
+  // Medalhas: cada uma é uma verificação sobre o progresso. Ao ganhar, dá gemas uma vez.
+  var MEDAL_GEMS = 10;
+  var MEDALS = [
+    {id:"first_lesson", icon:"🌱", title:"Primeiro passo", desc:"Concluir a primeira lição"},
+    {id:"streak3", icon:"🔥", title:"3 dias seguidos", desc:"Estudar 3 dias seguidos"},
+    {id:"streak7", icon:"🔥", title:"Uma semana firme", desc:"Estudar 7 dias seguidos"},
+    {id:"streak30", icon:"🏆", title:"30 dias seguidos", desc:"Estudar 30 dias seguidos"},
+    {id:"perfect5", icon:"💯", title:"Perfeição", desc:"5 lições sem nenhum erro"},
+    {id:"xp500", icon:"⭐", title:"500 XP", desc:"Juntar 500 XP"},
+    {id:"xp2000", icon:"🌟", title:"2000 XP", desc:"Juntar 2000 XP"},
+    {id:"words50", icon:"🧠", title:"50 palavras", desc:"Dominar 50 palavras no Praticar"},
+    {id:"words150", icon:"🎓", title:"150 palavras", desc:"Dominar 150 palavras no Praticar"},
+    {id:"bible10", icon:"📖", title:"Leitor", desc:"Ler 10 capítulos da Bíblia"},
+    {id:"john", icon:"✝️", title:"Evangelho de João", desc:"Ler os 21 capítulos de João"},
+    {id:"bible100", icon:"📚", title:"Amigo da Palavra", desc:"Ler 100 capítulos da Bíblia"},
+    {id:"plan", icon:"📅", title:"Plano completo", desc:"Terminar um plano de leitura"},
+    {id:"memo1", icon:"🧩", title:"Guardei no coração", desc:"Memorizar um versículo da semana"},
+    {id:"memo4", icon:"💎", title:"Quatro versículos", desc:"Memorizar 4 versículos da semana"},
+    {id:"devo7", icon:"☀️", title:"7 devocionais", desc:"Fazer 7 devocionais"},
+    {id:"mywords10", icon:"⭐", title:"Colecionador", desc:"Guardar 10 palavras da Bíblia"},
+    {id:"hymns5", icon:"🎵", title:"Cantor", desc:"Abrir 5 hinos diferentes"},
+    {id:"share", icon:"📤", title:"Mensageiro", desc:"Partilhar um versículo"},
+    {id:"premium", icon:"👑", title:"Coroa de ouro", desc:"Ser membro TheKing Premium"}
+  ];
+
+  // ================= ESTUDO: ESTADO E AJUDANTES =================
+  function ensureStudy(){
+    if (!state.study || typeof state.study !== "object") state.study = {};
+    var s = state.study;
+    if (!s.devo || typeof s.devo !== "object") s.devo = {};
+    if (!s.memo || typeof s.memo !== "object") s.memo = {};
+    if (!s.memoDone || typeof s.memoDone !== "object") s.memoDone = {};
+    if (!s.memoGems || typeof s.memoGems !== "object") s.memoGems = {};
+    if (!s.plansDone || typeof s.plansDone !== "object") s.plansDone = {};
+    if (!s.hymns || typeof s.hymns !== "object") s.hymns = {};
+    if (typeof s.shares !== "number") s.shares = 0;
+    if (s.plan && typeof s.plan !== "object") s.plan = null;
+    if (!state.myWords || typeof state.myWords !== "object" || Array.isArray(state.myWords)) state.myWords = {};
+    if (!state.medals || typeof state.medals !== "object") state.medals = {};
+    if (typeof state.premiumUntil !== "number") state.premiumUntil = 0;
+    if (!Array.isArray(state.gifts)) state.gifts = [];
+    if (typeof state.bestStreak !== "number") state.bestStreak = 0;
+    return s;
+  }
+  function isPremium(){ return (Number(state.premiumUntil) || 0) > Date.now(); }
+  function extendPremium(days){
+    var base = Math.max(Date.now(), Number(state.premiumUntil) || 0);
+    state.premiumUntil = base + days * 86400000;
+  }
+  function formatDatePt(ms){
+    var d = new Date(ms);
+    return String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0") + "/" + d.getFullYear();
+  }
+  function toast(msg, kind, ms){ showLigaBanner(msg, kind || "ok", ms || 4500); }
+  function verseByRef(ref){
+    for (var i = 0; i < VERSE_OF_DAY.length; i++) if (VERSE_OF_DAY[i].ref === ref) return VERSE_OF_DAY[i];
+    return null;
+  }
+  function bookName(ab){ var i = bibleBookIndex(ab); return i < 0 ? ab : BIBLE_BOOKS[i][2]; }
+  function goToChapter(ab, c){
+    var bs = bibleState();
+    bs.b = ab; bs.c = c;
+    saveState();
+    closeExtraOverlay();
+    goTab("biblia");
+  }
+  // Segunda-feira (data local) da semana corrente, no formato AAAA-MM-DD.
+  function mondayKey(d){
+    d = d ? new Date(d) : new Date();
+    var day = d.getDay();
+    d.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  // ================= DEVOCIONAL DO DIA =================
+  function todaysDevotional(){ return DEVOTIONALS[dayOfYear(new Date()) % DEVOTIONALS.length]; }
+  function devoDoneToday(){ return !!ensureStudy().devo[todayStr()]; }
+  function devoCount(){ return Object.keys(ensureStudy().devo).length; }
+
+  function openDevotional(){
+    var d = todaysDevotional();
+    var v = verseByRef(d.ref) || { en: "", pt: "" };
+    var answers = [];
+    var showPt = false;
+    function render(){
+      var qHtml = d.q.map(function(q, qi){
+        var chosen = answers[qi];
+        return '<div class="devo-q"><div class="devo-qt">' + (qi + 1) + '. ' + escapeHtml(q.q) + '</div><div class="devo-qpt">' + escapeHtml(q.pt) + '</div>' +
+          '<div class="lp-options">' + q.o.map(function(opt, oi){
+            var cls = "lp-tile devo-opt";
+            if (chosen !== undefined){
+              if (oi === q.a) cls += " correct";
+              else if (oi === chosen) cls += " wrong";
+            }
+            return '<button class="' + cls + '" type="button" data-q="' + qi + '" data-o="' + oi + '"' + (chosen !== undefined ? ' disabled' : '') + '>' + escapeHtml(opt) + '</button>';
+          }).join("") + '</div></div>';
+      }).join("");
+      var allAnswered = answers.filter(function(x){ return x !== undefined; }).length === d.q.length;
+      var done = devoDoneToday();
+      var html = extraHeader("Devocional de hoje") +
+        '<div class="lp-body"><div class="lp-wrap">' +
+          '<div class="devo-kicker">☀️ ' + escapeHtml(d.titlePt) + '</div>' +
+          '<h2 class="devo-title">' + escapeHtml(d.title) + '</h2>' +
+          '<div class="devo-verse"><div class="verse-en">' + wordsHtml(v.en) + '</div><div class="verse-pt">' + escapeHtml(v.pt) + '</div>' +
+            '<div class="verse-foot"><button class="verse-more" id="devo-listen-verse" type="button">🔊 Ouvir versículo</button><span class="verse-ref">' + escapeHtml(d.ref) + ' · KJV</span></div></div>' +
+          '<div class="devo-text">' + wordsHtml(d.en) + '</div>' +
+          '<div class="devo-tools"><button class="chip on" id="devo-listen" type="button">🔊 Ouvir texto</button>' +
+            '<button class="chip' + (showPt ? ' on' : '') + '" id="devo-pt" type="button">' + (showPt ? '🇧🇷 Esconder tradução' : '🇧🇷 Ver tradução') + '</button></div>' +
+          (showPt ? '<div class="devo-pt">' + escapeHtml(d.pt) + '</div>' : '') +
+          '<h3 class="sec" style="margin-top:22px;">Perguntas</h3>' + qHtml +
+          (allAnswered ? (done
+            ? '<div class="lp-feedback correct">✓ Devocional de hoje concluído. Volta amanhã para o próximo!</div>'
+            : '<button class="btn-outline" id="devo-finish" type="button" style="margin-top:16px;">Concluir (+10 XP)</button>') : '') +
+          '<p class="bible-credit">Texto do devocional: TheKing Idiomas. Versículo: King James Version (domínio público); tradução livre.</p>' +
+        '</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      wireWordTaps(extraOverlay, "en-US");
+      document.getElementById("devo-listen-verse").addEventListener("click", function(){ speak(v.en, "en-US", { rate: 0.9 }); });
+      document.getElementById("devo-listen").addEventListener("click", function(){ speak(d.en, "en-US", { rate: 0.9 }); });
+      document.getElementById("devo-pt").addEventListener("click", function(){ showPt = !showPt; render(); });
+      extraOverlay.querySelectorAll(".devo-opt").forEach(function(b){
+        b.addEventListener("click", function(){
+          answers[parseInt(b.dataset.q, 10)] = parseInt(b.dataset.o, 10);
+          render();
+        });
+      });
+      var fin = document.getElementById("devo-finish");
+      if (fin) fin.addEventListener("click", function(){
+        var s = ensureStudy();
+        if (!s.devo[todayStr()]){
+          s.devo[todayStr()] = 1;
+          addXp(10);
+          saveState(); renderStatbar();
+          toast("☀️ Devocional concluído! +10 XP");
+        }
+        render();
+        renderTodayStudy(); renderStudyHub();
+      });
+    }
+    render();
+  }
+
+  // ================= VERSÍCULO DA SEMANA (memorizar) =================
+  var MEMO_VERSES = VERSE_OF_DAY.filter(function(v){ return v.en.split(/\s+/).length <= 22; });
+  function memoWeek(){
+    var key = mondayKey();
+    var parts = key.split("-");
+    var weeks = Math.floor(Date.UTC(+parts[0], +parts[1] - 1, +parts[2]) / (7 * 86400000));
+    return { key: key, verse: MEMO_VERSES[weeks % MEMO_VERSES.length] };
+  }
+  function memoState(){
+    var s = ensureStudy();
+    var w = memoWeek();
+    if (s.memo.week !== w.key) s.memo = { week: w.key, stage: 0 };
+    return s.memo;
+  }
+  function memoDoneCount(){ return Object.keys(ensureStudy().memoDone).length; }
+  var MEMO_STEPS = [
+    { title: "Ouvir e ler", desc: "Ouve o versículo e lê com calma", xp: 5 },
+    { title: "Completar", desc: "Preenche as palavras que faltam", xp: 10 },
+    { title: "Montar de memória", desc: "Monta o versículo inteiro, palavra a palavra", xp: 10 }
+  ];
+
+  function normWord(t){ return String(t).replace(/^[“"'(]+|[).,!?;:”"']+$/g, "").toLowerCase(); }
+  function stripPunct(t){ return String(t).replace(/^[“"'(]+|[).,!?;:”"']+$/g, ""); }
+
+  // Exercício de completar: esconde algumas (ou todas as) palavras e a pessoa toca nas
+  // peças pela ordem certa. opts: {title, en, pt, ref, mode:"some"|"all", extra, maxMistakes, onDone(mistakes), onFail}
+  function runCloze(opts){
+    var tokens = opts.en.split(/\s+/).filter(Boolean);
+    var hidden = [];
+    if (opts.mode === "all"){
+      hidden = tokens.map(function(_, i){ return i; });
+    } else {
+      var candidates = tokens.map(function(t, i){ return i; }).filter(function(i){ return stripPunct(tokens[i]).length >= 3; });
+      var n = Math.max(3, Math.round(candidates.length * 0.4));
+      hidden = shuffle(candidates).slice(0, n).sort(function(a, b){ return a - b; });
+    }
+    var filled = {};
+    var next = 0;
+    var mistakes = 0;
+    var pool = hidden.map(function(i){ return stripPunct(tokens[i]); });
+    if (opts.extra){
+      var others = [];
+      VERSE_OF_DAY.forEach(function(v){ v.en.split(/\s+/).forEach(function(t){ var w = stripPunct(t); if (w.length >= 3) others.push(w); }); });
+      var have = {}; pool.forEach(function(w){ have[w.toLowerCase()] = 1; });
+      shuffle(others).forEach(function(w){ if (opts.extraAdded >= opts.extra) return; if (!have[w.toLowerCase()]){ have[w.toLowerCase()] = 1; pool.push(w); opts.extraAdded = (opts.extraAdded || 0) + 1; } });
+    }
+    var tiles = shuffle(pool.map(function(w, i){ return { id: i, w: w, used: false }; }));
+    function render(){
+      var verseHtml = tokens.map(function(t, i){
+        var hi = hidden.indexOf(i);
+        if (hi === -1) return '<span class="cz-word">' + escapeHtml(t) + '</span>';
+        if (filled[i]) return '<span class="cz-word cz-filled">' + escapeHtml(t) + '</span>';
+        return '<span class="cz-blank' + (hidden[next] === i ? ' cz-cur' : '') + '">' + '&nbsp;'.repeat(Math.max(3, stripPunct(t).length)) + '</span>';
+      }).join(" ");
+      var done = next >= hidden.length;
+      var html = extraHeader(opts.title) +
+        '<div class="lp-body"><div class="lp-wrap">' +
+          '<p class="vp-hint">' + escapeHtml(opts.hint || "Toca nas palavras pela ordem certa para completar o versículo.") + '</p>' +
+          '<div class="cz-verse">' + verseHtml + '</div>' +
+          '<div class="cz-ref">' + escapeHtml(opts.ref) + '</div>' +
+          (opts.maxMistakes ? '<div class="cz-mistakes">Erros: ' + mistakes + ' de ' + opts.maxMistakes + ' permitidos</div>' : '') +
+          (done ? '' : '<div class="vp-pool" id="cz-pool">' + tiles.filter(function(t){ return !t.used; }).map(function(t){
+            return '<button class="vp-tile" type="button" data-id="' + t.id + '">' + escapeHtml(t.w) + '</button>';
+          }).join("") + '</div>') +
+          (done ? '<div class="lp-feedback correct">Muito bem! ' + (mistakes ? mistakes + ' erro(s).' : 'Sem erros!') + '</div><button class="btn-outline" id="cz-continue" type="button" style="margin-top:14px;">Continuar</button>' : '') +
+        '</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      extraOverlay.querySelectorAll("#cz-pool .vp-tile").forEach(function(b){
+        b.addEventListener("click", function(){
+          var tile = tiles.filter(function(t){ return t.id === parseInt(b.dataset.id, 10); })[0];
+          var target = tokens[hidden[next]];
+          if (tile && normWord(tile.w) === normWord(target)){
+            tile.used = true;
+            filled[hidden[next]] = true;
+            next++;
+            speak(stripPunct(target), "en-US");
+            render();
+          } else {
+            mistakes++;
+            b.classList.add("wrong");
+            setTimeout(function(){ b.classList.remove("wrong"); }, 450);
+            if (opts.maxMistakes && mistakes > opts.maxMistakes){
+              if (opts.onFail) opts.onFail(); else render();
+              return;
+            }
+            var mEl = extraOverlay.querySelector(".cz-mistakes");
+            if (mEl) mEl.textContent = "Erros: " + mistakes + " de " + opts.maxMistakes + " permitidos";
+          }
+        });
+      });
+      var cont = document.getElementById("cz-continue");
+      if (cont) cont.addEventListener("click", function(){ opts.onDone(mistakes); });
+    }
+    render();
+  }
+
+  function openMemo(){
+    var w = memoWeek();
+    var m = memoState();
+    var v = w.verse;
+    var isSunday = new Date().getDay() === 0;
+    var s = ensureStudy();
+    var sundayDone = !!s.memoGems[w.key];
+    var stepsHtml = MEMO_STEPS.map(function(st, i){
+      var done = m.stage > i;
+      var unlocked = m.stage >= i;
+      return '<button class="citem memo-step" type="button" data-step="' + i + '"' + (unlocked ? '' : ' disabled') + '>' +
+        '<span class="cnum' + (done ? ' done' : (unlocked ? '' : ' locked')) + '">' + (done ? svgIcon("check") : (unlocked ? (i + 1) : svgIcon("lock"))) + '</span>' +
+        '<span class="ctext"><span class="ctitle">' + escapeHtml(st.title) + '</span><span class="csub">' + escapeHtml(st.desc) + ' · +' + st.xp + ' XP</span></span>' +
+        (unlocked ? '<span class="cchev">' + svgIcon("chev") + '</span>' : '') + '</button>';
+    }).join("");
+    var sundayHtml =
+      '<button class="citem memo-step memo-sunday" type="button" data-step="sunday"' + ((isSunday && !sundayDone) ? '' : ' disabled') + '>' +
+        '<span class="cnum' + (sundayDone ? ' done' : '') + '" style="font-size:18px;">' + (sundayDone ? svgIcon("check") : '🏆') + '</span>' +
+        '<span class="ctext"><span class="ctitle">Desafio de domingo</span><span class="csub">' +
+          (sundayDone ? 'Concluído esta semana! +20 gemas ganhas' : (isSunday ? 'Monta o versículo de memória com no máximo 2 erros · +20 gemas' : 'Abre no domingo: versículo de memória valendo +20 gemas')) +
+        '</span></span></button>';
+    var html = extraHeader("Versículo da semana") +
+      '<div class="lp-body"><div class="lp-wrap">' +
+        '<div class="verse-card memo-card"><div class="verse-head"><span class="lbl">🧠 Para guardar no coração</span><button class="verse-listen" id="memo-listen" type="button" aria-label="Ouvir">🔊</button></div>' +
+          '<div class="verse-en">' + wordsHtml(v.en) + '</div><div class="verse-pt">' + escapeHtml(v.pt) + ' <span style="opacity:.7;">(tradução livre)</span></div>' +
+          '<div class="verse-foot"><button class="verse-more" id="memo-share" type="button">📤 Partilhar</button><span class="verse-ref">' + escapeHtml(v.ref) + ' · KJV</span></div></div>' +
+        '<p class="vp-hint">Um versículo novo toda segunda-feira. Faz os passos durante a semana e, no domingo, mostra que o guardaste de memória.</p>' +
+        '<div class="clist">' + stepsHtml + sundayHtml + '</div>' +
+        '<div class="memo-count">Versículos memorizados: ' + memoDoneCount() + '</div>' +
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    wireWordTaps(extraOverlay, "en-US");
+    document.getElementById("memo-listen").addEventListener("click", function(){ speak(v.en, "en-US", { rate: 0.85 }); });
+    document.getElementById("memo-share").addEventListener("click", function(){ openShareCard({ en: v.en, pt: v.pt, ref: v.ref, label: "Versículo da semana" }); });
+    extraOverlay.querySelectorAll(".memo-step:not([disabled])").forEach(function(b){
+      b.addEventListener("click", function(){ runMemoStep(b.dataset.step); });
+    });
+  }
+
+  function completeMemoStep(i){
+    var m = memoState();
+    if (m.stage <= i){
+      m.stage = i + 1;
+      addXp(MEMO_STEPS[i].xp);
+      if (m.stage >= MEMO_STEPS.length) ensureStudy().memoDone[m.week] = 1;
+      saveState(); renderStatbar();
+      toast(m.stage >= MEMO_STEPS.length ? "🧠 Versículo memorizado! +" + MEMO_STEPS[i].xp + " XP" : "Passo concluído! +" + MEMO_STEPS[i].xp + " XP");
+    }
+    openMemo();
+    renderTodayStudy(); renderStudyHub();
+  }
+
+  function runMemoStep(step){
+    var w = memoWeek(), v = w.verse;
+    if (step === "0"){
+      var html = extraHeader("Ouvir e ler") +
+        '<div class="lp-body"><div class="lp-wrap">' +
+          '<p class="vp-hint">Ouve o versículo 3 vezes, repetindo em voz alta. Toca numa palavra para a ouvir sozinha.</p>' +
+          '<div class="verse-card"><div class="verse-en" style="font-size:19px;">' + wordsHtml(v.en) + '</div><div class="verse-pt">' + escapeHtml(v.pt) + '</div><div class="verse-ref">' + escapeHtml(v.ref) + '</div></div>' +
+          '<div class="memo-listen-row"><button class="btn-outline" id="ml-normal" type="button">🔊 Ouvir</button><button class="btn-outline" id="ml-slow" type="button">🐢 Devagar</button></div>' +
+          '<div class="memo-listen-count" id="ml-count">Ouviste 0 de 3 vezes</div>' +
+          '<button class="btn-outline" id="ml-done" type="button" disabled style="margin-top:12px;">Já ouvi e repeti</button>' +
+        '</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      wireWordTaps(extraOverlay, "en-US");
+      var count = 0;
+      function heard(rate){
+        speak(v.en, "en-US", { rate: rate });
+        count++;
+        document.getElementById("ml-count").textContent = "Ouviste " + Math.min(count, 3) + " de 3 vezes";
+        if (count >= 3) document.getElementById("ml-done").disabled = false;
+      }
+      document.getElementById("ml-normal").addEventListener("click", function(){ heard(0.9); });
+      document.getElementById("ml-slow").addEventListener("click", function(){ heard(0.6); });
+      document.getElementById("ml-done").addEventListener("click", function(){ completeMemoStep(0); });
+      return;
+    }
+    if (step === "1"){
+      runCloze({ title: "Completar", en: v.en, ref: v.ref, mode: "some", onDone: function(){ completeMemoStep(1); } });
+      return;
+    }
+    if (step === "2"){
+      runCloze({ title: "Montar de memória", en: v.en, ref: v.ref, mode: "all", hint: "Monta o versículo inteiro, palavra a palavra, pela ordem certa.", onDone: function(){ completeMemoStep(2); } });
+      return;
+    }
+    if (step === "sunday"){
+      if (new Date().getDay() !== 0) return;
+      runCloze({
+        title: "Desafio de domingo", en: v.en, ref: v.ref, mode: "all", extra: 3, maxMistakes: 2,
+        hint: "Sem ajuda: monta o versículo de memória. Há palavras a mais no meio! Podes errar no máximo 2 vezes.",
+        onDone: function(){
+          var s = ensureStudy();
+          if (!s.memoGems[w.key]){
+            s.memoGems[w.key] = 1;
+            s.memoDone[w.key] = 1;
+            addGems(20); addXp(15);
+            saveState(); renderStatbar();
+            toast("🏆 Desafio vencido! +20 gemas e +15 XP");
+          }
+          openMemo();
+        },
+        onFail: function(){
+          openExtraOverlay(extraHeader("Desafio de domingo") +
+            '<div class="lp-body"><div class="lp-wrap"><div class="lp-summary"><div class="big">Quase!</div><p>Erraste mais de 2 vezes. Revê o versículo e tenta outra vez — ainda é domingo! 🙂</p></div>' +
+            '<button class="btn-outline" id="sun-again" type="button">Tentar outra vez</button></div></div>');
+          wireExtraClose();
+          document.getElementById("sun-again").addEventListener("click", openMemo);
+        }
+      });
+    }
+  }
+
+  // ================= PLANOS DE LEITURA =================
+  function planById(id){ for (var i = 0; i < READING_PLANS.length; i++) if (READING_PLANS[i].id === id) return READING_PLANS[i]; return null; }
+  function planProgress(plan){
+    var read = bibleState().read;
+    var done = 0, nextIdx = -1;
+    plan.days.forEach(function(d, i){
+      if (read[d[0] + "." + d[1]]) done++;
+      else if (nextIdx === -1) nextIdx = i;
+    });
+    return { done: done, total: plan.days.length, next: nextIdx };
+  }
+  function activePlan(){
+    var s = ensureStudy();
+    return s.plan && s.plan.id ? planById(s.plan.id) : null;
+  }
+  // Chamado depois de marcar um capítulo como lido: vê se algum plano terminou.
+  function studyAfterChapterRead(){
+    var s = ensureStudy();
+    READING_PLANS.forEach(function(p){
+      if (s.plansDone[p.id]) return;
+      if (!s.plan || s.plan.id !== p.id) return;
+      var pr = planProgress(p);
+      if (pr.done >= pr.total){
+        s.plansDone[p.id] = todayStr();
+        addGems(30);
+        saveState(); renderStatbar();
+        toast("📅 Plano \"" + p.title + "\" concluído! +30 gemas", "ok", 6000);
+      }
+    });
+    renderTodayStudy();
+  }
+
+  function openPlans(){
+    var s = ensureStudy();
+    var cur = activePlan();
+    var html = extraHeader("Planos de leitura") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<p class="vp-hint">Escolhe um plano: um capítulo por dia, em inglês e português. Marca "Li este capítulo" no fim de cada leitura para avançar.</p><div class="clist">';
+    READING_PLANS.forEach(function(p){
+      var pr = planProgress(p);
+      var locked = p.premium && !isPremium();
+      var status = s.plansDone[p.id] ? "✓ concluído" : (cur && cur.id === p.id ? "a seguir · " + pr.done + "/" + pr.total : pr.total + " dias");
+      html += '<button class="citem" type="button" data-plan="' + p.id + '">' +
+        '<span class="cnum" style="font-size:18px;">' + p.icon + '</span>' +
+        '<span class="ctext"><span class="ctitle">' + escapeHtml(p.title) + (p.premium ? ' <span class="prem-tag">👑 Premium</span>' : '') + '</span>' +
+        '<span class="csub">' + escapeHtml(p.sub) + ' · ' + escapeHtml(locked ? "exclusivo Premium" : status) + '</span></span>' +
+        '<span class="cchev">' + svgIcon("chev") + '</span></button>';
+    });
+    html += '</div></div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    extraOverlay.querySelectorAll("[data-plan]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var p = planById(b.dataset.plan);
+        if (p.premium && !isPremium()){ openPremiumInfo(); return; }
+        openPlanDetail(p.id);
+      });
+    });
+  }
+
+  function openPlanDetail(id){
+    var p = planById(id);
+    var s = ensureStudy();
+    var isActive = s.plan && s.plan.id === id;
+    var pr = planProgress(p);
+    var read = bibleState().read;
+    var pct = Math.round(pr.done / pr.total * 100);
+    var daysHtml = p.days.map(function(d, i){
+      var done = !!read[d[0] + "." + d[1]];
+      var isNext = i === pr.next;
+      return '<button class="plan-day' + (done ? ' done' : '') + (isNext ? ' next' : '') + '" type="button" data-i="' + i + '">' +
+        '<span class="pd-n">Dia ' + (i + 1) + '</span><span class="pd-ref">' + escapeHtml(bookName(d[0]) + ' ' + d[1]) + '</span>' +
+        '<span class="pd-st">' + (done ? '✓' : (isNext ? 'hoje' : '')) + '</span></button>';
+    }).join("");
+    var html = extraHeader(p.title) + '<div class="lp-body"><div class="lp-wrap">' +
+      '<div class="plan-head"><span class="plan-ic">' + p.icon + '</span><div><div class="plan-sub">' + escapeHtml(p.sub) + '</div>' +
+      '<div class="goal-progress" style="margin:10px 0 6px;"><div style="width:' + pct + '%"></div></div><div class="plan-count">' + pr.done + ' de ' + pr.total + ' dias · conclusão: +30 gemas</div></div></div>' +
+      (isActive ? '' : '<button class="btn-outline" id="plan-start" type="button" style="margin-bottom:14px;">Seguir este plano</button>') +
+      (isActive && pr.next !== -1 ? '<button class="btn-outline" id="plan-go" type="button" style="margin-bottom:14px;">Ler o dia ' + (pr.next + 1) + ': ' + escapeHtml(bookName(p.days[pr.next][0]) + ' ' + p.days[pr.next][1]) + '</button>' : '') +
+      '<div class="plan-days">' + daysHtml + '</div>' +
+      (isActive ? '<button class="auth-switch" id="plan-stop" type="button">Deixar de seguir este plano</button>' : '') +
+      '<button class="bp-back" id="plan-back" type="button">‹ Todos os planos</button>' +
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    var st = document.getElementById("plan-start");
+    if (st) st.addEventListener("click", function(){
+      s.plan = { id: id, start: todayStr() };
+      saveState();
+      toast("📅 Plano escolhido! Aparece no Início todos os dias.");
+      openPlanDetail(id);
+      renderTodayStudy(); renderStudyHub();
+    });
+    var go = document.getElementById("plan-go");
+    if (go) go.addEventListener("click", function(){ var d = p.days[pr.next]; goToChapter(d[0], d[1]); });
+    var stop = document.getElementById("plan-stop");
+    if (stop) stop.addEventListener("click", function(){ s.plan = null; saveState(); openPlans(); renderTodayStudy(); renderStudyHub(); });
+    document.getElementById("plan-back").addEventListener("click", openPlans);
+    extraOverlay.querySelectorAll(".plan-day").forEach(function(b){
+      b.addEventListener("click", function(){ var d = p.days[parseInt(b.dataset.i, 10)]; goToChapter(d[0], d[1]); });
+    });
+  }
+
+  // ================= HINOS =================
+  function hymnById(id){ for (var i = 0; i < HYMNS.length; i++) if (HYMNS[i].id === id) return HYMNS[i]; return null; }
+  function openHymns(){
+    var s = ensureStudy();
+    var html = extraHeader("Hinos clássicos") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<p class="vp-hint">Hinos antigos em inglês, com tradução linha a linha. Todos são de domínio público. Toca numa palavra para ouvir a pronúncia.</p><div class="clist">';
+    HYMNS.forEach(function(h){
+      html += '<button class="citem" type="button" data-hymn="' + h.id + '">' +
+        '<span class="cnum' + (s.hymns[h.id] ? ' done' : '') + '" style="font-size:17px;">' + (s.hymns[h.id] ? svgIcon("check") : '🎵') + '</span>' +
+        '<span class="ctext"><span class="ctitle">' + escapeHtml(h.title) + '</span><span class="csub">' + escapeHtml(h.pt + ' · ' + h.author) + '</span></span>' +
+        '<span class="cchev">' + svgIcon("chev") + '</span></button>';
+    });
+    html += '</div></div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    extraOverlay.querySelectorAll("[data-hymn]").forEach(function(b){
+      b.addEventListener("click", function(){ openHymn(b.dataset.hymn); });
+    });
+  }
+  var hymnAudioToken = 0;
+  function openHymn(id){
+    var h = hymnById(id);
+    var s = ensureStudy();
+    if (!s.hymns[id]){ s.hymns[id] = 1; saveState(); }
+    var showPt = true;
+    function render(){
+      var linesHtml = h.lines.map(function(l, i){
+        if (!l[0]) return '<div class="hy-gap"></div>';
+        return '<div class="hy-line" data-i="' + i + '"><div class="hy-en">' + wordsHtml(l[0]) + '</div>' + (showPt ? '<div class="hy-pt">' + escapeHtml(l[1]) + '</div>' : '') + '</div>';
+      }).join("");
+      var wordsHtmlList = h.words.map(function(w){
+        var saved = !!state.myWords[w[0].toLowerCase()];
+        return '<button class="hy-vocab' + (saved ? ' saved' : '') + '" type="button" data-w="' + escapeHtml(w[0]) + '" data-pt="' + escapeHtml(w[1]) + '"><b>' + escapeHtml(w[0]) + '</b> ' + escapeHtml(w[1]) + ' <span>' + (saved ? '✓' : '＋') + '</span></button>';
+      }).join("");
+      var html = extraHeader(h.title) + '<div class="lp-body"><div class="lp-wrap">' +
+        '<div class="hy-author">' + escapeHtml(h.author) + ' · domínio público</div>' +
+        '<div class="bible-tools"><button class="chip" id="hy-play" type="button">▶ Ouvir a letra</button>' +
+        '<button class="chip' + (showPt ? ' on' : '') + '" id="hy-pt" type="button">' + (showPt ? '🇧🇷 Tradução visível' : '🙈 Tradução escondida') + '</button></div>' +
+        '<div class="hy-lines">' + linesHtml + '</div>' +
+        '<h3 class="sec" style="margin-top:20px;">Palavras deste hino</h3><p class="vp-hint" style="margin-top:-6px;">Toca para guardar nas tuas palavras e treinar no Praticar.</p>' +
+        '<div class="hy-vocabs">' + wordsHtmlList + '</div>' +
+        '<p class="bible-credit">A áudio é a voz do teu aparelho a ler a letra (sem melodia). Tradução livre do TheKing Idiomas.</p>' +
+        '<button class="bp-back" id="hy-back" type="button">‹ Todos os hinos</button>' +
+        '</div></div>';
+      openExtraOverlay(html);
+      wireExtraClose();
+      document.getElementById("extra-close").addEventListener("click", stopHymnAudio);
+      wireWordTaps(extraOverlay, "en-US");
+      document.getElementById("hy-pt").addEventListener("click", function(){ showPt = !showPt; stopHymnAudio(); render(); });
+      document.getElementById("hy-back").addEventListener("click", function(){ stopHymnAudio(); openHymns(); });
+      var play = document.getElementById("hy-play");
+      play.addEventListener("click", function(){
+        if (play.classList.contains("playing")){ stopHymnAudio(); return; }
+        playHymn(h);
+      });
+      extraOverlay.querySelectorAll(".hy-vocab").forEach(function(b){
+        b.addEventListener("click", function(){
+          var line = h.lines.filter(function(l){ return l[0] && l[0].toLowerCase().indexOf(b.dataset.w.toLowerCase()) !== -1; })[0] || ["", ""];
+          saveMyWord({ w: b.dataset.w, pt: b.dataset.pt, ex: line[0], exPt: line[1], ref: h.title });
+          render();
+        });
+      });
+    }
+    render();
+  }
+  function stopHymnAudio(){
+    hymnAudioToken++;
+    try{ if (window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+    var b = document.getElementById("hy-play");
+    if (b){ b.classList.remove("playing"); b.textContent = "▶ Ouvir a letra"; }
+    document.querySelectorAll(".hy-line.reading").forEach(function(el){ el.classList.remove("reading"); });
+  }
+  function playHymn(h){
+    if (!('speechSynthesis' in window)) return;
+    stopHymnAudio();
+    var token = hymnAudioToken;
+    var b = document.getElementById("hy-play");
+    if (b){ b.classList.add("playing"); b.textContent = "■ Parar"; }
+    var i = 0;
+    function next(){
+      if (token !== hymnAudioToken) return;
+      document.querySelectorAll(".hy-line.reading").forEach(function(el){ el.classList.remove("reading"); });
+      while (i < h.lines.length && !h.lines[i][0]) i++;
+      if (i >= h.lines.length){ stopHymnAudio(); return; }
+      var row = document.querySelector('.hy-line[data-i="' + i + '"]');
+      if (row) row.classList.add("reading");
+      var u = new SpeechSynthesisUtterance(h.lines[i][0]);
+      u.lang = "en-US"; u.rate = 0.85;
+      var voice = pickBestVoice(state.voiceNames && state.voiceNames.en, "en");
+      if (voice) u.voice = voice;
+      u.onend = function(){ i++; setTimeout(next, 300); };
+      u.onerror = function(){ if (token === hymnAudioToken){ i++; setTimeout(next, 300); } };
+      window.speechSynthesis.speak(u);
+    }
+    setTimeout(next, 60);
+  }
+
+  // ================= CARTÃO DE VERSÍCULO PARA PARTILHAR =================
+  function wrapCanvasText(ctx, text, maxWidth){
+    var words = String(text).split(/\s+/), lines = [], line = "";
+    words.forEach(function(w){
+      var test = line ? line + " " + w : w;
+      if (ctx.measureText(test).width > maxWidth && line){ lines.push(line); line = w; }
+      else line = test;
+    });
+    if (line) lines.push(line);
+    return lines;
+  }
+  function loadImage(src){
+    return new Promise(function(resolve){
+      if (!src){ resolve(null); return; }
+      var img = new Image();
+      img.onload = function(){ resolve(img); };
+      img.onerror = function(){ resolve(null); };
+      img.src = src;
+    });
+  }
+  async function makeVerseCardBlob(v){
+    var W = 1080, H = 1920;
+    var c = document.createElement("canvas");
+    c.width = W; c.height = H;
+    var ctx = c.getContext("2d");
+    try{ if (document.fonts && document.fonts.load){ await Promise.race([Promise.all([document.fonts.load("800 60px Inter"), document.fonts.load("500 40px Inter")]), new Promise(function(r){ setTimeout(r, 1500); })]); } }catch(e){}
+    var g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, "#2a2160"); g.addColorStop(0.55, "#161629"); g.addColorStop(1, "#0c0d16");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // brilho suave
+    var rg = ctx.createRadialGradient(W * 0.8, H * 0.12, 20, W * 0.8, H * 0.12, 700);
+    rg.addColorStop(0, "rgba(245,200,107,0.22)"); rg.addColorStop(1, "rgba(245,200,107,0)");
+    ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    var logoEl = document.querySelector(".splash-inner img");
+    var logo = await loadImage(logoEl ? logoEl.src : "");
+    var size = v.en.length > 150 ? 54 : (v.en.length > 90 ? 62 : 72);
+    ctx.font = "800 " + size + "px Inter, sans-serif";
+    var enLines = wrapCanvasText(ctx, "“" + v.en + "”", W - 180);
+    ctx.font = "500 40px Inter, sans-serif";
+    var ptLines = v.pt ? wrapCanvasText(ctx, v.pt, W - 200) : [];
+    // altura do bloco (logo + rótulo + versículo + referência + tradução), para o centrar
+    var blockH = (logo ? 220 : 60) + 90 + enLines.length * size * 1.3 + 30 + 90 + ptLines.length * 56;
+    var y = Math.max(140, Math.round((H - 380 - blockH) / 2));
+    if (logo){ ctx.drawImage(logo, (W - 170) / 2, y, 170, 170); y += 220; } else { y += 60; }
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#f5c86b";
+    ctx.font = "700 34px Inter, sans-serif";
+    ctx.fillText(String(v.label || "Versículo do dia").toUpperCase(), W / 2, y);
+    y += 90;
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 " + size + "px Inter, sans-serif";
+    enLines.forEach(function(l){ ctx.fillText(l, W / 2, y); y += size * 1.3; });
+    y += 30;
+    ctx.fillStyle = "#c9c2fb";
+    ctx.font = "700 38px Inter, sans-serif";
+    ctx.fillText(v.ref + " · KJV", W / 2, y);
+    y += 90;
+    if (ptLines.length){
+      ctx.fillStyle = "rgba(244,244,248,0.78)";
+      ctx.font = "500 40px Inter, sans-serif";
+      ptLines.forEach(function(l){ ctx.fillText(l, W / 2, y); y += 56; });
+    }
+    if (v.credit){
+      ctx.fillStyle = "rgba(148,151,171,0.8)";
+      ctx.font = "500 26px Inter, sans-serif";
+      ctx.fillText(v.credit, W / 2, H - 340);
+    }
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.fillRect(140, H - 300, W - 280, 2);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 44px Inter, sans-serif";
+    ctx.fillText("TheKing Idiomas", W / 2, H - 210);
+    ctx.fillStyle = "#9497ab";
+    ctx.font = "600 34px Inter, sans-serif";
+    ctx.fillText("Aprende inglês com a Bíblia · thekingidiomas.com.br", W / 2, H - 150);
+    return await new Promise(function(resolve){ c.toBlob(function(b){ resolve(b); }, "image/png"); });
+  }
+  function countShare(){
+    var s = ensureStudy();
+    s.shares = (s.shares || 0) + 1;
+    saveState();
+  }
+  async function openShareCard(v){
+    openExtraOverlay(extraHeader("Partilhar versículo") + '<div class="lp-body"><div class="lp-wrap"><div class="bible-status">A preparar a imagem…</div></div></div>');
+    wireExtraClose();
+    var blob = null;
+    try{ blob = await makeVerseCardBlob(v); }catch(e){}
+    if (!blob){
+      openExtraOverlay(extraHeader("Partilhar versículo") + '<div class="lp-body"><div class="lp-wrap"><div class="bible-status">Não foi possível criar a imagem neste aparelho.</div></div></div>');
+      wireExtraClose();
+      return;
+    }
+    var url = URL.createObjectURL(blob);
+    var file = null;
+    try{ file = new File([blob], "versiculo-theking.png", { type: "image/png" }); }catch(e){}
+    var canShareFile = !!(file && navigator.canShare && navigator.canShare({ files: [file] }));
+    openExtraOverlay(extraHeader("Partilhar versículo") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<img class="share-preview" src="' + url + '" alt="Cartão do versículo">' +
+      (canShareFile ? '<button class="btn-outline" id="share-go" type="button">📤 Partilhar (WhatsApp, Instagram…)</button>' : '') +
+      '<a class="btn-outline share-dl" id="share-dl" href="' + url + '" download="versiculo-theking.png">⬇️ Guardar imagem</a>' +
+      '<p class="vp-hint" style="margin-top:12px; text-align:center;">Ideal para o Status do WhatsApp ou os Stories do Instagram. Se o botão não funcionar, toca e segura na imagem para a guardar.</p>' +
+      '</div></div>');
+    wireExtraClose();
+    var sg = document.getElementById("share-go");
+    if (sg) sg.addEventListener("click", async function(){
+      try{
+        await navigator.share({ files: [file], title: "TheKing Idiomas", text: v.ref + " · thekingidiomas.com.br" });
+        countShare();
+      }catch(e){}
+    });
+    document.getElementById("share-dl").addEventListener("click", function(){ countShare(); });
+  }
+
+  // ================= MINHAS PALAVRAS (guardadas da Bíblia e dos hinos) =================
+  var MY_CAT = "mine";
+  var dictEn = null;
+  function lookupPt(word){
+    if (!dictEn){
+      dictEn = {};
+      var raw = CONTENT.en.RAW;
+      Object.keys(raw).forEach(function(cat){ raw[cat].forEach(function(r){ dictEn[String(r[0]).toLowerCase()] = r[1]; }); });
+      HYMNS.forEach(function(h){ h.words.forEach(function(w){ if (!dictEn[w[0].toLowerCase()]) dictEn[w[0].toLowerCase()] = w[1]; }); });
+    }
+    var w = String(word).toLowerCase();
+    var tries = [w, w.replace(/'s$/, ""), w.replace(/s$/, ""), w.replace(/es$/, ""), w.replace(/ed$/, ""), w.replace(/d$/, ""), w.replace(/eth$/, ""), w.replace(/eth$/, "e"), w.replace(/est$/, ""), w.replace(/ing$/, ""), w.replace(/ing$/, "e"), w.replace(/ies$/, "y")];
+    for (var i = 0; i < tries.length; i++) if (tries[i] && dictEn[tries[i]]) return dictEn[tries[i]];
+    return "";
+  }
+  function myWordsCount(){ return Object.keys(state.myWords || {}).length; }
+  function myWordObjects(){
+    var mw = state.myWords || {};
+    return Object.keys(mw).sort().map(function(k){
+      var x = mw[k];
+      return { id: "mine-" + k, en: x.w, pt: x.pt || "(ver o versículo)", example: (x.ex || "") + (x.ref ? " — " + x.ref : ""), trap: null, category: MY_CAT };
+    });
+  }
+  function saveMyWord(x){
+    ensureStudy();
+    var key = String(x.w || "").toLowerCase().trim();
+    if (!key) return;
+    var isNew = !state.myWords[key];
+    state.myWords[key] = { w: x.w, pt: String(x.pt || "").slice(0, 80), ex: String(x.ex || "").slice(0, 400), exPt: String(x.exPt || "").slice(0, 400), ref: String(x.ref || "").slice(0, 60), at: Date.now() };
+    var en = state.progress.en;
+    if (en && en.selectedCats.indexOf(MY_CAT) === -1) en.selectedCats.push(MY_CAT);
+    saveState();
+    if (state.language === "en"){ renderChips(); syncChips(); }
+    toast(isNew ? "⭐ \"" + x.w + "\" guardada — treina no Praticar" : "⭐ \"" + x.w + "\" atualizada");
+  }
+  function removeMyWord(key){
+    delete state.myWords[key];
+    delete state.progress.en.boxes["mine-" + key];
+    if (!myWordsCount()){
+      var sc = state.progress.en.selectedCats, i = sc.indexOf(MY_CAT);
+      if (i !== -1 && sc.length > 1) sc.splice(i, 1);
+    }
+    saveState();
+    if (state.language === "en"){ renderChips(); syncChips(); nextCard(); }
+  }
+
+  // Bolha "guardar palavra" que aparece ao tocar numa palavra na Bíblia.
+  var saveBubbleTimer = null;
+  function offerSaveWord(word, verseRow, ref){
+    var el = document.getElementById("word-bubble");
+    if (!el) return;
+    var clean = stripPunct(word);
+    if (!clean || !/[a-z]/i.test(clean)) return;
+    var saved = !!(state.myWords && state.myWords[clean.toLowerCase()]);
+    var pt = lookupPt(clean);
+    el.innerHTML = '<span class="wb-word">' + escapeHtml(clean) + (pt ? ' <small>' + escapeHtml(pt) + '</small>' : '') + '</span>' +
+      (saved ? '<span class="wb-saved">✓ nas tuas palavras</span>' : '<button type="button" id="wb-save">⭐ Guardar</button>');
+    el.hidden = false;
+    clearTimeout(saveBubbleTimer);
+    saveBubbleTimer = setTimeout(function(){ el.hidden = true; }, 4500);
+    var btn = document.getElementById("wb-save");
+    if (btn) btn.addEventListener("click", function(){
+      el.hidden = true;
+      var en = verseRow ? (verseRow.querySelector(".bv-en") || {}).textContent : "";
+      var ptv = verseRow ? (verseRow.querySelector(".bv-pt") || {}).textContent : "";
+      openSaveWordSheet({ w: clean, pt: pt, ex: en, exPt: ptv, ref: ref });
+    });
+  }
+  function openSaveWordSheet(x){
+    var html = extraHeader("Guardar palavra") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<div class="sw-word"><span>' + escapeHtml(x.w) + '</span><button class="spk-btn" id="sw-speak" type="button" aria-label="Ouvir">🔊</button></div>' +
+      '<div class="field"><label for="sw-pt">Significado em português</label><input id="sw-pt" type="text" maxlength="80" value="' + escapeHtml(x.pt || "") + '" placeholder="escreve o significado (opcional)"></div>' +
+      (x.ex ? '<div class="sw-context"><div class="sw-ctx-lbl">📖 ' + escapeHtml(x.ref || "") + '</div><div class="sw-ctx-en">' + escapeHtml(x.ex) + '</div>' + (x.exPt ? '<div class="sw-ctx-pt">' + escapeHtml(x.exPt) + '</div>' : '') + '</div>' : '') +
+      '<p class="vp-hint">Se não souberes o significado, deixa em branco: o cartão mostra o versículo como dica.</p>' +
+      '<button class="btn-outline" id="sw-save" type="button">⭐ Guardar nas minhas palavras</button>' +
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    document.getElementById("sw-speak").addEventListener("click", function(){ speak(x.w, "en-US"); });
+    document.getElementById("sw-save").addEventListener("click", function(){
+      x.pt = document.getElementById("sw-pt").value.trim();
+      saveMyWord(x);
+      closeExtraOverlay();
+    });
+  }
+  function openMyWords(){
+    var mw = state.myWords || {};
+    var keys = Object.keys(mw).sort();
+    var html = extraHeader("Minhas palavras") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<p class="vp-hint">Palavras que guardaste da Bíblia e dos hinos. Treina-as no Praticar com o filtro "⭐ Minhas palavras".</p>';
+    if (!keys.length){
+      html += '<div class="emptystate">Ainda não guardaste nenhuma palavra.<br>Na Bíblia, toca numa palavra e depois em "⭐ Guardar".</div>';
+    } else {
+      html += '<div class="mw-list">' + keys.map(function(k){
+        var x = mw[k];
+        return '<div class="mw-row"><div class="mw-text"><b>' + escapeHtml(x.w) + '</b><span>' + escapeHtml(x.pt || "—") + (x.ref ? ' · ' + escapeHtml(x.ref) : '') + '</span></div>' +
+          '<button class="mw-speak" type="button" data-say="' + escapeHtml(x.w) + '" aria-label="Ouvir">🔊</button>' +
+          '<button class="mw-del" type="button" data-del="' + escapeHtml(k) + '" aria-label="Apagar">🗑</button></div>';
+      }).join("") + '</div>' +
+      '<button class="btn-outline" id="mw-practice" type="button" style="margin-top:14px;">Treinar no Praticar</button>';
+    }
+    html += '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    extraOverlay.querySelectorAll("[data-say]").forEach(function(b){ b.addEventListener("click", function(){ speak(b.dataset.say, "en-US"); }); });
+    extraOverlay.querySelectorAll("[data-del]").forEach(function(b){ b.addEventListener("click", function(){ removeMyWord(b.dataset.del); openMyWords(); renderMyWordsEntry(); }); });
+    var pr = document.getElementById("mw-practice");
+    if (pr) pr.addEventListener("click", function(){
+      closeExtraOverlay();
+      if (state.language !== "en") switchLanguage("en");
+      var en = lp();
+      en.selectedCats = [MY_CAT];
+      saveState();
+      goTab("practice");
+      renderChips(); syncChips(); nextCard();
+    });
+  }
+  function renderMyWordsEntry(){
+    var b = document.getElementById("mywords-entry");
+    if (!b) return;
+    var n = myWordsCount();
+    if (!b._wired){ b._wired = true; b.addEventListener("click", openMyWords); }
+    b.hidden = state.language !== "en";
+    b.innerHTML = '<span class="qc-ic">⭐</span><span class="qc-text"><b>Minhas palavras' + (n ? ' (' + n + ')' : '') + '</b><small>' +
+      (n ? 'Guardadas da Bíblia e dos hinos · ver e gerir' : 'Na Bíblia, toca numa palavra e guarda-a aqui') + '</small></span><span class="qc-chev">›</span>';
+  }
+
+  // ================= MEDALHAS =================
+  var medalTimer = null;
+  function scheduleMedalCheck(){ clearTimeout(medalTimer); medalTimer = setTimeout(function(){ checkMedals(false); }, 700); }
+  function masteredWordsCount(){
+    var n = 0;
+    Object.keys(state.progress || {}).forEach(function(lang){
+      var b = (state.progress[lang] || {}).boxes || {};
+      Object.keys(b).forEach(function(k){ if (b[k] >= 3) n++; });
+    });
+    return n;
+  }
+  function lessonsStats(){
+    var done = 0, perfect = 0;
+    Object.keys(state.progress || {}).forEach(function(lang){
+      var lc = (state.progress[lang] || {}).lessonsCompleted || {};
+      Object.keys(lc).forEach(function(k){ if (lc[k].completed) done++; if (lc[k].perfect) perfect++; });
+    });
+    return { done: done, perfect: perfect };
+  }
+  function medalEarned(id){
+    var s = ensureStudy();
+    var best = Math.max(state.bestStreak || 0, state.streak || 0);
+    var read = bibleState().read;
+    var ls = lessonsStats();
+    switch (id){
+      case "first_lesson": return ls.done >= 1;
+      case "streak3": return best >= 3;
+      case "streak7": return best >= 7;
+      case "streak30": return best >= 30;
+      case "perfect5": return ls.perfect >= 5;
+      case "xp500": return state.xp >= 500;
+      case "xp2000": return state.xp >= 2000;
+      case "words50": return masteredWordsCount() >= 50;
+      case "words150": return masteredWordsCount() >= 150;
+      case "bible10": return bibleReadCount() >= 10;
+      case "bible100": return bibleReadCount() >= 100;
+      case "john": for (var c = 1; c <= 21; c++) if (!read["jo." + c]) return false; return true;
+      case "plan": return Object.keys(s.plansDone).length >= 1;
+      case "memo1": return memoDoneCount() >= 1;
+      case "memo4": return memoDoneCount() >= 4;
+      case "devo7": return devoCount() >= 7;
+      case "mywords10": return myWordsCount() >= 10;
+      case "hymns5": return Object.keys(s.hymns).length >= 5;
+      case "share": return (s.shares || 0) >= 1;
+      case "premium": return isPremium();
+    }
+    return false;
+  }
+  function checkMedals(silent){
+    ensureStudy();
+    if ((state.streak || 0) > (state.bestStreak || 0)) state.bestStreak = state.streak;
+    var fresh = [];
+    MEDALS.forEach(function(m){
+      if (!state.medals[m.id] && medalEarned(m.id)){ state.medals[m.id] = todayStr(); fresh.push(m); }
+    });
+    if (!fresh.length) return;
+    addGems(fresh.length * MEDAL_GEMS);
+    saveState();
+    renderStatbar();
+    if (!silent){
+      if (fresh.length === 1) toast("🏅 Nova medalha: " + fresh[0].icon + " " + fresh[0].title + " · +" + MEDAL_GEMS + " gemas", "ok", 5500);
+      else toast("🏅 " + fresh.length + " novas medalhas! +" + (fresh.length * MEDAL_GEMS) + " gemas", "ok", 5500);
+    }
+    var active = document.querySelector("section.panel.active");
+    if (active && active.id === "panel-progress") renderMedals();
+  }
+  function renderMedals(){
+    var el = document.getElementById("medals-grid");
+    if (!el) return;
+    ensureStudy();
+    var n = Object.keys(state.medals).length;
+    var t = document.getElementById("medals-title");
+    if (t) t.textContent = "Medalhas · " + n + " de " + MEDALS.length;
+    el.innerHTML = MEDALS.map(function(m){
+      var got = !!state.medals[m.id];
+      return '<button class="medal' + (got ? ' got' : '') + '" type="button" data-medal="' + m.id + '"><span class="md-ic">' + m.icon + '</span><span class="md-t">' + escapeHtml(m.title) + '</span></button>';
+    }).join("");
+    el.querySelectorAll(".medal").forEach(function(b){
+      b.addEventListener("click", function(){
+        var m = MEDALS.filter(function(x){ return x.id === b.dataset.medal; })[0];
+        var got = state.medals[m.id];
+        toast(m.icon + " " + m.title + " — " + m.desc + (got ? " · ganha em " + got.split("-").reverse().join("/") : " · +" + MEDAL_GEMS + " gemas ao ganhar"), got ? "ok" : null, 4000);
+      });
+    });
+  }
+
+  // ================= HUB DE ESTUDO (aba Bíblia) + "ESTUDO DE HOJE" (Início) =================
+  function renderStudyHub(){
+    var el = document.getElementById("study-hub");
+    if (!el) return;
+    var plan = activePlan();
+    var planSub = plan ? (function(){ var pr = planProgress(plan); return plan.title + " · " + pr.done + "/" + pr.total; })() : "João, Salmos, Provérbios…";
+    var m = memoState();
+    var memoSub = m.stage >= MEMO_STEPS.length ? "✓ memorizado esta semana" : (m.stage + "/" + MEMO_STEPS.length + " passos · " + memoWeek().verse.ref);
+    var devoSub = devoDoneToday() ? "✓ feito hoje" : todaysDevotional().titlePt;
+    el.innerHTML =
+      '<button class="quick-card" type="button" id="hub-plans"><span class="qc-ic">📅</span><span class="qc-text"><b>Planos</b><small>' + escapeHtml(planSub) + '</small></span></button>' +
+      '<button class="quick-card" type="button" id="hub-memo"><span class="qc-ic">🧠</span><span class="qc-text"><b>Versículo da semana</b><small>' + escapeHtml(memoSub) + '</small></span></button>' +
+      '<button class="quick-card" type="button" id="hub-devo"><span class="qc-ic">☀️</span><span class="qc-text"><b>Devocional</b><small>' + escapeHtml(devoSub) + '</small></span></button>' +
+      '<button class="quick-card" type="button" id="hub-hymns"><span class="qc-ic">🎵</span><span class="qc-text"><b>Hinos</b><small>Clássicos em inglês</small></span></button>';
+    document.getElementById("hub-plans").addEventListener("click", function(){ if (plan) openPlanDetail(plan.id); else openPlans(); });
+    document.getElementById("hub-memo").addEventListener("click", openMemo);
+    document.getElementById("hub-devo").addEventListener("click", openDevotional);
+    document.getElementById("hub-hymns").addEventListener("click", openHymns);
+  }
+  function renderTodayStudy(){
+    var el = document.getElementById("today-study");
+    if (!el) return;
+    if (state.language !== "en"){ el.hidden = true; return; }
+    el.hidden = false;
+    var rows = [];
+    var devo = todaysDevotional();
+    rows.push('<button class="ts-row" type="button" data-ts="devo"><span class="ts-ic">☀️</span><span class="ts-t"><b>Devocional</b><small>' + escapeHtml(devo.titlePt) + '</small></span><span class="ts-st' + (devoDoneToday() ? ' ok' : '') + '">' + (devoDoneToday() ? '✓' : '+10 XP') + '</span></button>');
+    var plan = activePlan();
+    if (plan){
+      var pr = planProgress(plan);
+      var nd = pr.next !== -1 ? plan.days[pr.next] : null;
+      rows.push('<button class="ts-row" type="button" data-ts="plan"><span class="ts-ic">📅</span><span class="ts-t"><b>' + escapeHtml(plan.title) + '</b><small>' +
+        (nd ? 'Hoje: ' + escapeHtml(bookName(nd[0]) + ' ' + nd[1]) : 'Plano concluído! 🎉') + '</small></span><span class="ts-st' + (nd ? '' : ' ok') + '">' + pr.done + '/' + pr.total + '</span></button>');
+    } else {
+      rows.push('<button class="ts-row" type="button" data-ts="plans"><span class="ts-ic">📅</span><span class="ts-t"><b>Plano de leitura</b><small>Escolhe um plano: um capítulo por dia</small></span><span class="ts-st">›</span></button>');
+    }
+    var m = memoState();
+    rows.push('<button class="ts-row" type="button" data-ts="memo"><span class="ts-ic">🧠</span><span class="ts-t"><b>Versículo da semana</b><small>' + escapeHtml(memoWeek().verse.ref) + '</small></span><span class="ts-st' + (m.stage >= MEMO_STEPS.length ? ' ok' : '') + '">' + (m.stage >= MEMO_STEPS.length ? '✓' : m.stage + '/' + MEMO_STEPS.length) + '</span></button>');
+    el.innerHTML = '<div class="ts-head">📖 Estudo de hoje</div>' + rows.join("");
+    el.querySelectorAll(".ts-row").forEach(function(b){
+      b.addEventListener("click", function(){
+        var t = b.dataset.ts;
+        if (t === "devo") openDevotional();
+        else if (t === "memo") openMemo();
+        else if (t === "plans") openPlans();
+        else if (t === "plan"){
+          var p = activePlan(); var pr2 = planProgress(p);
+          if (pr2.next !== -1){ var d = p.days[pr2.next]; goToChapter(d[0], d[1]); } else openPlanDetail(p.id);
+        }
+      });
+    });
+  }
+
+  // Ações de um versículo na Bíblia (aparecem ao tocar no número do versículo).
+  function toggleVerseActions(row, rows, bk, chap){
+    if (!row) return;
+    var body = row.querySelector(".bv-body");
+    var existing = row.querySelector(".verse-actions");
+    document.querySelectorAll("#bible-text .verse-actions").forEach(function(el){ el.remove(); });
+    if (existing) return;
+    var i = parseInt(row.dataset.v, 10) - 1;
+    var ref = bk[1] + " " + chap + ":" + (i + 1);
+    var bar = document.createElement("div");
+    bar.className = "verse-actions";
+    bar.innerHTML = '<button type="button" data-act="share">📤 Partilhar imagem</button><button type="button" data-act="copy">📋 Copiar</button>';
+    body.appendChild(bar);
+    bar.querySelector('[data-act="share"]').addEventListener("click", function(e){
+      e.stopPropagation();
+      openShareCard({ en: rows[i][0], pt: rows[i][1] || "", ref: ref, label: "Bíblia", credit: "Português: Bíblia Livre (CC BY 3.0)" });
+    });
+    bar.querySelector('[data-act="copy"]').addEventListener("click", async function(e){
+      e.stopPropagation();
+      var txt = "“" + rows[i][0] + "” — " + ref + " (KJV)" + (rows[i][1] ? "\n" + rows[i][1] + " (Bíblia Livre)" : "") + "\nthekingidiomas.com.br";
+      var btn = this;
+      try{ await navigator.clipboard.writeText(txt); btn.textContent = "✅ Copiado"; }catch(err){ window.prompt("Copia o versículo:", txt); }
+    });
+  }
+
+  // ================= THEKING PREMIUM + PRESENTES =================
+  var PREMIUM_PACK = "prem30";
+  var PREMIUM_DAYS = 30;
+  var PREMIUM_PRICE = { brl: "R$ 9,90", eur: "€2,99" };
+  var PREMIUM_PERKS = ["❤️ Corações ilimitados nas lições", "📅 Planos de leitura exclusivos", "👑 Medalha Coroa de ouro"];
+  var giftMode = false;
+  var GIFT_PENDING_KEY = "theking_presente_pendente";
+
+  function openPremiumInfo(){
+    closeExtraOverlay();
+    goTab("progress");
+    setTimeout(function(){
+      var el = document.getElementById("premium-card");
+      if (el){ try{ el.scrollIntoView({ block: "center", behavior: "smooth" }); }catch(e){} el.classList.add("flash"); setTimeout(function(){ el.classList.remove("flash"); }, 1600); }
+    }, 80);
+  }
+
+  function renderPremiumCard(){
+    var el = document.getElementById("premium-card");
+    if (!el) return;
+    var active = isPremium();
+    var canBuy = !!payApi();
+    var cur = payCurrency();
+    var perks = '<ul class="prem-perks">' + PREMIUM_PERKS.map(function(p){ return '<li>' + escapeHtml(p) + '</li>'; }).join("") + '</ul>';
+    if (active){
+      el.innerHTML = '<div class="prem-top"><span class="prem-crown">👑</span><div><b>TheKing Premium ativo</b><small>até ' + formatDatePt(state.premiumUntil) + '</small></div></div>' + perks +
+        (canBuy ? '<button class="prem-btn" id="prem-buy" type="button">' + (giftMode ? '🎁 Oferecer Premium · ' : 'Juntar mais 30 dias · ') + escapeHtml(PREMIUM_PRICE[cur]) + '</button>' : '');
+    } else {
+      el.innerHTML = '<div class="prem-top"><span class="prem-crown">👑</span><div><b>TheKing Premium</b><small>30 dias · sem renovação automática</small></div></div>' + perks +
+        (canBuy ? '<button class="prem-btn" id="prem-buy" type="button">' + (giftMode ? '🎁 Oferecer Premium · ' : 'Ativar Premium · ') + escapeHtml(PREMIUM_PRICE[cur]) + '</button>' : '<p class="prem-note">Em breve.</p>');
+    }
+    var b = document.getElementById("prem-buy");
+    if (b) b.addEventListener("click", function(){ startPurchase(PREMIUM_PACK); });
+  }
+
+  function renderGiftToggle(){
+    var el = document.getElementById("gift-toggle");
+    if (!el) return;
+    el.hidden = !payApi();
+    el.classList.toggle("on", giftMode);
+    el.textContent = giftMode ? "🎁 Modo presente ligado: o que comprares vira um código para oferecer" : "🎁 Comprar como presente para alguém";
+    if (!el._wired){
+      el._wired = true;
+      el.addEventListener("click", function(){ giftMode = !giftMode; renderGiftToggle(); renderGemStore(); renderPremiumCard(); });
+    }
+    var gs = document.getElementById("gemstore");
+    if (gs) gs.classList.toggle("gift-mode", giftMode);
+  }
+
+  function giftShareText(code){
+    return "🎁 Tenho um presente para ti no TheKing Idiomas (aprender inglês com a Bíblia)! Abre este link para o receber: " + giftLink(code);
+  }
+  function giftLink(code){ return "https://thekingidiomas.com.br/?presente=" + encodeURIComponent(code); }
+  function giftWhat(g){
+    if (g.premiumDays) return "TheKing Premium " + g.premiumDays + " dias";
+    return (g.gems || 0) + " gemas";
+  }
+  function showGiftCode(g){
+    var html = extraHeader("O teu presente") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<div class="lp-summary" style="padding-top:4vh;"><div class="lp-kicker">🎁 Presente pronto</div><div class="gift-code">' + escapeHtml(g.code) + '</div>' +
+      '<p>' + escapeHtml(giftWhat(g)) + ' · envia este código ou o link a quem quiseres. Só pode ser usado uma vez.</p></div>' +
+      '<button class="btn-outline" id="gift-share" type="button">📤 Enviar presente</button>' +
+      '<button class="btn-outline" id="gift-copy" type="button" style="margin-top:10px;">Copiar link</button>' +
+      '<p class="vp-hint" style="margin-top:14px; text-align:center;">O código fica guardado em Perfil → "Os teus presentes".</p>' +
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    document.getElementById("gift-share").addEventListener("click", async function(){
+      try{
+        if (navigator.share){ await navigator.share({ title: "Presente TheKing Idiomas", text: giftShareText(g.code) }); return; }
+      }catch(e){ return; }
+      window.open("https://wa.me/?text=" + encodeURIComponent(giftShareText(g.code)), "_blank");
+    });
+    document.getElementById("gift-copy").addEventListener("click", async function(){
+      var b = document.getElementById("gift-copy");
+      try{ await navigator.clipboard.writeText(giftLink(g.code)); b.textContent = "Link copiado! ✅"; }
+      catch(e){ window.prompt("Copia o link do presente:", giftLink(g.code)); }
+    });
+  }
+  function rememberGift(data){
+    ensureStudy();
+    if (!data || !data.code) return null;
+    var exists = state.gifts.filter(function(g){ return g.code === data.code; })[0];
+    if (exists) return exists;
+    var g = { code: data.code, gems: data.gems || 0, premiumDays: data.premiumDays || 0, at: Date.now() };
+    state.gifts.push(g);
+    if (state.gifts.length > 30) state.gifts = state.gifts.slice(-30);
+    saveState();
+    return g;
+  }
+
+  function renderGiftCard(){
+    var el = document.getElementById("gift-card");
+    if (!el) return;
+    ensureStudy();
+    el.hidden = !payApi();
+    if (el.hidden) return;
+    var pending = "";
+    try{ pending = localStorage.getItem(GIFT_PENDING_KEY) || ""; }catch(e){}
+    var mine = state.gifts.slice().reverse();
+    el.innerHTML = '<div class="ch-title" style="font-size:14.5px;">🎁 Presentes</div><p class="prem-note" style="margin:0 0 10px;">Recebeste um código? Resgata-o aqui. Para oferecer, liga o modo presente acima e compra gemas ou Premium.</p>' +
+      '<div class="gift-row"><div class="field" style="flex:1; margin:0;"><input id="gift-input" type="text" maxlength="14" placeholder="ABCD-EFGH-JKLM" value="' + escapeHtml(pending) + '" autocapitalize="characters"></div>' +
+      '<button class="prem-btn small" id="gift-redeem" type="button">Resgatar</button></div>' +
+      '<div class="gift-msg" id="gift-msg"></div>' +
+      (mine.length ? '<details class="gift-mine"><summary>Os teus presentes (' + mine.length + ')</summary>' + mine.map(function(g){
+        return '<div class="gift-item"><span><b>' + escapeHtml(g.code) + '</b> · ' + escapeHtml(giftWhat(g)) + '</span><button type="button" data-gift="' + escapeHtml(g.code) + '">enviar</button></div>';
+      }).join("") + '</details>' : '');
+    document.getElementById("gift-redeem").addEventListener("click", redeemGift);
+    el.querySelectorAll("[data-gift]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var g = state.gifts.filter(function(x){ return x.code === b.dataset.gift; })[0];
+        if (g) showGiftCode(g);
+      });
+    });
+  }
+  async function redeemGift(){
+    var input = document.getElementById("gift-input");
+    var msg = document.getElementById("gift-msg");
+    var btn = document.getElementById("gift-redeem");
+    var code = String(input.value || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    if (code.length !== 12){ msg.className = "gift-msg err"; msg.textContent = "O código tem 12 letras/números (ex.: ABCD-EFGH-JKLM)."; return; }
+    code = code.slice(0, 4) + "-" + code.slice(4, 8) + "-" + code.slice(8);
+    btn.disabled = true; msg.className = "gift-msg"; msg.textContent = "A verificar…";
+    try{
+      var res = await fetch(payApi() + "/gift/redeem", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: code }) });
+      var data = null; try{ data = await res.json(); }catch(e){}
+      if (!res.ok) throw new Error((data && data.error) || "não foi possível resgatar");
+      if (data.gems) addGems(data.gems);
+      if (data.premiumDays) extendPremium(data.premiumDays);
+      try{ localStorage.removeItem(GIFT_PENDING_KEY); }catch(e){}
+      saveState(); renderStatbar();
+      var what = giftWhat(data);
+      renderProgress();
+      toast("🎁 Presente recebido: " + what + "!", "ok", 6000);
+    }catch(e){
+      btn.disabled = false;
+      msg.className = "gift-msg err";
+      msg.textContent = e.message || "não foi possível resgatar";
+    }
+  }
+  function captureGiftCode(){
+    try{
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get("presente");
+      if (!code) return false;
+      localStorage.setItem(GIFT_PENDING_KEY, code.toUpperCase().slice(0, 14));
+      params.delete("presente");
+      var q = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (q ? "?" + q : ""));
+      return true;
+    }catch(e){ return false; }
+  }
+
+  // ================= LIGA DA IGREJA =================
+  var CHURCH_PENDING_KEY = "theking_igreja_pendente";
+  function captureChurchCode(){
+    try{
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get("igreja");
+      if (!code) return false;
+      localStorage.setItem(CHURCH_PENDING_KEY, code.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 8));
+      params.delete("igreja");
+      var q = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (q ? "?" + q : ""));
+      return true;
+    }catch(e){ return false; }
+  }
+  function pendingChurchCode(){ try{ return localStorage.getItem(CHURCH_PENDING_KEY) || ""; }catch(e){ return ""; } }
+  function churchLink(code){ return "https://thekingidiomas.com.br/?igreja=" + encodeURIComponent(code); }
+
+  async function loadChurch(){
+    var box = document.getElementById("church-box");
+    if (!box) return;
+    box.innerHTML = '<div class="church-card"><div class="ch-title">⛪ Liga da igreja</div><p class="auth-intro" style="margin:0;">A carregar…</p></div>';
+    try{
+      var data = await ligaFetch("/church", { method: "GET" });
+      renderChurch(data && data.church);
+    }catch(e){
+      if (e.status === 404){ box.innerHTML = ""; return; } // servidor ainda sem esta função
+      box.innerHTML = '<div class="church-card"><div class="ch-title">⛪ Liga da igreja</div><p class="auth-intro" style="margin:0;">Não foi possível carregar agora.</p></div>';
+    }
+  }
+  function renderChurch(ch){
+    var box = document.getElementById("church-box");
+    if (!box) return;
+    if (!ch){
+      var pend = pendingChurchCode();
+      box.innerHTML = '<div class="church-card">' +
+        '<div class="ch-title">⛪ Liga da igreja</div>' +
+        '<p class="auth-intro">Junta a tua igreja, célula ou grupo de jovens: cada um estuda no seu celular e todos veem o ranking do grupo.</p>' +
+        '<div class="field"><label for="ch-code">Tenho um código</label><input id="ch-code" type="text" maxlength="8" placeholder="ex.: K7P2QX" value="' + escapeHtml(pend) + '" autocapitalize="characters"></div>' +
+        '<button class="btn-outline" id="ch-join" type="button">Entrar na liga da igreja</button>' +
+        '<div class="ch-or">ou</div>' +
+        '<div class="field"><label for="ch-name">Criar para a minha igreja</label><input id="ch-name" type="text" maxlength="40" placeholder="ex.: Igreja Batista Central — Jovens"></div>' +
+        '<button class="btn-outline" id="ch-create" type="button">Criar e convidar</button>' +
+        '<div class="gift-msg" id="ch-msg"></div>' +
+        '</div>';
+      document.getElementById("ch-join").addEventListener("click", async function(){
+        var code = String(document.getElementById("ch-code").value || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+        var msg = document.getElementById("ch-msg");
+        if (code.length < 4){ msg.className = "gift-msg err"; msg.textContent = "Escreve o código que te enviaram."; return; }
+        try{
+          var d = await ligaFetch("/church/join", { method: "POST", body: { code: code } });
+          try{ localStorage.removeItem(CHURCH_PENDING_KEY); }catch(e){}
+          toast("⛪ Entraste na liga " + (d.church ? d.church.name : "da igreja") + "!");
+          renderChurch(d.church);
+        }catch(e){ msg.className = "gift-msg err"; msg.textContent = e.message; }
+      });
+      document.getElementById("ch-create").addEventListener("click", async function(){
+        var name = String(document.getElementById("ch-name").value || "").trim();
+        var msg = document.getElementById("ch-msg");
+        if (name.length < 3){ msg.className = "gift-msg err"; msg.textContent = "Escreve o nome da igreja ou do grupo."; return; }
+        try{
+          var d = await ligaFetch("/church/create", { method: "POST", body: { name: name } });
+          toast("⛪ Liga criada! Agora convida o teu grupo.");
+          renderChurch(d.church);
+        }catch(e){ msg.className = "gift-msg err"; msg.textContent = e.message; }
+      });
+      return;
+    }
+    var rows = (ch.members || []).map(function(m){
+      return '<div class="liga-row safe' + (m.you ? ' you' : '') + '"><span class="lr-rank">' + m.rank + '</span><span class="lr-name">' + escapeHtml(m.displayName) + (m.you ? ' (tu)' : '') + (m.owner ? ' 👑' : '') + '</span><span class="lr-xp">' + m.weeklyXp + ' XP</span></div>';
+    }).join("");
+    box.innerHTML = '<div class="church-card">' +
+      '<div class="ch-title">⛪ ' + escapeHtml(ch.name) + '</div>' +
+      '<div class="ch-sub">' + ch.memberCount + ' ' + (ch.memberCount === 1 ? 'membro' : 'membros') + ' · ranking da semana</div>' +
+      '<div class="liga-list">' + (rows || '<p class="auth-intro">Ainda ninguém ganhou XP esta semana.</p>') + '</div>' +
+      '<div class="lref-code-row"><span class="lref-code">' + escapeHtml(ch.code) + '</span><button class="btn-outline" id="ch-invite" type="button">Convidar a igreja</button></div>' +
+      '<button class="liga-logout" id="ch-leave" type="button">sair da liga da igreja</button>' +
+      '</div>';
+    document.getElementById("ch-invite").addEventListener("click", async function(){
+      var text = "⛪ Vem estudar inglês com a Bíblia comigo na liga \"" + ch.name + "\" do TheKing Idiomas! Código: " + ch.code + " · " + churchLink(ch.code);
+      try{ if (navigator.share){ await navigator.share({ title: "Liga da igreja", text: text }); return; } }catch(e){ return; }
+      window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+    });
+    var leave = document.getElementById("ch-leave");
+    leave.addEventListener("click", async function(){
+      if (leave.dataset.armed !== "1"){ leave.dataset.armed = "1"; leave.textContent = "toca de novo para confirmar"; setTimeout(function(){ if (leave.isConnected){ leave.dataset.armed = "0"; leave.textContent = "sair da liga da igreja"; } }, 3000); return; }
+      try{ await ligaFetch("/church/leave", { method: "POST" }); renderChurch(null); }catch(e){ toast(e.message, "err"); }
+    });
+  }
+
+  // ================= LEMBRETE DIÁRIO (notificações) =================
+  var PUSH_LS = "theking_lembrete";
+  function pushPrefs(){ try{ return JSON.parse(localStorage.getItem(PUSH_LS) || "{}") || {}; }catch(e){ return {}; } }
+  function setPushPrefs(p){ try{ localStorage.setItem(PUSH_LS, JSON.stringify(p)); }catch(e){} }
+  function pushSupported(){ return ("serviceWorker" in navigator) && ("PushManager" in window) && ("Notification" in window); }
+  function b64urlToBytes(s){
+    s = String(s).replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) s += "=";
+    var bin = atob(s), out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  function userTz(){ try{ return Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Sao_Paulo"; }catch(e){ return "America/Sao_Paulo"; } }
+  async function swReady(){
+    return await Promise.race([navigator.serviceWorker.ready, new Promise(function(_, rej){ setTimeout(function(){ rej(new Error("sw")); }, 6000); })]);
+  }
+  function renderReminderCard(){
+    var el = document.getElementById("reminder-card");
+    if (!el) return;
+    if (!ligaApi()){ el.hidden = true; return; }
+    el.hidden = false;
+    var p = pushPrefs();
+    var hour = typeof p.hour === "number" ? p.hour : 19;
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent || "");
+    if (!pushSupported()){
+      el.innerHTML = '<div class="rem-top"><span class="rem-ic">🔔</span><div><b>Lembrete diário</b><small>' +
+        (ios && !isStandaloneApp() ? 'No iPhone, primeiro instala o app na tela inicial (📲 acima) e abre-o por lá — depois ativa aqui.' : 'Este navegador não permite notificações.') + '</small></div></div>';
+      return;
+    }
+    var denied = Notification.permission === "denied";
+    var opts = "";
+    for (var h = 6; h <= 23; h++) opts += '<option value="' + h + '"' + (h === hour ? ' selected' : '') + '>' + String(h).padStart(2, "0") + ':00</option>';
+    el.innerHTML = '<div class="rem-top"><span class="rem-ic">🔔</span><div><b>Lembrete diário</b><small>' +
+      (p.on ? 'Ligado: se ainda não estudaste nesse dia, recebes um aviso para não perder a sequência 🔥' : 'Um aviso por dia, só se ainda não tiveres estudado') + '</small></div></div>' +
+      (denied ? '<p class="prem-note">As notificações estão bloqueadas nas definições do navegador/celular para este site.</p>' :
+      '<div class="rem-row"><label for="rem-hour">Hora</label><select id="rem-hour">' + opts + '</select>' +
+      '<button class="prem-btn small" id="rem-toggle" type="button">' + (p.on ? 'Desligar' : 'Ligar lembrete') + '</button></div>' +
+      (p.on ? '<button class="auth-switch" id="rem-test" type="button" style="padding-top:8px;">Enviar um aviso de teste</button>' : '')) +
+      '<div class="gift-msg" id="rem-msg"></div>';
+    if (denied) return;
+    document.getElementById("rem-toggle").addEventListener("click", function(){ (pushPrefs().on ? disableReminder() : enableReminder()); });
+    document.getElementById("rem-hour").addEventListener("change", function(){
+      var pp = pushPrefs(); pp.hour = parseInt(this.value, 10); setPushPrefs(pp);
+      if (pp.on) enableReminder(true);
+    });
+    var t = document.getElementById("rem-test");
+    if (t) t.addEventListener("click", async function(){
+      var msg = document.getElementById("rem-msg");
+      try{ await ligaFetch("/push/test", { method: "POST", body: { endpoint: pushPrefs().endpoint } }); msg.className = "gift-msg"; msg.textContent = "Enviado! Deve chegar em alguns segundos."; }
+      catch(e){ msg.className = "gift-msg err"; msg.textContent = e.message; }
+    });
+  }
+  async function enableReminder(quiet){
+    var msg = document.getElementById("rem-msg");
+    function say(t, err){ if (msg){ msg.className = "gift-msg" + (err ? " err" : ""); msg.textContent = t; } }
+    try{
+      if (Notification.permission !== "granted"){
+        var perm = await Notification.requestPermission();
+        if (perm !== "granted"){ say("Sem permissão para notificações.", true); renderReminderCard(); return; }
+      }
+      say("A ligar…");
+      var reg = await swReady();
+      var keyRes = await ligaFetch("/push/key", { method: "GET" });
+      var sub = await reg.pushManager.getSubscription();
+      if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64urlToBytes(keyRes.publicKey) });
+      var p = pushPrefs();
+      var hour = typeof p.hour === "number" ? p.hour : 19;
+      await ligaFetch("/push/subscribe", { method: "POST", body: { subscription: sub.toJSON(), hour: hour, tz: userTz(), today: lastStudyDate() } });
+      setPushPrefs({ on: true, hour: hour, endpoint: sub.endpoint, lastActive: lastStudyDate() });
+      renderReminderCard();
+      if (!quiet) toast("🔔 Lembrete ligado para as " + String(hour).padStart(2, "0") + ":00");
+    }catch(e){
+      say("Não foi possível ligar o lembrete (" + (e.message || "erro") + ").", true);
+    }
+  }
+  async function disableReminder(){
+    var p = pushPrefs();
+    try{
+      var reg = await swReady();
+      var sub = await reg.pushManager.getSubscription();
+      if (sub) await sub.unsubscribe();
+    }catch(e){}
+    try{ if (p.endpoint) await ligaFetch("/push/unsubscribe", { method: "POST", body: { endpoint: p.endpoint } }); }catch(e){}
+    setPushPrefs({ on: false, hour: p.hour });
+    renderReminderCard();
+  }
+  // Data (local) do último estudo: hoje, se já ganhou XP hoje.
+  function lastStudyDate(){ ensureDailyGoalFresh(); return state.xpToday > 0 ? todayStr() : (state.lastLessonDate || ""); }
+  function reportStudyActive(){
+    var p = pushPrefs();
+    if (!p.on || !p.endpoint || !ligaApi()) return;
+    var today = todayStr();
+    if (p.lastActive === today) return;
+    p.lastActive = today; setPushPrefs(p);
+    ligaFetch("/push/active", { method: "POST", body: { endpoint: p.endpoint, today: today } }).catch(function(){});
+  }
 
   // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
   // Só aparece no celular e só se o app ainda não estiver instalado. No Android (Chrome,
@@ -4248,6 +6023,8 @@
   async function init(){
     captureLigaRef();
     captureResetToken();
+    var openGift = captureGiftCode();
+    var openChurch = captureChurchCode();
     renderHeaderGreeting();
     await loadState();
     renderLangSwitch();
@@ -4280,6 +6057,10 @@
       hideSplashScreen();
       // Veio do link "criar nova senha" do e-mail: vai direto para esse ecrã.
       if (pendingResetToken){ goTab("liga"); return; }
+      // Veio de um link de presente ou de convite da igreja.
+      if (openGift){ goTab("progress"); setTimeout(function(){ var g = document.getElementById("gift-card"); if (g){ try{ g.scrollIntoView({ block: "center" }); }catch(e){} } }, 120); return; }
+      if (openChurch){ goTab("liga"); if (!ligaToken()) showLigaBanner("⛪ Cria a tua conta (ou entra) para juntar-te à liga da igreja.", "ok", 7000); return; }
+      setTimeout(function(){ checkMedals(false); }, 2500);
       if (isAutomatedBrowser) return;
       var onboardingShown = showOnboardingIfNeeded();
       if (!onboardingShown) setTimeout(maybeShowInstallTutorial, 700);
