@@ -15,12 +15,12 @@
 <meta property="og:site_name" content="TheKing Idiomas">
 <meta property="og:title" content="TheKing Idiomas - Aprende inglês com a Bíblia">
 <meta property="og:description" content="Lições, jogos bíblicos, a Bíblia em inglês e português e uma liga semanal com outros jogadores.">
-<meta property="og:image" content="https://marcioiamf-web.github.io/theking/icons/og-image.png">
-<meta property="og:url" content="https://marcioiamf-web.github.io/theking/">
+<meta property="og:image" content="https://thekingidiomas.com.br/icons/og-image.png">
+<meta property="og:url" content="https://thekingidiomas.com.br/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="TheKing Idiomas - Aprende inglês com a Bíblia">
 <meta name="twitter:description" content="Lições, jogos bíblicos, a Bíblia em inglês e português e uma liga semanal com outros jogadores.">
-<meta name="twitter:image" content="https://marcioiamf-web.github.io/theking/icons/og-image.png">
+<meta name="twitter:image" content="https://thekingidiomas.com.br/icons/og-image.png">
 </head>
 <body>
 <title>TheKing Idiomas</title>
@@ -273,6 +273,15 @@
   .quick-card small{display:block; font-size:11.5px; color:var(--ink-faint); margin-top:2px; line-height:1.3;}
   .quick-card .qc-chev{color:var(--ink-faint); font-size:22px; flex-shrink:0;}
   .install-entry{margin-bottom:10px;}
+  .cloud-nudge{background:linear-gradient(155deg, rgba(79,195,232,.14), var(--surface) 70%); border:1px solid rgba(79,195,232,.45); border-radius:var(--radius); padding:14px 16px; margin-bottom:16px;}
+  .cloud-nudge .cn-top{display:flex; gap:12px; align-items:flex-start;}
+  .cloud-nudge .cn-ic{font-size:26px; line-height:1;}
+  .cloud-nudge b{display:block; font-size:15px; color:var(--ink);}
+  .cloud-nudge p{margin:3px 0 0; font-size:13px; color:var(--ink-soft); line-height:1.45;}
+  .cloud-nudge .cn-actions{display:flex; gap:10px; margin-top:12px;}
+  .cloud-nudge .cn-go{appearance:none; cursor:pointer; flex:1; border:none; border-radius:10px; background:#4fc3e8; color:#0c0d16; font-weight:800; font-size:14px; padding:10px; font-family:'Inter',sans-serif;}
+  .cloud-nudge .cn-later{appearance:none; cursor:pointer; border:none; background:none; color:var(--ink-faint); font-weight:700; font-size:13.5px; font-family:'Inter',sans-serif; padding:10px 6px;}
+  .cloud-ok{color:#7fd8f5; font-weight:700;}
   .liga-entry{margin-bottom:20px; background:linear-gradient(155deg, var(--gold-soft), var(--surface) 75%);}
   .liga-entry .qc-ic{background:rgba(245,200,107,.18);}
   .subnav-back{appearance:none; cursor:pointer; border:none; background:none; color:var(--accent-ink); font-weight:700; font-size:14px; font-family:'Inter',sans-serif; padding:2px 0 12px;}
@@ -596,6 +605,7 @@
     </div>
     <div class="goal-card" id="goal-card"></div>
     <div class="verse-card" id="verse-card"></div>
+    <div class="cloud-nudge" id="cloud-nudge" hidden></div>
     <div class="quick-grid mobile-only">
       <button class="quick-card" type="button" data-go="practice"><span class="qc-ic">🎤</span><span class="qc-text"><b>Praticar</b><small>Revisão com flashcards</small></span></button>
       <button class="quick-card" type="button" data-go="grammar"><span class="qc-ic">📚</span><span class="qc-text"><b>Palavras</b><small>Dicas de gramática</small></span></button>
@@ -1505,7 +1515,25 @@
     if (!loaded){
       try{ var raw = localStorage.getItem("caixaDePalavras_state_v2"); if (raw) loaded = JSON.parse(raw); }catch(e){}
     }
-    if (loaded){
+    if (loaded) applyLoadedState(loaded);
+    // streak expiry: if more than 1 day passed since the last completed lesson, the streak is lost —
+    // unless a streak freeze can cover exactly one missed day (like Duolingo's streak freeze).
+    var today = todayStr();
+    if (state.lastLessonDate){
+      var gap = daysBetween(state.lastLessonDate, today);
+      if (gap === 2 && state.streakFreezes > 0){
+        state.streakFreezes -= 1;
+        state.lastLessonDate = todayStr_offset(-1);
+      } else if (gap > 1){
+        state.streak = 0;
+      }
+    }
+    regenHearts();
+    ensureDailyGoalFresh();
+  }
+  // Transforma um progresso guardado (deste aparelho ou da conta) no estado do app,
+  // preenchendo o que faltar e migrando formatos antigos.
+  function applyLoadedState(loaded){
       var fresh = defaultState();
       state = Object.assign(fresh, loaded);
       // Migrate old single-language saves (boxes/selectedCats/lessonsCompleted/direction
@@ -1536,21 +1564,6 @@
       if (typeof state.gems !== "number") state.gems = 0;
       if (typeof state.streakFreezes !== "number") state.streakFreezes = 0;
       if (!state.voiceNames) state.voiceNames = { en: loaded.voiceName || null, es: null };
-    }
-    // streak expiry: if more than 1 day passed since the last completed lesson, the streak is lost —
-    // unless a streak freeze can cover exactly one missed day (like Duolingo's streak freeze).
-    var today = todayStr();
-    if (state.lastLessonDate){
-      var gap = daysBetween(state.lastLessonDate, today);
-      if (gap === 2 && state.streakFreezes > 0){
-        state.streakFreezes -= 1;
-        state.lastLessonDate = todayStr_offset(-1);
-      } else if (gap > 1){
-        state.streak = 0;
-      }
-    }
-    regenHearts();
-    ensureDailyGoalFresh();
   }
   function todayStr_offset(days){
     var d = new Date();
@@ -1560,6 +1573,7 @@
   function saveState(){
     clearTimeout(saveTimer);
     saveTimer = setTimeout(persistNow, 250);
+    scheduleCloudPush();
   }
   async function persistNow(){
     if (dbNS){ try{ await dbNS.doc("progress/state").set(state); return; }catch(e){} }
@@ -1863,6 +1877,7 @@
     regenHearts();
     renderStatbar();
     renderVerseOfDay();
+    renderCloudNudge();
     var all = flattenLessons();
     var nextIdx = -1;
     for (var i=0;i<all.length;i++){ if (all[i].unlocked && !all[i].done){ nextIdx = i; break; } }
@@ -2395,9 +2410,11 @@
   document.getElementById("btn-reset").addEventListener("click", function(){
     var btn = document.getElementById("btn-reset");
     if (btn.dataset.armed === "1"){
-      var keepStreak = state.streak, keepLast = state.lastLessonDate;
+      var keepStreak = state.streak, keepLast = state.lastLessonDate, keepCloud = state.cloud, keepVoices = state.voiceNames;
       state = defaultState();
       state.streak = keepStreak; state.lastLessonDate = keepLast;
+      if (keepCloud) state.cloud = keepCloud;
+      if (keepVoices) state.voiceNames = keepVoices;
       saveState(); renderProgress(); renderTrilha();
       btn.textContent = "Zerar progresso"; btn.dataset.armed = "0";
     } else {
@@ -2519,11 +2536,30 @@
       if (!res.ok || !data.url) throw new Error("falhou");
       try{ localStorage.setItem(PENDING_KEY, data.orderId); }catch(e){}
       window.location.href = data.url;
+      // Se por algum motivo a página do Stripe não abrir, desbloqueia os pacotes.
+      setTimeout(resetPurchaseUi, 15000);
     }catch(e){
       botoes.forEach(function(b){ b.disabled = false; });
       showPayBanner("Não foi possível abrir o pagamento. Tenta outra vez.", "err", 6000);
     }
   }
+
+  // Quando a pessoa volta do Stripe com o botão "voltar", o navegador pode mostrar a página
+  // exatamente como ficou (com "A abrir o pagamento…" e os pacotes bloqueados). Aqui limpamos isso
+  // e verificamos em silêncio se, entretanto, o pagamento foi feito (ex.: Pix pago noutra app).
+  function resetPurchaseUi(){
+    document.querySelectorAll(".gempack").forEach(function(b){ b.disabled = false; });
+    var el = document.getElementById("paybanner");
+    if (el && !el.hidden && /A abrir o pagamento/.test(el.textContent)) hidePayBanner();
+  }
+  window.addEventListener("pageshow", function(ev){
+    if (!ev.persisted) return;
+    resetPurchaseUi();
+    if (!payApi()) return;
+    var pend = "";
+    try{ pend = localStorage.getItem(PENDING_KEY) || ""; }catch(e){}
+    if (pend) pollOrderOnce(pend);
+  });
 
   // Ao voltar do Stripe, confirma com o servidor antes de dar as gemas.
   // O servidor só diz "paid" uma vez, por isso recarregar a página não duplica nada.
@@ -3209,12 +3245,14 @@
       method: opts.method || "GET",
       headers: headers,
       body: opts.body ? JSON.stringify(opts.body) : undefined,
+      keepalive: !!opts.keepalive,
     });
     var data = null;
     try{ data = await res.json(); }catch(e){}
     if (!res.ok){
       var err = new Error((data && data.error) || ("erro " + res.status));
       err.status = res.status;
+      err.data = data;
       throw err;
     }
     return data;
@@ -3290,6 +3328,8 @@
         }
         setLigaToken(data.token);
         ligaMe = data.user || null;
+        await cloudSync();
+        renderCloudNudge();
         await renderLiga();
       } catch(e){
         showLigaBanner(e.message || "Não foi possível continuar. Tenta outra vez.", "err");
@@ -3366,6 +3406,7 @@
         clearResetToken();
         setLigaToken(data.token);
         ligaMe = data.user || null;
+        await cloudSync();
         await renderLiga();
         showLigaBanner("✅ Senha alterada! Já entraste na tua conta.", "ok", 5000);
       } catch(e){
@@ -3386,6 +3427,136 @@
           btn.disabled = false; btn.textContent = "Guardar nova senha";
         }
       }
+    });
+  }
+
+  // ================= PROGRESSO NA CONTA (nuvem) =================
+  // Quem tem conta na Liga tem o progresso guardado no servidor: troca de celular, limpa o
+  // navegador ou muda de endereço do app e, ao entrar na conta, tudo volta.
+  // Regra de segurança: nunca trocamos progresso "com conteúdo" por um vazio — quando há
+  // dúvida (dois aparelhos mudaram), fica o que tem mais progresso.
+  var cloudSyncing = false, cloudPushTimer = null, cloudPushing = false;
+
+  function progressScore(s){
+    if (!s || typeof s !== "object") return 0;
+    var score = Number(s.xp) || 0;
+    var prog = s.progress || {};
+    Object.keys(prog).forEach(function(lang){
+      var p = prog[lang] || {};
+      score += Object.keys(p.lessonsCompleted || {}).length * 5;
+      score += Object.keys(p.boxes || {}).length;
+    });
+    if (s.bible && s.bible.read) score += Object.keys(s.bible.read).length;
+    return score;
+  }
+  function cloudPayload(){
+    var copy = JSON.parse(JSON.stringify(state));
+    delete copy.cloud;       // ligação à conta: é deste aparelho
+    delete copy.voiceNames;  // as vozes disponíveis mudam de aparelho para aparelho
+    return copy;
+  }
+  function saveLocalOnly(){ clearTimeout(saveTimer); persistNow(); }
+
+  function rerenderAfterCloud(){
+    try{
+      renderLangSwitch(); updateDirLabels(); renderChips(); renderGrammarList();
+      setDir(lp().direction); syncChips(); nextCard(); renderTrilha(); renderStatbar();
+      var active = document.querySelector("section.panel.active");
+      if (active && active.id === "panel-progress") renderProgress();
+      if (active && active.id === "panel-biblia") renderBible();
+    }catch(e){}
+  }
+  function adoptRemote(data, uid, rev){
+    var voices = state.voiceNames;
+    applyLoadedState(data || {});
+    if (voices) state.voiceNames = voices;
+    regenHearts(); ensureDailyGoalFresh();
+    state.cloud = { uid: uid, rev: rev };
+    saveLocalOnly();
+    rerenderAfterCloud();
+  }
+  async function cloudPush(baseRev, uid, keepalive){
+    var res = await ligaFetch("/progress", { method:"POST", body:{ baseRev: baseRev, data: cloudPayload() }, keepalive: keepalive });
+    state.cloud = { uid: res.userId || uid, rev: res.rev };
+    saveLocalOnly();
+    return res;
+  }
+  // Decide entre o progresso deste aparelho e o da conta.
+  async function reconcile(remote){
+    var local = state.cloud || {};
+    var uid = remote.userId;
+    if (local.uid && uid && local.uid !== uid){
+      // Este aparelho tinha o progresso de OUTRA conta: não o misturamos com esta.
+      if (remote.data){ adoptRemote(remote.data, uid, remote.rev); return "adopted"; }
+      var voices = state.voiceNames;
+      state = defaultState(); if (voices) state.voiceNames = voices;
+      await cloudPush(0, uid);
+      rerenderAfterCloud();
+      return "fresh";
+    }
+    if (!remote.data){ await cloudPush(remote.rev || 0, uid); return "uploaded"; }
+    if (local.uid === uid && local.rev === remote.rev){ await cloudPush(remote.rev, uid); return "uploaded"; }
+    if (progressScore(remote.data) >= progressScore(state)){ adoptRemote(remote.data, uid, remote.rev); return "adopted"; }
+    await cloudPush(remote.rev, uid);
+    return "uploaded";
+  }
+  async function cloudSync(){
+    if (!ligaApi() || !ligaToken() || cloudSyncing) return null;
+    cloudSyncing = true;
+    clearTimeout(cloudPushTimer);
+    try{
+      var remote = await ligaFetch("/progress", { method:"GET" });
+      var result;
+      try{ result = await reconcile(remote); }
+      catch(e){
+        if (e.status === 409 && e.data){ result = await reconcile(e.data); } // outro aparelho gravou no meio
+        else throw e;
+      }
+      if (result === "adopted") showLigaBanner("☁️ O teu progresso foi recuperado da tua conta.", "ok", 4000);
+      return result;
+    }catch(e){ return null; }
+    finally{ cloudSyncing = false; }
+  }
+  // Depois de cada mudança, envia o progresso (espera uns segundos para juntar várias mudanças).
+  function scheduleCloudPush(){
+    if (!ligaApi() || !ligaToken() || !state.cloud || !state.cloud.uid) return;
+    clearTimeout(cloudPushTimer);
+    cloudPushTimer = setTimeout(function(){ cloudPushNow(false); }, 4000);
+  }
+  async function cloudPushNow(keepalive){
+    clearTimeout(cloudPushTimer);
+    if (cloudSyncing || cloudPushing || !ligaToken() || !state.cloud || !state.cloud.uid) return;
+    cloudPushing = true;
+    try{ await cloudPush(state.cloud.rev || 0, state.cloud.uid, keepalive); }
+    catch(e){ if (e.status === 409) { cloudPushing = false; await cloudSync(); } }
+    finally{ cloudPushing = false; }
+  }
+  // Ao sair do app (ou mudar de separador), envia logo o que estiver pendente.
+  document.addEventListener("visibilitychange", function(){
+    if (document.visibilityState === "hidden" && cloudPushTimer) cloudPushNow(true);
+  });
+
+  // ---- Convite no Início: "Guarda o teu progresso" (para quem ainda não tem conta) ----
+  var CLOUD_NUDGE_KEY = "theking_cloud_nudge_until";
+  function renderCloudNudge(){
+    var el = document.getElementById("cloud-nudge");
+    if (!el) return;
+    var until = 0;
+    try{ until = parseInt(localStorage.getItem(CLOUD_NUDGE_KEY) || "0", 10) || 0; }catch(e){}
+    var show = !!ligaApi() && !ligaToken() && progressScore(state) > 0 && Date.now() >= until;
+    el.hidden = !show;
+    if (!show){ el.innerHTML = ""; return; }
+    el.innerHTML =
+      '<div class="cn-top"><span class="cn-ic">☁️</span><div><b>Guarda o teu progresso</b>' +
+      '<p>Cria uma conta grátis: o teu XP, lições e gemas ficam salvos e voltam em qualquer celular.</p></div></div>' +
+      '<div class="cn-actions"><button class="cn-go" id="cn-go" type="button">Criar conta</button>' +
+      '<button class="cn-later" id="cn-later" type="button">Agora não</button></div>';
+    document.getElementById("cn-go").addEventListener("click", function(){
+      ligaAuthMode = "signup"; goTab("liga");
+    });
+    document.getElementById("cn-later").addEventListener("click", function(){
+      try{ localStorage.setItem(CLOUD_NUDGE_KEY, String(Date.now() + 3 * 86400000)); }catch(e){}
+      renderCloudNudge();
     });
   }
 
@@ -3440,7 +3611,7 @@
           '<button class="btn-outline" id="liga-ref-copy" type="button">Copiar link de convite</button>' +
         '</div>' +
       '</div>' +
-      '<div class="liga-account-row"><span>a jogar como '+escapeHtml(me.displayName)+'</span><button class="liga-logout" id="liga-logout">sair da conta</button></div>';
+      '<div class="liga-account-row"><span>a jogar como '+escapeHtml(me.displayName)+' · <span class="cloud-ok">☁️ progresso guardado na conta</span></span><button class="liga-logout" id="liga-logout">sair da conta</button></div>';
 
     var refCopyBtn = document.getElementById("liga-ref-copy");
     if (refCopyBtn) refCopyBtn.addEventListener("click", async function(){
@@ -3459,11 +3630,13 @@
     });
 
     document.getElementById("liga-logout").addEventListener("click", async function(){
+      if (cloudPushTimer) await cloudPushNow(false);
       try{ await ligaFetch("/logout", { method:"POST" }); }catch(e){}
       setLigaToken("");
       ligaMe = null;
       ligaAuthMode = "login";
       renderLigaAuth();
+      renderCloudNudge();
     });
 
     clearInterval(window._ligaTimerInt);
@@ -4089,6 +4262,8 @@
     saveState();
     // Sem await: a confirmação do pagamento pode demorar e não deve travar o app.
     checkPendingOrder();
+    // Sem await: busca/envia o progresso da conta em segundo plano.
+    if (ligaToken()) cloudSync().then(function(){ renderCloudNudge(); });
 
     var splashVerseEl = document.getElementById("splash-verse");
     if (splashVerseEl){
