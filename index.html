@@ -705,6 +705,31 @@
   .rem-row label{font-size:13px; font-weight:700; color:var(--ink-soft);}
   .rem-row select{flex:1; background:var(--surface-alt); color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:9px; font-size:14px; font-family:'Inter',sans-serif;}
   .stat-pill.hearts-pill.inf{border-color:var(--gold); background:var(--gold-soft); color:var(--gold);}
+  .liga-acct-btns{display:flex; flex-direction:column; align-items:flex-end; gap:2px;}
+  .del-btn{border-color:var(--danger); color:var(--danger);}
+  .del-btn:hover{background:var(--danger-soft);}
+  .study-hub > *{min-width:0;}
+  .study-hub .quick-card{gap:9px;}
+  .study-hub .quick-card .qc-ic{width:32px; height:32px; font-size:16px; border-radius:9px;}
+  .study-hub .quick-card b{font-size:13.5px; line-height:1.25;}
+  .study-hub .hub-notes{grid-column:1 / -1; align-items:center; background:linear-gradient(155deg, rgba(74,222,128,.10), var(--surface) 70%); border-color:rgba(74,222,128,.35);}
+  .field textarea{width:100%; box-sizing:border-box; background:var(--surface-alt); color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:12px 13px; font-size:15px; line-height:1.55; font-family:'Inter',sans-serif; resize:vertical;}
+  .field textarea:focus{outline:none; border-color:var(--accent);}
+  .note-list{display:flex; flex-direction:column; gap:10px; margin-top:14px;}
+  .note-item{appearance:none; cursor:pointer; text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:13px 15px; color:var(--ink); font-family:'Inter',sans-serif; display:flex; flex-direction:column; gap:3px;}
+  .note-item .ni-date{font-size:11.5px; color:var(--ink-faint); font-weight:700; text-transform:capitalize;}
+  .note-item .ni-title{font-size:15.5px; font-weight:700;}
+  .note-item .ni-refs{font-size:12.5px; color:var(--accent-ink);}
+  .note-item .ni-snip{font-size:13px; color:var(--ink-soft); line-height:1.45;}
+  .note-date{font-size:12.5px; color:var(--ink-faint); font-weight:700; margin-bottom:12px; text-transform:capitalize;}
+  .ne-ref-links{display:flex; flex-wrap:wrap; gap:7px; margin:-6px 0 12px;}
+  .ne-ref-links .chip{opacity:1;}
+  .ne-ins-row{display:flex; gap:8px; margin-top:10px;}
+  .ne-ins-row input{flex:1; min-width:0; background:var(--surface-alt); color:var(--ink); border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:14.5px; font-family:'Inter',sans-serif;}
+  .note-status{font-size:12px; color:var(--success); margin:10px 0 12px; font-weight:700;}
+  .note-actions{display:flex; gap:10px;}
+  .note-actions .btn-outline{flex:1;}
+  .note-del{border-color:var(--danger); color:var(--danger);}
 </style>
 
 <div class="wrap">
@@ -1528,7 +1553,7 @@
       gems:0, streakFreezes:0,
       voiceNames:{ en:null, es:null },
       bible:{ b:"jo", c:1, showPt:true, read:{} },
-      study:{}, myWords:{}, medals:{}, premiumUntil:0, gifts:[], bestStreak:0
+      study:{}, myWords:{}, medals:{}, premiumUntil:0, gifts:[], bestStreak:0, notes:[]
     };
   }
   var state = defaultState();
@@ -2669,7 +2694,7 @@
   }
   var PENDING_KEY = "caixaDePalavras_pedido";
 
-  function payApi(){ return (PAY_API || "").replace(/\/+$/, ""); }
+  function payApi(){ if (storeApp()) return ""; return (PAY_API || "").replace(/\/+$/, ""); }
 
   function showPayBanner(msg, kind, autoHide){
     var el = document.getElementById("paybanner");
@@ -3686,7 +3711,7 @@
   function adoptRemote(data, uid, rev){
     var voices = state.voiceNames;
     var sameAccount = !(state.cloud && state.cloud.uid && state.cloud.uid !== uid);
-    var keep = { premiumUntil: Number(state.premiumUntil) || 0, myWords: state.myWords || {}, medals: state.medals || {}, gifts: state.gifts || [] };
+    var keep = { premiumUntil: Number(state.premiumUntil) || 0, myWords: state.myWords || {}, medals: state.medals || {}, gifts: state.gifts || [], notes: Array.isArray(state.notes) ? state.notes : [] };
     applyLoadedState(data || {});
     if (voices) state.voiceNames = voices;
     if (sameAccount){
@@ -3695,6 +3720,14 @@
       Object.keys(keep.myWords).forEach(function(k){ if (!state.myWords[k]) state.myWords[k] = keep.myWords[k]; });
       Object.keys(keep.medals).forEach(function(k){ if (!state.medals[k]) state.medals[k] = keep.medals[k]; });
       keep.gifts.forEach(function(g){ if (!state.gifts.some(function(x){ return x.code === g.code; })) state.gifts.push(g); });
+      // Anotações: junta as dos dois lados; se a mesma foi editada nos dois, fica a mais recente.
+      if (!Array.isArray(state.notes)) state.notes = [];
+      keep.notes.forEach(function(n){
+        var i = -1;
+        state.notes.forEach(function(x, j){ if (x.id === n.id) i = j; });
+        if (i === -1) state.notes.push(n);
+        else if ((n.updated || 0) > (state.notes[i].updated || 0)) state.notes[i] = n;
+      });
     }
     regenHearts(); ensureDailyGoalFresh();
     state.cloud = { uid: uid, rev: rev };
@@ -3838,7 +3871,7 @@
           '<button class="btn-outline" id="liga-ref-copy" type="button">Copiar link de convite</button>' +
         '</div>' +
       '</div>' +
-      '<div class="liga-account-row"><span>a jogar como '+escapeHtml(me.displayName)+' · <span class="cloud-ok">☁️ progresso guardado na conta</span></span><button class="liga-logout" id="liga-logout">sair da conta</button></div>';
+      '<div class="liga-account-row"><span>a jogar como '+escapeHtml(me.displayName)+' · <span class="cloud-ok">☁️ progresso guardado na conta</span></span><span class="liga-acct-btns"><button class="liga-logout" id="liga-logout">sair da conta</button><button class="liga-logout" id="liga-delete" type="button">apagar conta</button></span></div>';
 
     var refCopyBtn = document.getElementById("liga-ref-copy");
     if (refCopyBtn) refCopyBtn.addEventListener("click", async function(){
@@ -3856,6 +3889,7 @@
       setTimeout(function(){ refCopyBtn.textContent = "Copiar link de convite"; }, 3000);
     });
 
+    document.getElementById("liga-delete").addEventListener("click", function(){ openDeleteAccount(me.email); });
     document.getElementById("liga-logout").addEventListener("click", async function(){
       if (cloudPushTimer) await cloudPushNow(false);
       try{ await ligaFetch("/logout", { method:"POST" }); }catch(e){}
@@ -4488,6 +4522,7 @@
     {id:"mywords10", icon:"⭐", title:"Colecionador", desc:"Guardar 10 palavras da Bíblia"},
     {id:"hymns5", icon:"🎵", title:"Cantor", desc:"Abrir 5 hinos diferentes"},
     {id:"share", icon:"📤", title:"Mensageiro", desc:"Partilhar um versículo"},
+    {id:"notes5", icon:"📝", title:"Escriba fiel", desc:"Guardar 5 anotações do culto"},
     {id:"premium", icon:"👑", title:"Coroa de ouro", desc:"Ser membro TheKing Premium"}
   ];
 
@@ -5304,6 +5339,7 @@
       case "hymns5": return Object.keys(s.hymns).length >= 5;
       case "share": return (s.shares || 0) >= 1;
       case "premium": return isPremium();
+      case "notes5": return notesList().length >= 5;
     }
     return false;
   }
@@ -5354,7 +5390,9 @@
     var m = memoState();
     var memoSub = m.stage >= MEMO_STEPS.length ? "✓ memorizado esta semana" : (m.stage + "/" + MEMO_STEPS.length + " passos · " + memoWeek().verse.ref);
     var devoSub = devoDoneToday() ? "✓ feito hoje" : todaysDevotional().titlePt;
+    var nNotes = notesList().length;
     el.innerHTML =
+      '<button class="quick-card hub-notes" type="button" id="hub-notes"><span class="qc-ic">📝</span><span class="qc-text"><b>Anotações do culto</b><small>' + (nNotes ? nNotes + (nNotes === 1 ? ' anotação' : ' anotações') + ' · toca para escrever' : 'Anota a mensagem do culto, mesmo sem internet') + '</small></span><span class="qc-chev">›</span></button>' +
       '<button class="quick-card" type="button" id="hub-plans"><span class="qc-ic">📅</span><span class="qc-text"><b>Planos</b><small>' + escapeHtml(planSub) + '</small></span></button>' +
       '<button class="quick-card" type="button" id="hub-memo"><span class="qc-ic">🧠</span><span class="qc-text"><b>Versículo da semana</b><small>' + escapeHtml(memoSub) + '</small></span></button>' +
       '<button class="quick-card" type="button" id="hub-devo"><span class="qc-ic">☀️</span><span class="qc-text"><b>Devocional</b><small>' + escapeHtml(devoSub) + '</small></span></button>' +
@@ -5363,6 +5401,7 @@
     document.getElementById("hub-memo").addEventListener("click", openMemo);
     document.getElementById("hub-devo").addEventListener("click", openDevotional);
     document.getElementById("hub-hymns").addEventListener("click", openHymns);
+    document.getElementById("hub-notes").addEventListener("click", function(){ openNotes(); });
   }
   function renderTodayStudy(){
     var el = document.getElementById("today-study");
@@ -5383,6 +5422,8 @@
     }
     var m = memoState();
     rows.push('<button class="ts-row" type="button" data-ts="memo"><span class="ts-ic">🧠</span><span class="ts-t"><b>Versículo da semana</b><small>' + escapeHtml(memoWeek().verse.ref) + '</small></span><span class="ts-st' + (m.stage >= MEMO_STEPS.length ? ' ok' : '') + '">' + (m.stage >= MEMO_STEPS.length ? '✓' : m.stage + '/' + MEMO_STEPS.length) + '</span></button>');
+    var isSunday = new Date().getDay() === 0, nn = notesList().length;
+    rows.push('<button class="ts-row" type="button" data-ts="notes"><span class="ts-ic">📝</span><span class="ts-t"><b>Anotações do culto</b><small>' + (isSunday ? 'É domingo! Anota a mensagem de hoje' : (nn ? nn + (nn === 1 ? ' anotação guardada' : ' anotações guardadas') : 'Anota a mensagem do próximo culto')) + '</small></span><span class="ts-st">' + (isSunday ? '＋' : '›') + '</span></button>');
     el.innerHTML = '<div class="ts-head">📖 Estudo de hoje</div>' + rows.join("");
     el.querySelectorAll(".ts-row").forEach(function(b){
       b.addEventListener("click", function(){
@@ -5390,6 +5431,7 @@
         if (t === "devo") openDevotional();
         else if (t === "memo") openMemo();
         else if (t === "plans") openPlans();
+        else if (t === "notes"){ if (new Date().getDay() === 0) openNoteEditor(null); else openNotes(); }
         else if (t === "plan"){
           var p = activePlan(); var pr2 = planProgress(p);
           if (pr2.next !== -1){ var d = p.days[pr2.next]; goToChapter(d[0], d[1]); } else openPlanDetail(p.id);
@@ -5432,6 +5474,7 @@
   var GIFT_PENDING_KEY = "theking_presente_pendente";
 
   function openPremiumInfo(){
+    if (storeApp() && !isPremium()){ toast("👑 Este plano é exclusivo para membros Premium.", null, 4000); return; }
     closeExtraOverlay();
     goTab("progress");
     setTimeout(function(){
@@ -5444,6 +5487,9 @@
     var el = document.getElementById("premium-card");
     if (!el) return;
     var active = isPremium();
+    // Na app das lojas não há compra aqui dentro: só mostramos o cartão a quem já é Premium.
+    el.hidden = !!storeApp() && !active;
+    if (el.hidden) return;
     var canBuy = !!payApi();
     var cur = payCurrency();
     var perks = '<ul class="prem-perks">' + PREMIUM_PERKS.map(function(p){ return '<li>' + escapeHtml(p) + '</li>'; }).join("") + '</ul>';
@@ -5762,6 +5808,222 @@
     ligaFetch("/push/active", { method: "POST", body: { endpoint: p.endpoint, today: today } }).catch(function(){});
   }
 
+  // ================= VERSÃO DAS LOJAS (Google Play / App Store) =================
+  // Na app das lojas, as regras de pagamento obrigam a usar a cobrança da própria loja para
+  // bens digitais. Por isso, lá dentro escondemos a compra de gemas, Premium e presentes
+  // (tudo o resto funciona igual). A app da loja abre com ?origem=android (ou ios).
+  var STORE_APP_KEY = "theking_loja_app";
+  function detectStoreApp(){
+    try{
+      var params = new URLSearchParams(window.location.search);
+      var o = params.get("origem");
+      if (o === "android" || o === "ios"){
+        localStorage.setItem(STORE_APP_KEY, o);
+        params.delete("origem");
+        var q = params.toString();
+        window.history.replaceState({}, "", window.location.pathname + (q ? "?" + q : ""));
+      }
+      if (String(document.referrer || "").indexOf("android-app://") === 0) localStorage.setItem(STORE_APP_KEY, "android");
+    }catch(e){}
+  }
+  function storeApp(){ try{ return localStorage.getItem(STORE_APP_KEY) || ""; }catch(e){ return ""; } }
+
+  // ================= APAGAR CONTA =================
+  function openDeleteAccount(email){
+    var html = extraHeader("Apagar conta") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<p class="auth-intro">Isto apaga para sempre a tua conta <b>' + escapeHtml(email || "") + '</b> e os dados guardados no servidor: progresso na nuvem, lugar na liga, liga da igreja e lembretes. Não dá para desfazer.</p>' +
+      '<p class="auth-intro">O progresso guardado neste aparelho continua aqui até apagares o app ou usares "Zerar progresso" no Perfil.</p>' +
+      '<div class="field"><label for="del-pass">Confirma com a tua senha</label><input id="del-pass" type="password" autocomplete="current-password"></div>' +
+      '<button class="btn-outline del-btn" id="del-go" type="button">Apagar a minha conta</button>' +
+      '<div class="gift-msg" id="del-msg"></div>' +
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    var btn = document.getElementById("del-go");
+    btn.addEventListener("click", async function(){
+      var msg = document.getElementById("del-msg");
+      var pass = document.getElementById("del-pass").value;
+      if (!pass){ msg.className = "gift-msg err"; msg.textContent = "Escreve a tua senha."; return; }
+      if (btn.dataset.armed !== "1"){ btn.dataset.armed = "1"; btn.textContent = "Toca de novo para confirmar"; return; }
+      btn.disabled = true; msg.className = "gift-msg"; msg.textContent = "A apagar…";
+      try{
+        await ligaFetch("/account/delete", { method: "POST", body: { email: email, password: pass } });
+        setLigaToken("");
+        ligaMe = null;
+        delete state.cloud;
+        saveLocalOnly();
+        closeExtraOverlay();
+        ligaAuthMode = "login";
+        goTab("liga");
+        toast("A tua conta foi apagada.", "ok", 6000);
+      }catch(e){
+        btn.disabled = false; btn.dataset.armed = "0"; btn.textContent = "Apagar a minha conta";
+        msg.className = "gift-msg err"; msg.textContent = e.message || "não foi possível apagar agora";
+      }
+    });
+  }
+
+  // ================= ANOTAÇÕES DO CULTO =================
+  // Ficam no progresso (state.notes): guardadas no aparelho e, com conta, na nuvem.
+  // Funcionam sem internet — ótimo para usar dentro da igreja.
+  var NOTES_MAX = 300, NOTE_TEXT_MAX = 20000;
+  function notesList(){
+    if (!Array.isArray(state.notes)) state.notes = [];
+    return state.notes;
+  }
+  function noteById(id){ return notesList().filter(function(n){ return n.id === id; })[0] || null; }
+  function newNoteId(){ return "n" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function formatNoteDate(ms){
+    var d = new Date(ms);
+    var dias = ["domingo","segunda","terça","quarta","quinta","sexta","sábado"];
+    return dias[d.getDay()] + ", " + String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0") + "/" + d.getFullYear();
+  }
+  function noteTitle(n){ return (n.title || "").trim() || ("Culto de " + formatNoteDate(n.created)); }
+  function noteSnippet(n){
+    var t = String(n.text || n.apply || "").replace(/\s+/g, " ").trim();
+    return t.length > 90 ? t.slice(0, 90) + "…" : t;
+  }
+
+  function openNotes(query){
+    var q = String(query || "").toLowerCase();
+    var list = notesList().slice().sort(function(a, b){ return (b.created || 0) - (a.created || 0); });
+    if (q) list = list.filter(function(n){ return (noteTitle(n) + " " + (n.preacher || "") + " " + (n.refs || "") + " " + (n.text || "") + " " + (n.apply || "")).toLowerCase().indexOf(q) !== -1; });
+    var html = extraHeader("Anotações do culto") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<button class="btn-outline" id="note-new" type="button">＋ Nova anotação</button>' +
+      (notesList().length > 3 ? '<div class="field" style="margin:14px 0 4px;"><input id="note-search" type="search" placeholder="🔎 Procurar nas anotações" value="' + escapeHtml(query || "") + '"></div>' : '') +
+      '<div class="note-list">' +
+      (list.length ? list.map(function(n){
+        return '<button class="note-item" type="button" data-note="' + n.id + '"><span class="ni-date">' + escapeHtml(formatNoteDate(n.created)) + (n.preacher ? ' · ' + escapeHtml(n.preacher) : '') + '</span>' +
+          '<span class="ni-title">' + escapeHtml(noteTitle(n)) + '</span>' +
+          (n.refs ? '<span class="ni-refs">📖 ' + escapeHtml(n.refs) + '</span>' : '') +
+          (noteSnippet(n) ? '<span class="ni-snip">' + escapeHtml(noteSnippet(n)) + '</span>' : '') + '</button>';
+      }).join("") : '<div class="emptystate">' + (q ? 'Nenhuma anotação encontrada.' : 'Ainda não tens anotações.<br>Toca em "Nova anotação" durante o culto: o tema, os versículos e o que Deus falou contigo. Fica guardado mesmo sem internet. 🙏') + '</div>') +
+      '</div></div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    document.getElementById("note-new").addEventListener("click", function(){ openNoteEditor(null); });
+    var s = document.getElementById("note-search");
+    if (s){
+      s.addEventListener("input", function(){
+        clearTimeout(s._t);
+        var v = s.value;
+        s._t = setTimeout(function(){ openNotes(v); var s2 = document.getElementById("note-search"); if (s2){ s2.focus(); s2.setSelectionRange(v.length, v.length); } }, 250);
+      });
+    }
+    extraOverlay.querySelectorAll("[data-note]").forEach(function(b){
+      b.addEventListener("click", function(){ openNoteEditor(b.dataset.note); });
+    });
+  }
+
+  function openNoteEditor(id){
+    var n = id ? noteById(id) : null;
+    var isNew = !n;
+    if (isNew){
+      if (notesList().length >= NOTES_MAX){ toast("Chegaste ao limite de " + NOTES_MAX + " anotações — apaga algumas antigas.", "err", 5000); return; }
+      n = { id: newNoteId(), created: Date.now(), updated: Date.now(), title: "", preacher: "", refs: "", text: "", apply: "" };
+    }
+    var saved = !isNew;
+    var html = extraHeader(isNew ? "Nova anotação" : "Anotação") + '<div class="lp-body"><div class="lp-wrap note-editor">' +
+      '<div class="note-date">📅 ' + escapeHtml(formatNoteDate(n.created)) + '</div>' +
+      '<div class="field"><label for="ne-title">Tema da mensagem</label><input id="ne-title" type="text" maxlength="120" placeholder="ex.: A fé que move montanhas" value="' + escapeHtml(n.title) + '"></div>' +
+      '<div class="field"><label for="ne-preacher">Pregador(a)</label><input id="ne-preacher" type="text" maxlength="60" placeholder="ex.: Pr. João" value="' + escapeHtml(n.preacher) + '"></div>' +
+      '<div class="field"><label for="ne-refs">Versículos</label><input id="ne-refs" type="text" maxlength="200" placeholder="ex.: Mateus 17:20; Hebreus 11:1" value="' + escapeHtml(n.refs) + '"></div>' +
+      '<div class="ne-ref-links" id="ne-ref-links"></div>' +
+      '<div class="field"><label for="ne-text">Anotações</label><textarea id="ne-text" rows="10" maxlength="' + NOTE_TEXT_MAX + '" placeholder="Escreve aqui os pontos da mensagem…">' + escapeHtml(n.text) + '</textarea></div>' +
+      '<button class="chip on" id="ne-insert" type="button">📖 Inserir versículo no texto</button>' +
+      '<div class="ne-ins-row" id="ne-ins-row" hidden><input id="ne-ins-ref" type="text" placeholder="ex.: João 3:16 ou Salmos 23:1-3"><button class="prem-btn small" id="ne-ins-go" type="button">Inserir</button></div>' +
+      '<div class="field" style="margin-top:14px;"><label for="ne-apply">O que vou aplicar esta semana 🙏</label><textarea id="ne-apply" rows="3" maxlength="2000" placeholder="ex.: orar todos os dias pela minha família">' + escapeHtml(n.apply) + '</textarea></div>' +
+      '<div class="note-status" id="ne-status">' + (isNew ? 'Começa a escrever — guarda sozinho.' : '✓ Guardado') + '</div>' +
+      '<div class="note-actions"><button class="btn-outline" id="ne-share" type="button">📤 Partilhar</button><button class="btn-outline note-del" id="ne-del" type="button">🗑 Apagar</button></div>' +
+      '<button class="bp-back" id="ne-back" type="button">‹ Todas as anotações</button>' +
+      '</div></div>';
+    openExtraOverlay(html);
+    wireExtraClose();
+    var f = {
+      title: document.getElementById("ne-title"), preacher: document.getElementById("ne-preacher"), refs: document.getElementById("ne-refs"),
+      text: document.getElementById("ne-text"), apply: document.getElementById("ne-apply")
+    };
+    var status = document.getElementById("ne-status");
+    var timer = null;
+    function hasContent(){ return ["title", "preacher", "refs", "text", "apply"].some(function(k){ return String(f[k].value || "").trim(); }); }
+    function saveNow(){
+      clearTimeout(timer);
+      if (!hasContent() && !saved) return;
+      ["title", "preacher", "refs", "text", "apply"].forEach(function(k){ n[k] = f[k].value; });
+      n.updated = Date.now();
+      if (!saved){ notesList().push(n); saved = true; }
+      saveState();
+      status.textContent = "✓ Guardado";
+    }
+    function schedule(){ status.textContent = "A guardar…"; clearTimeout(timer); timer = setTimeout(saveNow, 600); }
+    Object.keys(f).forEach(function(k){ f[k].addEventListener("input", schedule); f[k].addEventListener("blur", saveNow); });
+    function renderRefLinks(){
+      var box = document.getElementById("ne-ref-links");
+      if (!box) return;
+      var parts = String(f.refs.value || "").split(/[;,]+/).map(function(x){ return x.trim(); }).filter(Boolean);
+      var links = parts.filter(function(p){ return parseBibleRef(p); });
+      box.innerHTML = links.map(function(p){ return '<button class="chip" type="button" data-ref="' + escapeHtml(p) + '">📖 ' + escapeHtml(p) + ' ›</button>'; }).join("");
+      box.querySelectorAll("[data-ref]").forEach(function(b){
+        b.addEventListener("click", function(){ saveNow(); closeExtraOverlay(); openBibleAt(b.dataset.ref); });
+      });
+    }
+    f.refs.addEventListener("input", renderRefLinks);
+    renderRefLinks();
+    var insRow = document.getElementById("ne-ins-row"), insRef = document.getElementById("ne-ins-ref");
+    document.getElementById("ne-insert").addEventListener("click", function(){
+      insRow.hidden = !insRow.hidden;
+      if (!insRow.hidden) setTimeout(function(){ try{ insRef.focus(); }catch(e){} }, 30);
+    });
+    function doInsert(){
+      var ref = insRef.value.trim();
+      if (!ref) return;
+      insertVerseIntoNote(ref, f.text, function(){ insRef.value = ""; insRow.hidden = true; schedule(); });
+    }
+    document.getElementById("ne-ins-go").addEventListener("click", doInsert);
+    insRef.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); doInsert(); } });
+    document.getElementById("ne-share").addEventListener("click", async function(){
+      saveNow();
+      var txt = "📝 " + noteTitle(n) + "\n" + formatNoteDate(n.created) + (n.preacher ? " · " + n.preacher : "") +
+        (n.refs ? "\n📖 " + n.refs : "") + (n.text ? "\n\n" + n.text : "") + (n.apply ? "\n\n🙏 Vou aplicar: " + n.apply : "") + "\n\n— anotado no TheKing Idiomas";
+      try{ if (navigator.share){ await navigator.share({ title: noteTitle(n), text: txt }); return; } }catch(e){ return; }
+      try{ await navigator.clipboard.writeText(txt); toast("Anotação copiada ✅"); }catch(e){ window.prompt("Copia a anotação:", txt); }
+    });
+    var del = document.getElementById("ne-del");
+    del.addEventListener("click", function(){
+      if (del.dataset.armed !== "1"){ del.dataset.armed = "1"; del.textContent = "Toca de novo para apagar"; setTimeout(function(){ if (del.isConnected){ del.dataset.armed = "0"; del.textContent = "🗑 Apagar"; } }, 3000); return; }
+      clearTimeout(timer);
+      state.notes = notesList().filter(function(x){ return x.id !== n.id; });
+      saveState();
+      toast("Anotação apagada.");
+      openNotes();
+      renderStudyHub(); renderTodayStudy();
+    });
+    document.getElementById("ne-back").addEventListener("click", function(){ saveNow(); openNotes(); renderStudyHub(); renderTodayStudy(); });
+    document.getElementById("extra-close").addEventListener("click", function(){ saveNow(); renderStudyHub(); renderTodayStudy(); });
+    if (isNew) setTimeout(function(){ try{ f.title.focus(); }catch(e){} }, 50);
+  }
+
+  // Vai buscar o versículo à Bíblia do app e acrescenta-o ao texto (inglês + português).
+  function insertVerseIntoNote(ref, textarea, done){
+    var m = /^(.+?)\s+(\d+):(\d+)(?:\s*-\s*(\d+))?/.exec(String(ref).trim());
+    var r = parseBibleRef(ref);
+    if (!m || !r){ toast("Não reconheci \"" + ref + "\". Escreve, por exemplo: João 3:16", "err", 4500); return; }
+    var from = r.v, to = m[4] ? Math.max(from, parseInt(m[4], 10)) : from;
+    if (to - from > 15) to = from + 15;
+    loadBibleBook(r.b).then(function(data){
+      var rows = (data.c && data.c[r.c - 1]) || [];
+      var picked = rows.slice(from - 1, to);
+      if (!picked.length){ toast("Esse versículo não existe.", "err"); return; }
+      var bk = BIBLE_BOOKS[bibleBookIndex(r.b)];
+      var label = bk[2] + " " + r.c + ":" + from + (to > from ? "-" + to : "");
+      var block = "📖 " + label + "\n" + picked.map(function(x){ return x[1] || ""; }).join(" ") + "\n(" + picked.map(function(x){ return x[0]; }).join(" ") + ")\n";
+      var cur = textarea.value;
+      textarea.value = cur + (cur && !/\n$/.test(cur) ? "\n" : "") + block;
+      textarea.scrollTop = textarea.scrollHeight;
+      if (done) done();
+    }).catch(function(){ toast("Sem internet para abrir esse livro agora. Abre-o uma vez na Bíblia com internet e fica guardado.", "err", 5000); });
+  }
+
   // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
   // Só aparece no celular e só se o app ainda não estiver instalado. No Android (Chrome,
   // Edge, Samsung…) usamos o pedido de instalação nativo quando o navegador o oferece;
@@ -6021,6 +6283,7 @@
 
   // ================= INIT =================
   async function init(){
+    detectStoreApp();
     captureLigaRef();
     captureResetToken();
     var openGift = captureGiftCode();
