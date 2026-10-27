@@ -730,6 +730,41 @@
   .note-actions{display:flex; gap:10px;}
   .note-actions .btn-outline{flex:1;}
   .note-del{border-color:var(--danger); color:var(--danger);}
+  /* ---- Escrever (digitar palavra e frase) ---- */
+  .ty-kicker{font-size:11.5px; color:var(--accent-ink); text-transform:uppercase; letter-spacing:.1em; font-weight:700; text-align:center; margin:4px 0 10px;}
+  .ty-pic{display:flex; justify-content:center; margin-bottom:6px;}
+  .ty-emoji{font-size:64px; line-height:1; display:inline-block; animation:typop .35s ease-out;}
+  button.ty-emoji{appearance:none; border:none; background:var(--surface); width:96px; height:96px; border-radius:50%; font-size:40px; cursor:pointer;}
+  @keyframes typop{from{transform:scale(.6); opacity:0;} to{transform:scale(1); opacity:1;}}
+  .ty-pt{text-align:center; color:var(--ink-soft); font-size:14px; margin-bottom:12px;}
+  .ty-tools{display:flex; flex-wrap:wrap; justify-content:center; gap:7px; margin-bottom:16px;}
+  .ty-tools .chip{opacity:1;}
+  .ty-tools .chip[disabled]{opacity:.4;}
+  .ty-area{position:relative; cursor:text; margin:0 auto 14px; text-align:center;}
+  .ty-line{display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-end; row-gap:14px;}
+  .ty-word{display:inline-flex; gap:4px; align-items:flex-end;}
+  .ty-sp{display:inline-block; width:16px;}
+  .ty-ch{position:relative; display:inline-flex; justify-content:center; align-items:flex-end; min-width:.72em; height:1.35em; border-bottom:2.5px solid var(--border); color:#5ad6c8; font-weight:700; text-transform:none; transition:border-color .15s;}
+  .ty-big{font-size:32px; letter-spacing:.06em;}
+  .ty-sentence{font-size:20px; letter-spacing:.04em;}
+  .ty-sentence .ty-word{gap:3px;}
+  .ty-sentence .ty-ch{border-bottom-width:2px; min-width:.64em;}
+  .ty-fixed{color:var(--ink-soft); font-weight:700; padding:0 1px;}
+  .ty-ch.ty-ok{border-bottom-color:#5ad6c8;}
+  .ty-ch.ty-hinted{color:var(--gold); border-bottom-color:var(--gold);}
+  .ty-ch.ty-cur{border-bottom-color:var(--accent);}
+  .ty-ch.ty-cur::before{content:""; position:absolute; bottom:4px; left:50%; width:2px; height:.9em; background:var(--accent); transform:translateX(-50%); animation:tyblink 1s steps(1) infinite;}
+  @keyframes tyblink{50%{opacity:0;}}
+  .ty-ch.ty-wrong{animation:tyshake .3s; border-bottom-color:var(--danger);}
+  .ty-ch.ty-wrong::after{content:attr(data-bad); position:absolute; bottom:0; left:50%; transform:translateX(-50%); color:var(--danger); opacity:0; animation:tybad .5s;}
+  @keyframes tybad{0%{opacity:.9;} 100%{opacity:0;}}
+  @keyframes tyshake{0%,100%{transform:translateX(0);} 25%{transform:translateX(-4px);} 75%{transform:translateX(4px);}}
+  .ty-ghost .ty-ch:not(.ty-ok):not(.ty-hinted)::after{content:attr(data-ch); position:absolute; bottom:0; left:50%; transform:translateX(-50%); color:var(--ink-faint); opacity:.55; font-weight:600;}
+  .ty-done .ty-ch{border-bottom-color:transparent;}
+  .ty-input{position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; font-size:16px; border:none; background:transparent; color:transparent; caret-color:transparent;}
+  .ty-tapnote{text-align:center; font-size:12px; color:var(--ink-faint); margin-top:4px;}
+  .ty-skip{display:block; width:100%; margin-top:8px; appearance:none; border:none; background:none; color:var(--ink-faint); font-size:12.5px; font-weight:600; font-family:'Inter',sans-serif; cursor:pointer; padding:6px;}
+  .ty-skip[hidden]{display:none;}
 </style>
 
 <div class="wrap">
@@ -2001,6 +2036,8 @@
         if (!item) item = makeMcq(w, words, "pt2en");
         ex.push(item);
       });
+      // Escrever: 2 palavras por lição (ver, ouvir e escrever a palavra e depois a frase)
+      shuffle(words).slice(0, 2).forEach(function(w){ ex.push({ type:"type", word:w }); });
     } else {
       var mixed2 = shuffle(words);
       mixed2.forEach(function(w, i){
@@ -2013,6 +2050,7 @@
         if (!item) item = makeMcq(w, words, "en2pt");
         ex.push(item);
       });
+      shuffle(words).slice(0, 2).forEach(function(w){ ex.push({ type:"type", word:w }); });
     }
     return ex;
   }
@@ -2336,6 +2374,24 @@
           });
         });
       });
+    } else if (item.type === "type"){
+      body = '<div id="lp-typing"></div>';
+      footer = '<button class="btn-outline" id="lp-continue" disabled>Escreve para continuar</button>' +
+               '<button class="ty-skip" id="lp-ty-skip" type="button">Agora não consigo escrever · pular</button>';
+      overlay.innerHTML = lpShell(body, footer);
+      var contBtn = document.getElementById("lp-continue");
+      var tyTask = renderTypingTask(document.getElementById("lp-typing"), {
+        word: item.word,
+        onFinish: function(m, h, skipped){
+          if (!skipped) runner.xpEarned += (m + h <= 2 ? 10 : 6);
+          runner.answered = true;
+          contBtn.disabled = false; contBtn.textContent = "Continuar";
+          var sk = document.getElementById("lp-ty-skip"); if (sk) sk.hidden = true;
+          try{ contBtn.focus(); }catch(e){}
+        }
+      });
+      document.getElementById("lp-ty-skip").addEventListener("click", function(){ tyTask.skip(); });
+      contBtn.addEventListener("click", function(){ if (contBtn.disabled) return; runner.idx++; renderExercise(); });
     }
     wireWordTaps(overlay);
     var closeBtn = document.getElementById("lp-close");
@@ -2877,6 +2933,7 @@
 
   // ================= EXTRA: JOGOS E VÍDEOS =================
   var GAMES = [
+    {id:"typing", icon:"✍️", title:"Escrever", sub:"Vê, ouve e escreve palavras e frases"},
     {id:"memory", icon:"🧠", title:"Jogo da Memória", sub:"Combine a palavra com a tradução"},
     {id:"hangman", icon:"🎯", title:"Forca", sub:"Adivinha a palavra letra a letra"},
     {id:"memory-biblia", icon:"📖", title:"Memória Bíblica", sub:"Combine palavras da Bíblia com a tradução", cat:"biblia"},
@@ -3003,6 +3060,7 @@
         if (btn.dataset.game === "memory" || btn.dataset.game === "memory-biblia") startMemoryGame(cat);
         if (btn.dataset.game === "hangman" || btn.dataset.game === "hangman-biblia") startHangmanGame(cat);
         if (btn.dataset.game === "verse-puzzle") startVersePuzzle();
+        if (btn.dataset.game === "typing") startTypingGame(null);
         if (btn.dataset.game === "bible-quiz") startBibleQuiz();
       });
     });
@@ -6022,6 +6080,233 @@
       textarea.scrollTop = textarea.scrollHeight;
       if (done) done();
     }).catch(function(){ toast("Sem internet para abrir esse livro agora. Abre-o uma vez na Bíblia com internet e fica guardado.", "err", 5000); });
+  }
+
+  // ================= ESCREVER (digitar a palavra e a frase) =================
+  // Inspirado nos exercícios de "ver a imagem, escrever a palavra e depois a frase".
+  // Cada letra tem o seu tracinho; as letras certas aparecem, as erradas piscam a vermelho.
+  var WORD_EMOJI = {
+    // essenciais / família
+    "hello":"👋","goodbye":"👋","please":"🙏","thank you":"🙏","sorry":"😔","yes":"✅","no":"❌","friend":"🤝","family":"👨‍👩‍👧","water":"💧",
+    "today":"📅","tomorrow":"🌅","yesterday":"🕰️","now":"⏰","here":"📍","there":"👉","happy":"😊","sad":"😢",
+    // bíblia
+    "god":"✨","faith":"🙏","love":"❤️","hope":"🌈","prayer":"🙏","pray":"🙏","blessing":"🎁","mercy":"🤲","grace":"🕊️","forgive":"🤝","peace":"🕊️",
+    "believe":"✝️","shepherd":"🐑","disciple":"👣","gospel":"📖","kingdom":"👑","miracle":"✨","worship":"🙌",
+    "adam":"🍎","eve":"🍎","noah":"🚢","abraham":"⭐","moses":"📜","joseph":"🧥","david":"🎵","solomon":"👑","ruth":"🌾","esther":"👸","daniel":"🦁",
+    "mary":"👩","john":"💧","peter":"🎣","paul":"✉️","judas":"💰","samuel":"👂","elijah":"🔥",
+    // verbos
+    "go":"🚶","come":"👋","make":"🛠️","give":"🎁","know":"💡","think":"🤔","see":"👀","want":"🙋","need":"❗","like":"👍","work":"💼","study":"📚","speak":"🗣️",
+    // adjetivos
+    "expensive":"💸","cheap":"🏷️","difficult":"🧗","easy":"😌","beautiful":"🌸","fast":"⚡","slow":"🐢","strong":"💪","weak":"🥀","clean":"🧼","dirty":"🧹",
+    "safe":"🛡️","dangerous":"⚠️","comfortable":"🛋️","boring":"🥱","interesting":"🤩","crowded":"👥","exhausted":"😩",
+    // igreja
+    "church":"⛪","choir":"🎶","sermon":"🎤","baptism":"💧","communion":"🍷","offering":"💝","hymn":"🎵","congregation":"👥","altar":"🕯️","cross":"✝️",
+    "candle":"🕯️","bell":"🔔","pulpit":"🎤","missionary":"🌍","testimony":"🗣️","revival":"🔥",
+    // comida
+    "breakfast":"🍳","lunch":"🍽️","dinner":"🍲","restaurant":"🍴","menu":"📋","waiter":"🤵","bill":"🧾","delicious":"😋","hungry":"🤤","thirsty":"🥤",
+    "vegetable":"🥦","fruit":"🍎","meat":"🥩","bread":"🍞","cheese":"🧀","dessert":"🍰","spicy":"🌶️","leftovers":"🥡",
+    // viagem
+    "airport":"🛫","ticket":"🎫","passport":"🛂","luggage":"🧳","flight":"✈️","hotel":"🏨","reservation":"📝","map":"🗺️","tourist":"📸","trip":"🧭",
+    "vacation":"🏖️","border":"🚧","customs":"🛃","boarding pass":"🎫","suitcase":"🧳","journey":"🛤️","delay":"⏳","destination":"📍",
+    // trabalho
+    "job":"💼","meeting":"👥","deadline":"⏰","boss":"👔","colleague":"🧑‍💼","salary":"💰","resume":"📄","interview":"🎙️","email":"📧","project":"📊",
+    "schedule":"🗓️","office":"🏢","contract":"📝","promotion":"📈","client":"🤝","remote":"🏠","skill":"🧠","task":"✅",
+    // números / tempo
+    "one":"1️⃣","two":"2️⃣","three":"3️⃣","five":"5️⃣","ten":"🔟","twenty":"2️⃣0️⃣","hundred":"💯","half":"🌗","quarter":"🕒","minute":"⏱️","hour":"🕐",
+    "o'clock":"🕛","morning":"🌅","afternoon":"🌇","week":"📆","month":"🗓️","year":"🎆","century":"🏛️",
+    // compras
+    "shop":"🏪","price":"🏷️","discount":"🔖","cash":"💵","credit card":"💳","receipt":"🧾","size":"📏","color":"🎨","try on":"👗","cashier":"🧑‍💼",
+    "change":"🪙","sale":"🛍️","refund":"↩️","bag":"🛍️","cart":"🛒","store":"🏬","free shipping":"📦",
+    // falsos cognatos e outros
+    "college":"🎓","parents":"👨‍👩‍👦","library":"📚","exit":"🚪","push":"👐","costume":"🎭","pasta":"🍝","mayor":"🏛️","lecture":"👨‍🏫",
+    // espanhol
+    "hola":"👋","adiós":"👋","gracias":"🙏","amigo":"🤝","familia":"👨‍👩‍👧","agua":"💧","feliz":"😊","triste":"😢","pan":"🍞","queso":"🧀","carne":"🥩",
+    "fruta":"🍎","verdura":"🥦","postre":"🍰","desayuno":"🍳","cena":"🍲","almuerzo":"🍽️","vuelo":"✈️","hotel":"🏨","mapa":"🗺️","maleta":"🧳",
+    "pasaporte":"🛂","aeropuerto":"🛫","trabajo":"💼","oficina":"🏢","jefe":"👔","hora":"🕐","semana":"📆","mes":"🗓️","año":"🎆","rápido":"⚡","lento":"🐢",
+    "fuerte":"💪","limpio":"🧼","sucio":"🧹","restaurante":"🍴","menú":"📋","picante":"🌶️","boleto":"🎫","viaje":"🧭","vacaciones":"🏖️","rojo":"🔴"
+  };
+  function typeTarget(text){ return String(text || "").split(" / ")[0].trim(); }
+  function typeNorm(ch){ return String(ch).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+  function isTypable(ch){ return /[a-z0-9]/.test(typeNorm(ch)); }
+  function wordEmoji(word){
+    var k = typeTarget(word.en).toLowerCase();
+    if (WORD_EMOJI[k]) return WORD_EMOJI[k];
+    var first = k.split(" ")[0];
+    return WORD_EMOJI[first] || "";
+  }
+
+  // Monta o exercício de escrever dentro de "host". opts: {text, onDone(mistakes, hints), size:"big"|"sentence"}
+  function mountTyping(host, opts){
+    var chars = Array.from(opts.text);
+    var filled = [], mistakes = 0, hints = 0, done = false;
+    var html = "", i = 0;
+    var words = opts.text.split(" ");
+    words.forEach(function(w, wi){
+      html += '<span class="ty-word">';
+      Array.from(w).forEach(function(ch){
+        if (isTypable(ch)) html += '<span class="ty-ch" data-i="' + i + '" data-ch="' + escapeHtml(ch) + '"></span>';
+        else html += '<span class="ty-fixed">' + escapeHtml(ch) + '</span>';
+        i++;
+      });
+      html += '</span>';
+      if (wi < words.length - 1){ html += '<span class="ty-sp"></span>'; i++; }
+    });
+    host.innerHTML = '<div class="ty-line ' + (opts.size === "sentence" ? "ty-sentence" : "ty-big") + '">' + html + '</div>' +
+      '<input class="ty-input" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Escreve aqui">';
+    var inp = host.querySelector(".ty-input");
+    var pos = -1;
+    function nextPos(from){ for (var k = from; k < chars.length; k++) if (isTypable(chars[k])) return k; return chars.length; }
+    function slot(k){ return host.querySelector('.ty-ch[data-i="' + k + '"]'); }
+    function markCur(){
+      host.querySelectorAll(".ty-ch.ty-cur").forEach(function(e){ e.classList.remove("ty-cur"); });
+      var s = slot(pos); if (s) s.classList.add("ty-cur");
+    }
+    function finish(){
+      done = true;
+      markCur();
+      try{ inp.blur(); }catch(e){}
+      host.classList.add("ty-done");
+      if (opts.onDone) opts.onDone(mistakes, hints);
+    }
+    function place(hinted){
+      var s = slot(pos);
+      if (s){ s.textContent = chars[pos]; s.classList.add(hinted ? "ty-hinted" : "ty-ok"); }
+      filled[pos] = true;
+      pos = nextPos(pos + 1);
+      if (pos >= chars.length) finish(); else markCur();
+    }
+    function feed(ch){
+      if (done || ch === " " || ch === "\n") return;
+      if (!isTypable(ch)) return; // pontuação já está escrita
+      if (typeNorm(ch) === typeNorm(chars[pos])) place(false);
+      else {
+        mistakes++;
+        var s = slot(pos);
+        if (s){ s.classList.remove("ty-wrong"); void s.offsetWidth; s.classList.add("ty-wrong"); s.setAttribute("data-bad", ch); }
+        if (opts.onMistake) opts.onMistake(mistakes);
+      }
+    }
+    var last = "";
+    inp.addEventListener("input", function(){
+      var v = inp.value;
+      if (v.length > last.length && v.indexOf(last) === 0){ Array.from(v.slice(last.length)).forEach(feed); }
+      else if (v.length > last.length){ feed(v.charAt(v.length - 1)); }
+      last = v;
+      if (v.length > 30){ inp.value = ""; last = ""; }
+    });
+    host.addEventListener("click", function(){ if (!done){ try{ inp.focus({ preventScroll: true }); }catch(e){ inp.focus(); } } });
+    pos = nextPos(0);
+    markCur();
+    setTimeout(function(){ try{ inp.focus({ preventScroll: true }); }catch(e){} }, 30);
+    return {
+      hint: function(){ if (!done){ hints++; place(true); } },
+      showGhost: function(on){ host.classList.toggle("ty-ghost", !!on); },
+      focus: function(){ try{ inp.focus({ preventScroll: true }); }catch(e){} },
+      isDone: function(){ return done; },
+      feed: feed
+    };
+  }
+
+  // Ecrã completo "palavra -> frase", reutilizado pela lição e pelo jogo.
+  // opts: {word, lang, headerHtml, onFinish(mistakes, hints, skipped), footerId}
+  function renderTypingTask(container, opts){
+    var w = opts.word;
+    var target = typeTarget(w.en);
+    var sentence = String(w.example || "").trim();
+    var useSentence = sentence && sentence.length <= 110 && sentence !== target;
+    var emoji = wordEmoji(w);
+    var lang = opts.lang || curLang().speechLang;
+    container.innerHTML =
+      '<div class="ty-kicker" id="ty-kicker">Escreve a palavra</div>' +
+      '<div class="ty-pic">' + (emoji ? '<span class="ty-emoji">' + emoji + '</span>' : '<button class="ty-emoji ty-say" type="button" id="ty-pic-say">🔊</button>') + '</div>' +
+      '<div class="ty-pt">' + escapeHtml(w.pt) + '</div>' +
+      '<div class="ty-tools"><button class="chip on" type="button" id="ty-say">🔊 Ouvir</button><button class="chip" type="button" id="ty-say-slow">🐢 Devagar</button>' +
+        '<button class="chip" type="button" id="ty-hint">💡 Dica</button><button class="chip" type="button" id="ty-ghost" hidden>👁 Ver frase</button></div>' +
+      '<div class="ty-area" id="ty-word"></div>' +
+      '<div class="ty-area" id="ty-sent" hidden></div>' +
+      '<div class="ty-tapnote" id="ty-tapnote">Toca nos tracinhos para abrir o teclado ⌨️</div>' +
+      '<div id="ty-fb"></div>';
+    var phase = "word", totalMistakes = 0, totalHints = 0, current = null;
+    function sayNow(rate){ speak(phase === "word" ? target : sentence, lang, rate ? { rate: rate } : undefined); }
+    container.querySelector("#ty-say").addEventListener("click", function(){ sayNow(); if (current) current.focus(); });
+    container.querySelector("#ty-say-slow").addEventListener("click", function(){ sayNow(0.55); if (current) current.focus(); });
+    var picSay = container.querySelector("#ty-pic-say");
+    if (picSay) picSay.addEventListener("click", function(){ sayNow(); });
+    container.querySelector("#ty-hint").addEventListener("click", function(){ if (current){ current.hint(); current.focus(); } });
+    var ghostBtn = container.querySelector("#ty-ghost");
+    var ghostOn = false;
+    ghostBtn.addEventListener("click", function(){ ghostOn = !ghostOn; if (current) current.showGhost(ghostOn); ghostBtn.classList.toggle("on", ghostOn); if (current) current.focus(); });
+    function done(skipped){
+      var fb = container.querySelector("#ty-fb");
+      if (fb && !skipped) fb.innerHTML = '<div class="lp-feedback correct">' + (totalMistakes + totalHints <= 2 ? "Perfeito! ✍️" : "Muito bem! Continua a praticar ✍️") + '</div>';
+      var note = container.querySelector("#ty-tapnote"); if (note) note.hidden = true;
+      container.querySelector("#ty-hint").disabled = true;
+      if (opts.onFinish) opts.onFinish(totalMistakes, totalHints, !!skipped);
+    }
+    current = mountTyping(container.querySelector("#ty-word"), {
+      text: target, size: "big",
+      onDone: function(m, h){
+        totalMistakes += m; totalHints += h;
+        speak(target, lang);
+        if (!useSentence){ done(false); return; }
+        setTimeout(function(){
+          phase = "sentence";
+          container.querySelector("#ty-kicker").textContent = "Agora ouve e escreve a frase";
+          ghostBtn.hidden = false;
+          var sentEl = container.querySelector("#ty-sent");
+          sentEl.hidden = false;
+          current = mountTyping(sentEl, {
+            text: sentence, size: "sentence",
+            onDone: function(m2, h2){ totalMistakes += m2; totalHints += h2; done(false); }
+          });
+          setTimeout(function(){ speak(sentence, lang, { rate: 0.85 }); }, 250);
+        }, 700);
+      }
+    });
+    setTimeout(function(){ speak(target, lang); }, 150);
+    return { skip: function(){ done(true); } };
+  }
+
+  // ---- Jogo "Escrever" (aba Jogos): 6 palavras seguidas, como no vídeo ----
+  function startTypingGame(catFilter){
+    var pool = (catFilter && WORDS_BY_CAT[catFilter]) ? WORDS_BY_CAT[catFilter] : WORDS;
+    // prioriza palavras que a pessoa já viu nas lições/Praticar
+    var seen = pool.filter(function(w){ return boxOf(w.id) > 0; });
+    var base = seen.length >= 6 ? seen : pool;
+    var list = shuffle(base).slice(0, 6);
+    var idx = 0, xp = 0, totalErr = 0;
+    function step(){
+      if (idx >= list.length){
+        if (xp > 0){ addXp(xp); saveState(); renderStatbar(); }
+        openExtraOverlay(extraHeader("Escrever") + '<div class="lp-body"><div class="lp-wrap"><div class="lp-summary">' +
+          '<div class="lp-kicker">Treino de escrita concluído</div><div class="big tabular">+' + xp + ' XP</div>' +
+          '<p>' + list.length + ' palavras e frases · ' + totalErr + ' erro(s)</p></div>' +
+          '<button class="btn-outline" id="ty-again" type="button">Escrever outras palavras</button></div></div>');
+        wireExtraClose();
+        document.getElementById("ty-again").addEventListener("click", function(){ startTypingGame(catFilter); });
+        return;
+      }
+      var pct = Math.round(idx / list.length * 100);
+      openExtraOverlay(
+        '<div class="lp-header"><button class="lp-close" id="extra-close" type="button" aria-label="Fechar">✕</button>' +
+        '<div class="lp-progressbar"><div style="width:' + pct + '%; background:var(--accent);"></div></div><div class="lp-count tabular">' + (idx + 1) + ' / ' + list.length + '</div></div>' +
+        '<div class="lp-body"><div class="lp-wrap" id="ty-game"></div></div>' +
+        '<div class="lp-footerbar"><div class="inner"><button class="btn-outline" id="ty-next" type="button" disabled>Escreve para continuar</button><button class="ty-skip" id="ty-skip" type="button">Agora não consigo escrever · pular</button></div></div>');
+      wireExtraClose();
+      var nextBtn = document.getElementById("ty-next");
+      var task = renderTypingTask(document.getElementById("ty-game"), {
+        word: list[idx],
+        onFinish: function(m, h, skipped){
+          if (!skipped){ xp += (m + h <= 2 ? 5 : 3); totalErr += m; }
+          nextBtn.disabled = false; nextBtn.textContent = idx + 1 >= list.length ? "Ver resultado" : "Próxima";
+          document.getElementById("ty-skip").hidden = true;
+          nextBtn.focus();
+        }
+      });
+      document.getElementById("ty-skip").addEventListener("click", function(){ task.skip(); });
+      nextBtn.addEventListener("click", function(){ idx++; step(); });
+    }
+    step();
   }
 
   // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
