@@ -765,6 +765,68 @@
   .ty-tapnote{text-align:center; font-size:12px; color:var(--ink-faint); margin-top:4px;}
   .ty-skip{display:block; width:100%; margin-top:8px; appearance:none; border:none; background:none; color:var(--ink-faint); font-size:12.5px; font-weight:600; font-family:'Inter',sans-serif; cursor:pointer; padding:6px;}
   .ty-skip[hidden]{display:none;}
+  /* ---- Davi vs Golias ---- */
+  .dv-intro-scene{display:flex; align-items:flex-end; justify-content:center; gap:18px; margin:6px 0 10px;}
+  .dv-davi-big{width:84px;} .dv-goliath-big{width:132px;} .dv-vs{font-size:22px; font-weight:800; color:var(--gold); margin-bottom:40px;}
+  .dv-svg{display:block; width:100%; height:auto; overflow:visible;}
+  .dv-lose-pic{width:110px; margin:0 auto;}
+  .dv-modes{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px;}
+  .dv-mode{appearance:none; cursor:pointer; text-align:left; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); border-radius:14px; padding:12px; font-family:'Inter',sans-serif;}
+  .dv-mode b{display:block; font-size:14.5px;} .dv-mode small{display:block; font-size:12px; color:var(--ink-soft); margin-top:3px;}
+  .dv-mode.on{border-color:var(--accent); background:var(--accent-soft);}
+  .dv-best{text-align:center; font-size:13px; color:var(--gold); font-weight:700; margin-top:12px;}
+  .dv-top{flex:1; display:flex; justify-content:space-between; align-items:center; font-weight:800;}
+  .dv-lives{font-size:18px; letter-spacing:2px;}
+  .dv-level{font-size:12.5px; color:var(--accent-ink); background:var(--accent-soft); border-radius:999px; padding:4px 11px;}
+  .dv-scene{position:relative; height:250px; border-radius:18px; overflow:hidden; margin-bottom:10px; background:linear-gradient(180deg,#7cc6f5 0%,#bfe6ff 62%,#bfe6ff 100%); box-shadow:var(--shadow);}
+  .dv-grass{position:absolute; left:0; right:0; bottom:0; height:46px; background:linear-gradient(180deg,#7ccf5a,#4fa83c); border-top:3px solid #91dd6c;}
+  .dv-sun{position:absolute; left:46%; top:10px; font-size:30px;}
+  .dv-cloud{position:absolute; font-size:30px; opacity:.95; animation:dvcloud 18s linear infinite;}
+  .dv-cloud.c1{top:16px; left:-40px;} .dv-cloud.c2{top:46px; left:-40px; font-size:22px; animation-duration:26s; animation-delay:-9s;}
+  @keyframes dvcloud{from{transform:translateX(0);} to{transform:translateX(480px);}}
+  .dv-hpwrap{position:absolute; left:12px; top:12px; z-index:4; display:flex; align-items:center; gap:7px; background:rgba(255,255,255,.55); border-radius:999px; padding:4px 10px 4px 10px;}
+  .dv-hpwrap span{font-size:11px; font-weight:800; color:#5a3418;}
+  .dv-hpbar{width:96px; height:9px; border-radius:999px; background:rgba(0,0,0,.2); overflow:hidden;}
+  .dv-hpbar > div{height:100%; background:linear-gradient(90deg,#f76d6d,#ffb547); border-radius:999px; transition:width .35s;}
+  .dv-davi{position:absolute; left:20px; bottom:24px; width:76px; z-index:2; transform-origin:bottom center;}
+  .dv-davi .dv-arm{transform-origin:80px 76px;}
+  .dv-davi.throw .dv-arm{animation:dvarm .4s;}
+  @keyframes dvarm{0%{transform:rotate(0);} 40%{transform:rotate(-35deg);} 70%{transform:rotate(40deg);} 100%{transform:rotate(0);}}
+  .dv-davi.throw{animation:dvthrow .4s;} .dv-davi.hurt{animation:dvhurt .5s;}
+  @keyframes dvthrow{30%{transform:translateX(-3px);} 70%{transform:translateX(4px);} 100%{transform:none;}}
+  @keyframes dvhurt{0%,100%{transform:translateX(0); filter:none;} 25%{transform:translateX(-8px); filter:drop-shadow(0 0 8px red);} 75%{transform:translateX(6px);}}
+  .dv-goliath{position:absolute; right:14px; bottom:20px; width:134px; z-index:2; transform-origin:bottom center; animation:dvbreathe 2.4s ease-in-out infinite;}
+  @keyframes dvbreathe{50%{transform:scale(1.03);}}
+  .dv-goliath.hit{animation:dvhit .45s;}
+  @keyframes dvhit{0%{transform:none; filter:none;} 30%{transform:translateX(10px) rotate(6deg); filter:brightness(1.8) drop-shadow(0 0 10px #fff);} 100%{transform:none; filter:none;}}
+  .dv-goliath.attack{animation:dvattack .7s;}
+  @keyframes dvattack{0%{transform:none;} 40%{transform:translateX(-120px) scale(1.12);} 100%{transform:none;}}
+  .dv-stone{position:absolute; left:86px; bottom:128px; font-size:20px; z-index:3;}
+  .dv-stone.fly{animation:dvfly .55s ease-in forwards;}
+  @keyframes dvfly{0%{transform:translate(0,0) rotate(0);} 50%{transform:translate(95px,-70px) rotate(360deg);} 100%{transform:translate(178px,-58px) rotate(720deg);}}
+  .dv-boom{position:absolute; right:56px; bottom:170px; font-size:40px; z-index:4;}
+  .dv-boom.pop{animation:dvpop .5s;}
+  @keyframes dvpop{0%{transform:scale(.3); opacity:0;} 40%{transform:scale(1.3); opacity:1;} 100%{transform:scale(1); opacity:0;}}
+  .dv-banner{position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:5; background:#3b6fe0; color:#fff; font-weight:800; font-size:13.5px; padding:7px 14px; border-radius:10px; white-space:nowrap; box-shadow:0 6px 16px rgba(0,0,0,.25);}
+  .dv-banner.show{animation:dvbanner .3s ease-out;}
+  @keyframes dvbanner{from{transform:translate(-50%,-10px); opacity:0;} to{transform:translate(-50%,0); opacity:1;}}
+  .dv-timebar{height:7px; border-radius:999px; background:var(--border); overflow:hidden; margin-bottom:14px;}
+  .dv-timebar > div{height:100%; width:100%; background:var(--success); border-radius:999px; transition:width .1s linear;}
+  .dv-timebar > div.low{background:var(--danger);}
+  .dv-word{display:flex; justify-content:center; margin-bottom:8px; min-height:52px;}
+  .ty-gameline{font-size:24px;} .ty-gameline .ty-word{gap:5px;}
+  .ty-gameline .ty-ch{width:1.25em; min-width:1.25em; height:1.55em; align-items:center; border:2px solid var(--border); border-radius:8px; background:var(--surface); color:#fff;}
+  .ty-gameline .ty-ch.ty-ok{background:#3b6fe0; border-color:#3b6fe0; color:#fff;}
+  .ty-gameline .ty-ch.ty-cur{border-color:var(--accent);}
+  .ty-gameline .ty-ch.ty-cur::before{bottom:6px;}
+  .ty-ghost .ty-gameline .ty-ch:not(.ty-ok):not(.ty-hinted)::after{bottom:auto; top:50%; transform:translate(-50%,-50%); opacity:.5;}
+  .ty-done .ty-gameline .ty-ch{border-color:#3b6fe0;}
+  .dv-pt{text-align:center; color:var(--ink-soft); font-size:14px; margin-bottom:14px;}
+  .dv-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; text-align:center;}
+  .dv-stats.dv-final{grid-template-columns:repeat(4,1fr); margin:16px 0;}
+  .dv-stats > div{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:9px 4px;}
+  .dv-stats b{display:block; font-size:16px;} .dv-stats small{display:block; font-size:11px; color:var(--ink-faint);}
+  .dv-input{position:fixed; left:0; bottom:0; width:1px; height:1px; opacity:0; font-size:16px; border:none;}
 </style>
 
 <div class="wrap">
@@ -854,7 +916,7 @@
     <h3 class="sec">Jogos</h3>
     <div id="games-list"></div>
     <h3 class="sec">Vídeos para aprender inglês</h3>
-    <p class="intro-line" style="margin-top:-8px">Conteúdo selecionado do YouTube — toca para ver dentro da app.</p>
+    <p class="intro-line" style="margin-top:-8px">Louvores e Bíblia em inglês, do YouTube. Dica: liga as legendas em inglês (CC) para treinar a leitura.</p>
     <div class="videos-grid" id="videos-grid"></div>
   </section>
 
@@ -2933,6 +2995,7 @@
 
   // ================= EXTRA: JOGOS E VÍDEOS =================
   var GAMES = [
+    {id:"davi", icon:"🪨", title:"Davi vs Golias", sub:"Escreve as palavras para lançar pedras no gigante"},
     {id:"typing", icon:"✍️", title:"Escrever", sub:"Vê, ouve e escreve palavras e frases"},
     {id:"memory", icon:"🧠", title:"Jogo da Memória", sub:"Combine a palavra com a tradução"},
     {id:"hangman", icon:"🎯", title:"Forca", sub:"Adivinha a palavra letra a letra"},
@@ -2942,20 +3005,22 @@
     {id:"bible-quiz", icon:"❓", title:"Quiz Bíblico", sub:"Teste seus conhecimentos da Bíblia em inglês"}
   ];
 
-  // Louvores e hinos infantis em inglês para praticar inglês com tema evangélico —
-  // todos confirmados como incorporáveis via oEmbed do YouTube antes de entrar aqui.
+  // Louvores, hinos e vídeos bíblicos em inglês (evangélicos) para praticar o ouvido —
+  // todos confirmados como existentes e incorporáveis (oEmbed do YouTube) antes de entrar aqui.
   var VIDEOS = [
-    {id:"U-ryg9plBM4", cat:"Amor de Deus", title:"Jesus Loves Me — Children's Song"},
-    {id:"NsbRIg-ebWg", cat:"Louvor", title:"This Little Light of Mine — Wesley's Wuppets"},
-    {id:"jAeXnSVXauk", cat:"Louvor", title:"Deep and Wide — Cedarmont Kids"},
-    {id:"9DLHLgMDLYA", cat:"Bíblia", title:"The B-I-B-L-E — Good Book Kids"},
-    {id:"wbKdSq5q26A", cat:"História bíblica", title:"Zacchaeus Was a Wee Little Man — 3LittleWords"},
-    {id:"SlcyjrkrE4I", cat:"Arca de Noé", title:"Rise and Shine (Arky Arky) — Good News Guys"},
-    {id:"UviHHtRGslw", cat:"História bíblica", title:"Father Abraham — Bible Buddies"},
-    {id:"jjYi-qTzqr4", cat:"Alegria", title:"I've Got the Joy, Joy, Joy — God's Joy Kids"},
-    {id:"7xXrp5Fnqzg", cat:"Louvor", title:"My God is So Big — Miss Kelly's Ministry"},
-    {id:"3OGMjDllEJM", cat:"Louvor", title:"Give Me Oil in My Lamp — Christian Songs for Kids"},
-    {id:"RAtwPoHVnjw", cat:"Salmos", title:"This Is the Day (Psalm 118:24) — Arts Delivery"}
+    {id:"nQWFzMvCfLE", cat:"Louvor", title:"What A Beautiful Name — Hillsong Worship"},
+    {id:"IvSuGyJQ6oM", cat:"Louvor com letra", title:"Goodness of God — Bethel Music & Jenn Johnson"},
+    {id:"dy9nwe9_xzw", cat:"Louvor com letra", title:"Oceans (Where Feet May Fail) — Hillsong UNITED"},
+    {id:"IkHgxKemCRk", cat:"Louvor com letra", title:"Holy Forever — Chris Tomlin"},
+    {id:"Sc6SSHuZvQE", cat:"Louvor com letra", title:"Reckless Love — Bethel Music"},
+    {id:"KrcuY5QpGgU", cat:"Louvor com letra", title:"10,000 Reasons (Bless the Lord) — Passion"},
+    {id:"QM8jQHE5AAk", cat:"Louvor ao vivo", title:"Way Maker — Sinach"},
+    {id:"sIaT8Jl2zpI", cat:"Música cristã", title:"You Say — Lauren Daigle"},
+    {id:"JsQ0s05sqOQ", cat:"Hino", title:"Amazing Grace (My Chains Are Gone) — Chris Tomlin"},
+    {id:"7_CGP-12AE0", cat:"Bíblia explicada", title:"The Story of the Bible — BibleProject"},
+    {id:"G-2e9mMf7E8", cat:"Bíblia explicada", title:"The Gospel of John (Part 1) — BibleProject"},
+    {id:"GswSg2ohqmA", cat:"Bíblia explicada", title:"The Book of Job — BibleProject"},
+    {id:"Z8HBbOIXLD8", cat:"História bíblica", title:"Jesus and the Woman at the Well — Saddleback Kids"}
   ];
 
   // Versículo do dia: texto em inglês da King James Version (domínio público) +
@@ -3061,6 +3126,7 @@
         if (btn.dataset.game === "hangman" || btn.dataset.game === "hangman-biblia") startHangmanGame(cat);
         if (btn.dataset.game === "verse-puzzle") startVersePuzzle();
         if (btn.dataset.game === "typing") startTypingGame(null);
+        if (btn.dataset.game === "davi") startDaviGame();
         if (btn.dataset.game === "bible-quiz") startBibleQuiz();
       });
     });
@@ -6151,9 +6217,10 @@
       html += '</span>';
       if (wi < words.length - 1){ html += '<span class="ty-sp"></span>'; i++; }
     });
-    host.innerHTML = '<div class="ty-line ' + (opts.size === "sentence" ? "ty-sentence" : "ty-big") + '">' + html + '</div>' +
-      '<input class="ty-input" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Escreve aqui">';
-    var inp = host.querySelector(".ty-input");
+    host.innerHTML = '<div class="ty-line ' + (opts.size === "sentence" ? "ty-sentence" : (opts.size === "game" ? "ty-gameline" : "ty-big")) + '">' + html + '</div>' +
+      (opts.noInput ? '' : '<input class="ty-input" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Escreve aqui">');
+    // noInput: quem chama tem o seu próprio campo (ex.: o jogo, para o teclado do celular não fechar entre palavras)
+    var inp = host.querySelector(".ty-input") || { focus: function(){}, blur: function(){}, addEventListener: function(){} };
     var pos = -1;
     function nextPos(from){ for (var k = from; k < chars.length; k++) if (isTypable(chars[k])) return k; return chars.length; }
     function slot(k){ return host.querySelector('.ty-ch[data-i="' + k + '"]'); }
@@ -6164,7 +6231,7 @@
     function finish(){
       done = true;
       markCur();
-      try{ inp.blur(); }catch(e){}
+      if (!opts.noInput){ try{ inp.blur(); }catch(e){} }
       host.classList.add("ty-done");
       if (opts.onDone) opts.onDone(mistakes, hints);
     }
@@ -6194,11 +6261,12 @@
       last = v;
       if (v.length > 30){ inp.value = ""; last = ""; }
     });
-    host.addEventListener("click", function(){ if (!done){ try{ inp.focus({ preventScroll: true }); }catch(e){ inp.focus(); } } });
+    if (!opts.noInput) host.addEventListener("click", function(){ if (!done){ try{ inp.focus({ preventScroll: true }); }catch(e){ inp.focus(); } } });
     pos = nextPos(0);
     markCur();
-    setTimeout(function(){ try{ inp.focus({ preventScroll: true }); }catch(e){} }, 30);
+    if (!opts.noInput) setTimeout(function(){ try{ inp.focus({ preventScroll: true }); }catch(e){} }, 30);
     return {
+      stop: function(){ done = true; },
       hint: function(){ if (!done){ hints++; place(true); } },
       showGhost: function(on){ host.classList.toggle("ty-ghost", !!on); },
       focus: function(){ try{ inp.focus({ preventScroll: true }); }catch(e){} },
@@ -6307,6 +6375,326 @@
       nextBtn.addEventListener("click", function(){ idx++; step(); });
     }
     step();
+  }
+
+  // Personagens desenhados (SVG) do jogo Davi vs Golias — originais do TheKing.
+  var DAVI_SVG =
+    '<svg class="dv-svg" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-label="Davi">' +
+      '<defs><linearGradient id="dvTunic" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3e3c3"/><stop offset="1" stop-color="#dcc39a"/></linearGradient>' +
+      '<linearGradient id="dvSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9a06e"/><stop offset="1" stop-color="#c2875a"/></linearGradient></defs>' +
+      '<ellipse cx="58" cy="164" rx="30" ry="5" fill="rgba(0,0,0,.18)"/>' +
+      // pernas e sandálias
+      '<rect x="44" y="122" width="10" height="34" rx="5" fill="url(#dvSkin)"/>' +
+      '<rect x="62" y="122" width="10" height="34" rx="5" fill="url(#dvSkin)"/>' +
+      '<path d="M41 156h16v6H41z" fill="#7a4a24" rx="3"/><path d="M59 156h16v6H59z" fill="#7a4a24"/>' +
+      '<path d="M45 146l8 6M45 152l8-6M63 146l8 6M63 152l8-6" stroke="#7a4a24" stroke-width="2" stroke-linecap="round"/>' +
+      // bolsa de pastor
+      '<path d="M30 92c-6 10-4 24 6 28l14-4-6-26z" fill="#9a6232"/><path d="M33 96l20 26" stroke="#6e4220" stroke-width="2"/>' +
+      // túnica
+      '<path d="M38 70c6-6 34-6 40 0l6 58c-16 6-36 6-52 0z" fill="url(#dvTunic)"/>' +
+      '<path d="M37 98h46" stroke="#8a5a2b" stroke-width="6" stroke-linecap="round"/>' +
+      '<circle cx="60" cy="98" r="3.5" fill="#f5c86b"/>' +
+      '<path d="M52 70l8 12 8-12" fill="none" stroke="#c9ab7c" stroke-width="2"/>' +
+      // braço esquerdo (ao lado)
+      '<path d="M39 76c-7 8-9 22-6 32" fill="none" stroke="url(#dvSkin)" stroke-width="9" stroke-linecap="round"/>' +
+      // braço direito levantado com a funda
+      '<g class="dv-arm"><path d="M80 76c8-6 14-18 14-30" fill="none" stroke="url(#dvSkin)" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M94 44c4-14 10-24 18-28" fill="none" stroke="#6e4220" stroke-width="2.2"/>' +
+      '<path d="M94 44c10-6 16-16 18-28" fill="none" stroke="#6e4220" stroke-width="2.2"/>' +
+      '<ellipse cx="112" cy="15" rx="6" ry="5" fill="#8a5a2b"/><circle cx="112" cy="13" r="3.4" fill="#9aa3ad"/></g>' +
+      // pescoço e cabeça
+      '<rect x="54" y="58" width="12" height="12" rx="5" fill="url(#dvSkin)"/>' +
+      '<circle cx="60" cy="42" r="22" fill="url(#dvSkin)"/>' +
+      '<circle cx="38.5" cy="44" r="4.5" fill="#c98b5a"/><circle cx="81.5" cy="44" r="4.5" fill="#c98b5a"/>' +
+      // cabelo encaracolado
+      '<g fill="#4a2a16"><circle cx="44" cy="27" r="8"/><circle cx="54" cy="21" r="9"/><circle cx="66" cy="21" r="9"/><circle cx="76" cy="27" r="8"/><circle cx="40" cy="36" r="6"/><circle cx="80" cy="36" r="6"/><circle cx="60" cy="18" r="7"/></g>' +
+      // rosto
+      '<ellipse cx="51.5" cy="44" rx="4" ry="5" fill="#fff"/><ellipse cx="68.5" cy="44" rx="4" ry="5" fill="#fff"/>' +
+      '<circle cx="52.5" cy="45" r="2.6" fill="#2b1a0f"/><circle cx="69.5" cy="45" r="2.6" fill="#2b1a0f"/>' +
+      '<circle cx="53.4" cy="44" r=".9" fill="#fff"/><circle cx="70.4" cy="44" r=".9" fill="#fff"/>' +
+      '<path d="M47 37q4.5-3 9 0M64 37q4.5-3 9 0" fill="none" stroke="#4a2a16" stroke-width="1.8" stroke-linecap="round"/>' +
+      '<ellipse cx="46" cy="52" rx="4" ry="2.4" fill="#e98b7a" opacity=".55"/><ellipse cx="74" cy="52" rx="4" ry="2.4" fill="#e98b7a" opacity=".55"/>' +
+      '<path d="M53 54q7 7 14 0" fill="#7a2e22" stroke="#7a2e22" stroke-width="1.5" stroke-linecap="round"/>' +
+    '</svg>';
+
+  var GOLIAS_SVG =
+    '<svg class="dv-svg" viewBox="0 0 170 250" xmlns="http://www.w3.org/2000/svg" aria-label="Golias">' +
+      '<defs><linearGradient id="glBronze" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2b25a"/><stop offset=".55" stop-color="#b9822f"/><stop offset="1" stop-color="#8a5a1d"/></linearGradient>' +
+      '<linearGradient id="glSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d79a6c"/><stop offset="1" stop-color="#b97b50"/></linearGradient>' +
+      '<radialGradient id="glShield" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#f0c56c"/><stop offset="1" stop-color="#9a6524"/></radialGradient></defs>' +
+      '<ellipse cx="88" cy="243" rx="58" ry="7" fill="rgba(0,0,0,.2)"/>' +
+      // lança (atrás)
+      '<path d="M140 24L134 238" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M141 2l9 26h-18z" fill="#c9ced6" stroke="#8b929c" stroke-width="2"/>' +
+      // pernas, grevas e botas
+      '<rect x="60" y="178" width="20" height="52" rx="8" fill="url(#glSkin)"/>' +
+      '<rect x="96" y="178" width="20" height="52" rx="8" fill="url(#glSkin)"/>' +
+      '<rect x="58" y="196" width="24" height="32" rx="8" fill="url(#glBronze)"/>' +
+      '<rect x="94" y="196" width="24" height="32" rx="8" fill="url(#glBronze)"/>' +
+      '<path d="M52 228h32v12H52zM92 228h32v12H92z" fill="#5a3418"/>' +
+      // saiote de tiras de couro
+      '<path d="M52 150h72l6 40H46z" fill="#7a4a24"/>' +
+      '<path d="M58 152v36M70 152v38M82 152v38M94 152v38M106 152v38M118 152v36" stroke="#5a3418" stroke-width="3"/>' +
+      // corpo com armadura de escamas
+      '<path d="M44 78c10-14 78-14 88 0l-6 76H50z" fill="url(#glBronze)"/>' +
+      '<g fill="none" stroke="#8a5a1d" stroke-width="2" opacity=".8">' +
+        '<path d="M56 96q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0"/>' +
+        '<path d="M54 112q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0"/>' +
+        '<path d="M54 128q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0"/>' +
+        '<path d="M56 144q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0q6 6 12 0"/></g>' +
+      '<path d="M50 150h76" stroke="#5a3418" stroke-width="8" stroke-linecap="round"/>' +
+      // braço direito segurando a lança
+      '<path d="M128 84c10 6 14 22 12 40" fill="none" stroke="url(#glSkin)" stroke-width="18" stroke-linecap="round"/>' +
+      '<circle cx="138" cy="128" r="11" fill="url(#glSkin)"/>' +
+      '<circle cx="128" cy="84" r="13" fill="url(#glBronze)"/>' +
+      // escudo redondo no braço esquerdo
+      '<path d="M46 86c-12 8-16 26-12 44" fill="none" stroke="url(#glSkin)" stroke-width="18" stroke-linecap="round"/>' +
+      '<circle cx="34" cy="130" r="30" fill="url(#glShield)" stroke="#6b4214" stroke-width="4"/>' +
+      '<circle cx="34" cy="130" r="18" fill="none" stroke="#7d5019" stroke-width="3"/><circle cx="34" cy="130" r="6" fill="#f3d27e"/>' +
+      // cabeça
+      '<rect x="78" y="62" width="20" height="16" rx="6" fill="url(#glSkin)"/>' +
+      '<circle cx="88" cy="46" r="26" fill="url(#glSkin)"/>' +
+      // barba
+      '<path d="M64 50c0 24 12 32 24 32s24-8 24-32c-6 8-14 10-24 10s-18-2-24-10z" fill="#2a1a12"/>' +
+      // capacete com crista vermelha
+      '<path d="M60 40c0-22 56-22 56 0v4H60z" fill="url(#glBronze)" stroke="#7d5019" stroke-width="2"/>' +
+      '<path d="M84 44h8v14h-8z" fill="#b9822f"/>' +
+      '<path d="M66 18c8-16 36-16 44 0c-10-6-34-6-44 0z" fill="#d7342e"/>' +
+      '<path d="M70 12c6-10 30-10 36 0" fill="none" stroke="#a71f1a" stroke-width="3"/>' +
+      // olhos zangados
+      '<ellipse cx="78" cy="51" rx="5" ry="4.5" fill="#fff"/><ellipse cx="98" cy="51" rx="5" ry="4.5" fill="#fff"/>' +
+      '<circle cx="79" cy="52" r="2.6" fill="#1a0f08"/><circle cx="97" cy="52" r="2.6" fill="#1a0f08"/>' +
+      '<path d="M71 44l12 4M105 44l-12 4" stroke="#1a0f08" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<path d="M82 66q6-4 12 0" fill="none" stroke="#7a2e22" stroke-width="2.4" stroke-linecap="round"/>' +
+    '</svg>';
+
+  // ================= JOGO: DAVI vs GOLIAS (escrever para lançar pedras) =================
+  // Inspirado nos jogos de "digitar para atacar o monstro". Cada palavra certa = uma pedra.
+  // Se o tempo da palavra acabar, o Golias ataca e o Davi perde um coração.
+  var DAVI_HITS = 10, DAVI_LIVES = 3;
+  var DAVI_LEVELS = [ { at: 0, secs: 9, maxLen: 5 }, { at: 4, secs: 7, maxLen: 7 }, { at: 7, secs: 5.5, maxLen: 12 } ];
+  var DAVI_BEST_KEY = "theking_davi_recorde";
+
+  function daviWordPool(){
+    var ok = WORDS.filter(function(w){
+      var t = typeTarget(w.en);
+      return /^[\p{L}']+$/u.test(t) && t.length >= 2 && t.length <= 12;
+    });
+    var seen = ok.filter(function(w){ return boxOf(w.id) > 0; });
+    return seen.length >= 25 ? seen : ok;
+  }
+
+  function startDaviGame(){
+    var hard = false;
+    try{ hard = localStorage.getItem("theking_davi_modo") === "dificil"; }catch(e){}
+    var best = 0;
+    try{ best = parseInt(localStorage.getItem(DAVI_BEST_KEY) || "0", 10) || 0; }catch(e){}
+    openExtraOverlay(extraHeader("Davi vs Golias") + '<div class="lp-body"><div class="lp-wrap">' +
+      '<div class="dv-intro">' +
+        '<div class="dv-intro-scene"><span class="dv-davi-big">' + DAVI_SVG + '</span><span class="dv-vs">VS</span><span class="dv-goliath-big">' + GOLIAS_SVG + '</span></div>' +
+        '<h2 class="devo-title" style="text-align:center;">Davi vs Golias</h2>' +
+        '<p class="vp-hint" style="text-align:center;">Escreve cada palavra em ' + escapeHtml(curLang().label.toLowerCase()) + ' antes do tempo acabar: cada palavra certa lança uma pedra no gigante! ' +
+        DAVI_HITS + ' pedras derrubam o Golias. Se o tempo acabar, ele ataca. 🪨</p>' +
+        '<div class="dv-modes"><button class="dv-mode' + (hard ? '' : ' on') + '" type="button" data-mode="facil"><b>😊 Normal</b><small>a palavra aparece clarinha</small></button>' +
+        '<button class="dv-mode' + (hard ? ' on' : '') + '" type="button" data-mode="dificil"><b>🔥 Desafio</b><small>só a tradução em português</small></button></div>' +
+        (best ? '<div class="dv-best">🏆 O teu recorde: ' + best + ' pontos</div>' : '') +
+        '<button class="btn-outline" id="dv-start" type="button" style="margin-top:16px;">Começar ⚔️</button>' +
+      '</div></div></div>');
+    wireExtraClose();
+    extraOverlay.querySelectorAll(".dv-mode").forEach(function(b){
+      b.addEventListener("click", function(){
+        hard = b.dataset.mode === "dificil";
+        try{ localStorage.setItem("theking_davi_modo", hard ? "dificil" : "facil"); }catch(e){}
+        extraOverlay.querySelectorAll(".dv-mode").forEach(function(x){ x.classList.toggle("on", x === b); });
+      });
+    });
+    document.getElementById("dv-start").addEventListener("click", function(){ runDaviGame(hard); });
+  }
+
+  function runDaviGame(hard){
+    var pool = shuffle(daviWordPool());
+    var used = {};
+    var hits = 0, lives = DAVI_LIVES, typedOk = 0, typedBad = 0, score = 0, level = 0;
+    var started = Date.now(), timer = null, deadline = 0, current = null, word = null, over = false, busy = false;
+
+    openExtraOverlay(
+      '<div class="lp-header"><button class="lp-close" id="extra-close" type="button" aria-label="Fechar">✕</button>' +
+      '<div class="dv-top"><span class="dv-lives" id="dv-lives"></span><span class="dv-level" id="dv-level">Nível 1</span></div></div>' +
+      '<div class="lp-body"><div class="lp-wrap">' +
+        '<div class="dv-scene" id="dv-scene">' +
+          '<span class="dv-sun">☀️</span><span class="dv-cloud c1">☁️</span><span class="dv-cloud c2">☁️</span>' +
+          '<div class="dv-hpwrap"><span>Golias</span><div class="dv-hpbar"><div id="dv-hp" style="width:100%"></div></div></div>' +
+          '<span class="dv-davi" id="dv-davi">' + DAVI_SVG + '</span>' +
+          '<span class="dv-goliath" id="dv-goliath">' + GOLIAS_SVG + '</span>' +
+          '<span class="dv-stone" id="dv-stone" hidden>🪨</span>' +
+          '<span class="dv-boom" id="dv-boom" hidden>💥</span>' +
+          '<div class="dv-banner" id="dv-banner" hidden></div>' +
+          '<div class="dv-grass"></div>' +
+        '</div>' +
+        '<div class="dv-timebar"><div id="dv-time"></div></div>' +
+        '<div class="dv-word" id="dv-word"></div>' +
+        '<div class="dv-pt" id="dv-pt"></div>' +
+        '<div class="dv-stats"><div><b id="dv-s-hits">0/' + DAVI_HITS + '</b><small>pedras</small></div><div><b id="dv-s-acc">100%</b><small>precisão</small></div><div><b id="dv-s-score">0</b><small>pontos</small></div></div>' +
+        '<input class="dv-input" id="dv-input" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Escreve aqui">' +
+        '<div class="ty-tapnote">Toca no jogo se o teclado fechar ⌨️</div>' +
+      '</div></div>');
+    wireExtraClose();
+    var inp = document.getElementById("dv-input");
+    var closeBtn = document.getElementById("extra-close");
+    closeBtn.addEventListener("click", function(){ over = true; clearInterval(timer); });
+    function focusInp(){ try{ inp.focus({ preventScroll: true }); }catch(e){ try{ inp.focus(); }catch(e2){} } }
+    focusInp();
+    extraOverlay.querySelector(".lp-body").addEventListener("click", focusInp);
+    var last = "";
+    inp.addEventListener("input", function(){
+      var v = inp.value;
+      if (current && !busy){
+        if (v.length > last.length && v.indexOf(last) === 0) Array.from(v.slice(last.length)).forEach(function(ch){ current.feed(ch); });
+        else if (v.length > last.length) current.feed(v.charAt(v.length - 1));
+      }
+      last = v;
+      if (v.length > 30){ inp.value = ""; last = ""; }
+    });
+
+    function el(id){ return document.getElementById(id); }
+    function renderHud(){
+      var hearts = "";
+      for (var i = 0; i < DAVI_LIVES; i++) hearts += i < lives ? "❤️" : "🤍";
+      el("dv-lives").textContent = hearts;
+      el("dv-level").textContent = "Nível " + (level + 1);
+      el("dv-hp").style.width = Math.max(0, 100 - hits / DAVI_HITS * 100) + "%";
+      el("dv-s-hits").textContent = hits + "/" + DAVI_HITS;
+      var tot = typedOk + typedBad;
+      el("dv-s-acc").textContent = (tot ? Math.round(typedOk / tot * 100) : 100) + "%";
+      el("dv-s-score").textContent = score;
+    }
+    function banner(text, ms){
+      var b = el("dv-banner"); if (!b) return;
+      b.textContent = text; b.hidden = false;
+      b.classList.remove("show"); void b.offsetWidth; b.classList.add("show");
+      setTimeout(function(){ if (b.isConnected) b.hidden = true; }, ms || 1300);
+    }
+    function pickWord(){
+      var maxLen = DAVI_LEVELS[level].maxLen;
+      for (var i = 0; i < pool.length; i++){
+        var w = pool[i], t = typeTarget(w.en);
+        if (!used[w.id] && t.length <= maxLen){ used[w.id] = 1; return w; }
+      }
+      used = {}; // acabaram: recomeça a lista
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+    function nextWord(){
+      if (over) return;
+      busy = false;
+      var newLevel = 0;
+      DAVI_LEVELS.forEach(function(L, i){ if (hits >= L.at) newLevel = i; });
+      if (newLevel !== level){ level = newLevel; banner("Nível " + (level + 1) + "! Mais rápido! ⚡", 1500); }
+      word = pickWord();
+      var target = typeTarget(word.en);
+      current = mountTyping(el("dv-word"), {
+        text: target, size: "game", noInput: true,
+        onMistake: function(){ typedBad++; renderHud(); },
+        onDone: function(){ onWordDone(); }
+      });
+      // cada letra certa conta para a precisão
+      var origFeed = current.feed;
+      current.feed = function(ch){
+        var before = el("dv-word").querySelectorAll(".ty-ok").length;
+        origFeed(ch);
+        if (el("dv-word") && el("dv-word").querySelectorAll(".ty-ok").length > before) typedOk++;
+        renderHud();
+      };
+      current.showGhost(!hard);
+      el("dv-pt").textContent = typeTarget(word.pt);
+      inp.value = ""; last = "";
+      var secs = DAVI_LEVELS[level].secs + (hard ? 2 : 0) + Math.max(0, target.length - 4) * 0.6;
+      deadline = Date.now() + secs * 1000;
+      var bar = el("dv-time");
+      clearInterval(timer);
+      timer = setInterval(function(){
+        if (over || !bar.isConnected){ clearInterval(timer); return; }
+        var left = deadline - Date.now();
+        var pct = Math.max(0, left / (secs * 1000) * 100);
+        bar.style.width = pct + "%";
+        bar.classList.toggle("low", pct < 30);
+        if (left <= 0){ clearInterval(timer); onTimeout(); }
+      }, 100);
+      renderHud();
+      focusInp();
+    }
+    function onWordDone(){
+      if (over) return;
+      busy = true;
+      clearInterval(timer);
+      var speedBonus = Math.max(0, Math.round((deadline - Date.now()) / 1000));
+      score += 10 + speedBonus * 2 + (hard ? 5 : 0);
+      speak(typeTarget(word.en), curLang().speechLang);
+      var stone = el("dv-stone");
+      stone.hidden = false; stone.classList.remove("fly"); void stone.offsetWidth; stone.classList.add("fly");
+      el("dv-davi").classList.add("throw");
+      setTimeout(function(){
+        if (over) return;
+        stone.hidden = true;
+        el("dv-davi").classList.remove("throw");
+        hits++;
+        var g = el("dv-goliath"), boom = el("dv-boom");
+        g.classList.remove("hit"); void g.offsetWidth; g.classList.add("hit");
+        boom.hidden = false; boom.classList.remove("pop"); void boom.offsetWidth; boom.classList.add("pop");
+        setTimeout(function(){ if (boom.isConnected) boom.hidden = true; }, 500);
+        renderHud();
+        if (hits >= DAVI_HITS){ setTimeout(function(){ finish(true); }, 700); return; }
+        setTimeout(nextWord, 450);
+      }, 550);
+    }
+    function onTimeout(){
+      if (over) return;
+      busy = true;
+      if (current) current.stop();
+      lives--;
+      var g = el("dv-goliath"), d = el("dv-davi");
+      g.classList.remove("attack"); void g.offsetWidth; g.classList.add("attack");
+      setTimeout(function(){ if (d.isConnected){ d.classList.remove("hurt"); void d.offsetWidth; d.classList.add("hurt"); } }, 250);
+      // mostra a palavra certa
+      el("dv-word").classList.add("ty-ghost");
+      banner("⏰ A palavra era: " + typeTarget(word.en), 1500);
+      speak(typeTarget(word.en), curLang().speechLang);
+      renderHud();
+      if (lives <= 0){ setTimeout(function(){ finish(false); }, 1300); return; }
+      setTimeout(nextWord, 1600);
+    }
+    function finish(won){
+      over = true;
+      clearInterval(timer);
+      try{ inp.blur(); }catch(e){}
+      var tot = typedOk + typedBad;
+      var acc = tot ? Math.round(typedOk / tot * 100) : 100;
+      var secs = Math.round((Date.now() - started) / 1000);
+      if (won) score += lives * 20;
+      var xp = won ? 15 + (hard ? 5 : 0) : Math.min(10, hits);
+      var gems = won && acc >= 90 ? 5 : 0;
+      if (xp) addXp(xp);
+      if (gems) addGems(gems);
+      saveState(); renderStatbar();
+      var best = 0;
+      try{ best = parseInt(localStorage.getItem(DAVI_BEST_KEY) || "0", 10) || 0; }catch(e){}
+      var record = score > best;
+      if (record){ try{ localStorage.setItem(DAVI_BEST_KEY, String(score)); }catch(e){} }
+      openExtraOverlay(extraHeader("Davi vs Golias") + '<div class="lp-body"><div class="lp-wrap"><div class="lp-summary" style="padding-top:5vh;">' +
+        (won ? '<div style="font-size:64px;">🏆</div>' : '<div class="dv-lose-pic">' + GOLIAS_SVG + '</div>') +
+        '<div class="big" style="font-size:30px;">' + (won ? 'Derrubaste o Golias!' : 'O Golias venceu desta vez') + '</div>' +
+        '<p>' + (won ? '“O Senhor não salva com espada, nem com lança.” 1 Samuel 17:47' : 'Não desistas: o Davi também treinou muito com a funda! 💪') + '</p>' +
+        '<div class="dv-stats dv-final"><div><b>' + hits + '/' + DAVI_HITS + '</b><small>pedras</small></div><div><b>' + acc + '%</b><small>precisão</small></div><div><b>' + secs + 's</b><small>tempo</small></div><div><b>' + score + '</b><small>pontos</small></div></div>' +
+        (record ? '<div class="badge">🎉 Novo recorde!</div>' : '') +
+        '<p class="tabular">+' + xp + ' XP' + (gems ? ' · +' + gems + ' gemas 💎' : '') + '</p></div>' +
+        '<button class="btn-outline" id="dv-again" type="button">Jogar outra vez</button>' +
+        '<button class="bp-back" id="dv-menu" type="button">‹ Mudar o modo</button>' +
+        '</div></div>');
+      wireExtraClose();
+      document.getElementById("dv-again").addEventListener("click", function(){ runDaviGame(hard); });
+      document.getElementById("dv-menu").addEventListener("click", startDaviGame);
+    }
+    renderHud();
+    setTimeout(nextWord, 300);
   }
 
   // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
