@@ -3,7 +3,7 @@
 // (ou com internet fraca) e permitir "Adicionar ao ecrã principal".
 // Também mostra o lembrete diário (notificação) quando o servidor o envia.
 
-const CACHE_NAME = "theking-idiomas-v3";
+const CACHE_NAME = "theking-idiomas-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -36,6 +36,24 @@ self.addEventListener("fetch", (event) => {
 
   // Nunca guardar em cache chamadas às APIs (pagamentos / liga) — têm de ser sempre em direto.
   if (req.url.includes("workers.dev")) return;
+
+  // A página do app (index.html) vem SEMPRE primeiro da internet, para as atualizações
+  // aparecerem logo; a cópia guardada só é usada quando não há internet.
+  const isPage = req.mode === "navigate" || req.url.split("?")[0].endsWith("/index.html") || req.url.split("?")[0].endsWith("/");
+  if (isPage && req.url.startsWith(self.location.origin)) {
+    event.respondWith(
+      fetch(req, { cache: "no-store" })
+        .then((res) => {
+          if (res && res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req).then((c) => c || caches.match("./index.html")))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(req).then((cached) => {

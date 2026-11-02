@@ -827,6 +827,30 @@
   .dv-stats > div{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:9px 4px;}
   .dv-stats b{display:block; font-size:16px;} .dv-stats small{display:block; font-size:11px; color:var(--ink-faint);}
   .dv-input{position:fixed; left:0; bottom:0; width:1px; height:1px; opacity:0; font-size:16px; border:none;}
+  /* ---- Tradutor ---- */
+  .tr-entry{margin:0 0 18px;}
+  .tr-pair{display:flex; align-items:center; gap:8px; margin-bottom:12px;}
+  .tr-sel{flex:1; min-width:0; appearance:none; -webkit-appearance:none; background:var(--surface); color:var(--ink); border:1px solid var(--border); border-radius:12px; padding:11px 12px; font-size:14.5px; font-weight:700; font-family:'Inter',sans-serif; cursor:pointer;}
+  .tr-swap{appearance:none; cursor:pointer; flex-shrink:0; width:42px; height:42px; border-radius:50%; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent-ink); font-size:18px; font-weight:800;}
+  .tr-swap:active{transform:rotate(180deg); transition:transform .2s;}
+  .tr-box{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:12px; margin-bottom:12px;}
+  .tr-box:focus-within{border-color:var(--accent);}
+  .tr-box textarea{width:100%; box-sizing:border-box; resize:vertical; min-height:96px; border:none; outline:none; background:transparent; color:var(--ink); font-size:16px; line-height:1.5; font-family:'Inter',sans-serif;}
+  .tr-box-tools{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:6px;}
+  .tr-box-tools .chip, .tr-out-tools .chip{opacity:1;}
+  .tr-box-tools .chip.on{background:rgba(232,90,90,.15); border-color:var(--danger); color:var(--danger);}
+  .tr-count{margin-left:auto; font-size:11.5px; color:var(--ink-faint);}
+  .tr-out{margin-top:14px; background:linear-gradient(155deg, var(--accent-soft), var(--surface) 75%); border:1px solid var(--accent); border-radius:var(--radius); padding:14px;}
+  .tr-out-lbl{font-size:12px; font-weight:700; color:var(--ink-faint); margin-bottom:6px;}
+  .tr-out-text{font-size:18px; line-height:1.5; font-weight:700; color:var(--ink); word-wrap:break-word;}
+  .tr-out-tools{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .tr-out{transition:opacity .15s;}
+  .tr-out.loading{opacity:.6;}
+  .tr-wait{color:var(--ink-faint); font-weight:600;}
+  .tr-hist{display:flex; flex-direction:column; gap:8px;}
+  .tr-hitem{appearance:none; cursor:pointer; text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 12px; font-family:'Inter',sans-serif; display:flex; flex-direction:column; gap:3px;}
+  .tr-hsrc{font-size:13px; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .tr-hout{font-size:14px; color:var(--ink); font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 </style>
 
 <div class="wrap">
@@ -867,6 +891,7 @@
       <button class="quick-card" type="button" data-go="practice"><span class="qc-ic">🎤</span><span class="qc-text"><b>Praticar</b><small>Revisão com flashcards</small></span></button>
       <button class="quick-card" type="button" data-go="grammar"><span class="qc-ic">📚</span><span class="qc-text"><b>Palavras</b><small>Dicas de gramática</small></span></button>
     </div>
+    <button class="quick-card tr-entry" id="tr-entry" type="button"><span class="qc-ic">🌐</span><span class="qc-text"><b>Tradutor</b><small>Português ⇄ inglês ⇄ espanhol · escreve ou fala</small></span><span class="qc-chev">›</span></button>
     <h3 class="sec">Continue assim</h3>
     <div class="clist" id="continue-list"></div>
   </section>
@@ -1778,7 +1803,8 @@
         var u = new SpeechSynthesisUtterance(text);
         u.lang = lang || curLang().speechLang;
         u.rate = opts.rate || 0.95;
-        var voice = pickBestVoice(state.voiceNames[curLang().code], curLang().code);
+        var vcode = lang ? String(lang).slice(0, 2).toLowerCase() : curLang().code;
+        var voice = pickBestVoice(state.voiceNames ? state.voiceNames[vcode] : null, vcode);
         if (voice) u.voice = voice;
         window.speechSynthesis.speak(u);
       };
@@ -6696,6 +6722,249 @@
     renderHud();
     setTimeout(nextWord, 300);
   }
+
+  // ================= TRADUTOR =================
+  // Traduz frases entre português, inglês e espanhol. Usa o serviço gratuito MyMemory
+  // (precisa de internet); sem internet, procura no dicionário do próprio app.
+  var TR_LANGS = { pt: { label: "Português", flag: "🇧🇷", api: "pt-BR", tts: "pt-BR", rec: "pt-BR" },
+                   en: { label: "Inglês", flag: "🇬🇧", api: "en", tts: "en-US", rec: "en-US" },
+                   es: { label: "Espanhol", flag: "🇪🇸", api: "es", tts: "es-ES", rec: "es-ES" } };
+  var TR_HIST_KEY = "theking_tradutor_hist", TR_PAIR_KEY = "theking_tradutor_par";
+  var TR_MAX = 450;
+
+  function trSay(text, code, rate){
+    try{
+      if (!('speechSynthesis' in window) || !text) return;
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = TR_LANGS[code].tts;
+      u.rate = rate || 0.95;
+      var v = pickBestVoice(code === "pt" ? null : (state.voiceNames && state.voiceNames[code]), code);
+      if (v) u.voice = v;
+      setTimeout(function(){ window.speechSynthesis.speak(u); }, 30);
+    }catch(e){}
+  }
+  function trHist(){ try{ return JSON.parse(localStorage.getItem(TR_HIST_KEY) || "[]") || []; }catch(e){ return []; } }
+  function trPushHist(item){
+    var h = trHist().filter(function(x){ return !(x.src === item.src && x.from === item.from && x.to === item.to); });
+    h.unshift(item);
+    try{ localStorage.setItem(TR_HIST_KEY, JSON.stringify(h.slice(0, 15))); }catch(e){}
+  }
+  // Dicionário do app (palavras das lições + palavras guardadas), nos dois sentidos.
+  function trDictionary(text, from, to){
+    var q = String(text).trim().toLowerCase().replace(/[.!?]+$/, "");
+    if (!q) return "";
+    var pairs = [];
+    ["en", "es"].forEach(function(lang){
+      var raw = CONTENT[lang].RAW;
+      Object.keys(raw).forEach(function(cat){ raw[cat].forEach(function(r){ pairs.push({ lang: lang, word: String(r[0]), pt: String(r[1]) }); }); });
+    });
+    Object.keys(state.myWords || {}).forEach(function(k){ var x = state.myWords[k]; if (x.pt) pairs.push({ lang: "en", word: x.w, pt: x.pt }); });
+    function ptMatches(p){ return p.pt.toLowerCase().split(/\s*[\/,]\s*/).map(function(s){ return s.replace(/\(.*?\)/g, "").trim(); }).indexOf(q) !== -1 || p.pt.toLowerCase() === q; }
+    var hit = null;
+    if (from === "pt") hit = pairs.filter(function(p){ return p.lang === to && ptMatches(p); })[0];
+    else if (to === "pt") hit = pairs.filter(function(p){ return p.lang === from && (p.word.toLowerCase() === q || typeTarget(p.word).toLowerCase() === q); })[0];
+    if (!hit) return "";
+    return from === "pt" ? hit.word : hit.pt;
+  }
+  async function trTranslate(text, from, to){
+    var url = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=" + encodeURIComponent(TR_LANGS[from].api + "|" + TR_LANGS[to].api);
+    try{
+      var ctrl = ("AbortController" in window) ? new AbortController() : null;
+      var t = ctrl ? setTimeout(function(){ ctrl.abort(); }, 9000) : null;
+      var res = await fetch(url, ctrl ? { signal: ctrl.signal } : undefined);
+      if (t) clearTimeout(t);
+      var data = await res.json();
+      var out = data && data.responseData && data.responseData.translatedText;
+      if (!res.ok || !out || data.quotaFinished || /MYMEMORY WARNING|INVALID|QUERY LENGTH/i.test(out)) throw new Error("serviço");
+      // o serviço às vezes devolve tudo em maiúsculas quando o original não estava
+      if (out === out.toUpperCase() && text !== text.toUpperCase()) out = out.charAt(0) + out.slice(1).toLowerCase();
+      var tmp = document.createElement("textarea"); tmp.innerHTML = out; out = tmp.value; // &#39; -> '
+      return { text: out, source: "online" };
+    }catch(e){
+      var d = trDictionary(text, from, to);
+      if (d) return { text: d, source: "dicionario" };
+      throw new Error(navigator.onLine === false ? "Sem internet. Sem ligação só traduzo palavras que estão no dicionário do app." : "Não consegui traduzir agora. Tenta outra vez daqui a pouco.");
+    }
+  }
+
+  function openTranslator(prefill){
+    var pair = { from: "pt", to: "en" };
+    try{ var sp = JSON.parse(localStorage.getItem(TR_PAIR_KEY) || "null"); if (sp && TR_LANGS[sp.from] && TR_LANGS[sp.to] && sp.from !== sp.to) pair = sp; }catch(e){}
+    if (state.language === "es" && !localStorage.getItem(TR_PAIR_KEY)) pair = { from: "pt", to: "es" };
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var last = null, seq = 0, autoTimer = null, histTimer = null;
+    var cache = {};           // traduções já feitas nesta sessão (não gasta o serviço outra vez)
+    var AUTO_DELAY = 650;     // tradução instantânea: espera uma pausa curta na escrita
+
+    function langSelect(id, val){
+      return '<select class="tr-sel" id="' + id + '">' + Object.keys(TR_LANGS).map(function(k){
+        return '<option value="' + k + '"' + (k === val ? ' selected' : '') + '>' + TR_LANGS[k].flag + ' ' + TR_LANGS[k].label + '</option>';
+      }).join("") + '</select>';
+    }
+    function histHtml(){
+      var h = trHist();
+      if (!h.length) return "";
+      return '<h3 class="sec" style="margin-top:22px;">Traduções recentes</h3><div class="tr-hist">' + h.map(function(x, i){
+        return '<button class="tr-hitem" type="button" data-h="' + i + '"><span class="tr-hsrc">' + TR_LANGS[x.from].flag + ' ' + escapeHtml(x.src) + '</span><span class="tr-hout">' + TR_LANGS[x.to].flag + ' ' + escapeHtml(x.out) + '</span></button>';
+      }).join("") + '</div><button class="auth-switch" id="tr-clear-hist" type="button">limpar histórico</button>';
+    }
+    function curText(){ var i = document.getElementById("tr-in"); return i ? i.value : ""; }
+    function render(){
+      clearTimeout(autoTimer);
+      openExtraOverlay(extraHeader("Tradutor") + '<div class="lp-body"><div class="lp-wrap">' +
+        '<div class="tr-pair">' + langSelect("tr-from", pair.from) + '<button class="tr-swap" id="tr-swap" type="button" aria-label="Trocar línguas">⇄</button>' + langSelect("tr-to", pair.to) + '</div>' +
+        '<div class="tr-box"><textarea id="tr-in" rows="4" maxlength="' + TR_MAX + '" placeholder="Escreve' + (SR ? ' ou fala' : '') + ' aqui — traduz enquanto escreves"></textarea>' +
+          '<div class="tr-box-tools">' + (SR ? '<button class="chip" id="tr-mic" type="button">🎤 Falar</button>' : '') +
+          '<button class="chip" id="tr-say-src" type="button">🔊</button><span class="tr-count" id="tr-count">0/' + TR_MAX + '</span>' +
+          '<button class="chip" id="tr-clear" type="button">✕</button></div></div>' +
+        '<div class="tr-out" id="tr-out" hidden></div>' +
+        '<p class="bible-credit" style="margin-top:12px;">Tradução automática (MyMemory) — pode ter erros. Sem internet, o app procura no seu dicionário.</p>' +
+        '<div id="tr-hist-wrap">' + histHtml() + '</div>' +
+        '</div></div>');
+      wireExtraClose();
+      var inp = document.getElementById("tr-in");
+      var count = document.getElementById("tr-count");
+      if (prefill){ inp.value = prefill; prefill = null; }
+      function upd(){ count.textContent = inp.value.length + "/" + TR_MAX; }
+      upd();
+      inp.addEventListener("input", function(){
+        upd();
+        clearTimeout(autoTimer);
+        if (!inp.value.trim()){ seq++; hideOut(); return; }
+        autoTimer = setTimeout(function(){ go({ auto: true }); }, AUTO_DELAY);
+      });
+      // Enter = traduz já e lê em voz alta (Shift+Enter faz nova linha)
+      inp.addEventListener("keydown", function(e){ if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); go(); } });
+      function changeLang(){ commit(); prefill = curText(); last = null; savePair(); render(); if (curText().trim()) go({ auto: true }); }
+      document.getElementById("tr-from").addEventListener("change", function(){ var v = this.value; if (v === pair.to) pair.to = pair.from; pair.from = v; changeLang(); });
+      document.getElementById("tr-to").addEventListener("change", function(){ var v = this.value; if (v === pair.from) pair.from = pair.to; pair.to = v; changeLang(); });
+      document.getElementById("tr-swap").addEventListener("click", function(){
+        commit();
+        var out = last && last.src === curText().trim() ? last.out : "";
+        var t = pair.from; pair.from = pair.to; pair.to = t; savePair();
+        prefill = out || curText(); last = null; render();
+        if (curText().trim()) go({ auto: true });
+      });
+      document.getElementById("tr-clear").addEventListener("click", function(){ commit(); clearTimeout(autoTimer); seq++; inp.value = ""; upd(); hideOut(); inp.focus(); });
+      document.getElementById("tr-say-src").addEventListener("click", function(){ trSay(inp.value.trim(), pair.from); });
+      var mic = document.getElementById("tr-mic");
+      if (mic) mic.addEventListener("click", function(){
+        try{
+          var rec = new SR();
+          rec.lang = TR_LANGS[pair.from].rec; rec.interimResults = true; rec.maxAlternatives = 1;
+          mic.textContent = "🔴 A ouvir…"; mic.classList.add("on");
+          rec.onresult = function(ev){
+            var txt = "";
+            for (var i = 0; i < ev.results.length; i++) txt += ev.results[i][0].transcript;
+            inp.value = txt.slice(0, TR_MAX); upd();
+            // vai traduzindo enquanto falas
+            clearTimeout(autoTimer);
+            autoTimer = setTimeout(function(){ go({ auto: true }); }, AUTO_DELAY);
+          };
+          rec.onerror = function(ev){ toast(ev.error === "not-allowed" ? "Permite o microfone para falar." : "Não percebi. Tenta outra vez.", "err", 3500); };
+          rec.onend = function(){ mic.textContent = "🎤 Falar"; mic.classList.remove("on"); if (inp.value.trim()) go(); };
+          rec.start();
+        }catch(e){ toast("O microfone não está disponível aqui.", "err"); }
+      });
+      wireHist();
+    }
+    function hideOut(){ var o = document.getElementById("tr-out"); if (o){ o.hidden = true; o.innerHTML = ""; } last = null; }
+    function savePair(){ try{ localStorage.setItem(TR_PAIR_KEY, JSON.stringify(pair)); }catch(e){} }
+    // Guarda no histórico só a tradução "final" (não cada pedaço enquanto escreves).
+    function commit(){
+      clearTimeout(histTimer);
+      if (!last || last.saved) return;
+      last.saved = true;
+      trPushHist({ src: last.src, out: last.out, from: last.from, to: last.to });
+      var hw = document.getElementById("tr-hist-wrap");
+      if (hw){ hw.innerHTML = histHtml(); wireHist(); }
+    }
+    function showResult(r, src){
+      var outEl = document.getElementById("tr-out");
+      if (!outEl) return;
+      var from = pair.from, to = pair.to;
+      var words = r.text.split(/\s+/).length, srcWords = src.split(/\s+/).length;
+      var canSave = (to === "en" || from === "en") && (to === "pt" || from === "pt") && Math.max(words, srcWords) <= 5;
+      outEl.hidden = false;
+      outEl.classList.remove("loading");
+      outEl.innerHTML = '<div class="tr-out-lbl">' + TR_LANGS[to].flag + ' ' + TR_LANGS[to].label + (r.source === "dicionario" ? ' · do dicionário do app' : '') + '</div>' +
+        '<div class="tr-out-text" id="tr-out-text">' + (to === "pt" ? escapeHtml(r.text) : wordsHtml(r.text)) + '</div>' +
+        '<div class="tr-out-tools"><button class="chip on" id="tr-say" type="button">🔊 Ouvir</button><button class="chip" id="tr-slow" type="button">🐢 Devagar</button>' +
+        '<button class="chip" id="tr-copy" type="button">📋 Copiar</button>' + (canSave ? '<button class="chip" id="tr-save" type="button">⭐ Guardar</button>' : '') + '</div>';
+      if (to !== "pt") wireWordTaps(outEl, TR_LANGS[to].tts);
+      document.getElementById("tr-say").addEventListener("click", function(){ commit(); trSay(r.text, to); });
+      document.getElementById("tr-slow").addEventListener("click", function(){ commit(); trSay(r.text, to, 0.6); });
+      document.getElementById("tr-copy").addEventListener("click", async function(){
+        var b = this; commit();
+        try{ await navigator.clipboard.writeText(r.text); b.textContent = "✅ Copiado"; }catch(e){ window.prompt("Copia a tradução:", r.text); }
+      });
+      var sv = document.getElementById("tr-save");
+      if (sv) sv.addEventListener("click", function(){
+        commit();
+        var en = to === "en" ? r.text : src, pt = to === "pt" ? r.text : src;
+        saveMyWord({ w: en.replace(/[.!?]+$/, ""), pt: pt.replace(/[.!?]+$/, ""), ex: "", exPt: "", ref: "Tradutor" });
+        sv.textContent = "⭐ Guardada"; sv.disabled = true;
+      });
+    }
+    // opts.auto = tradução instantânea (enquanto escreves): não fala e só vai para o histórico depois de uma pausa.
+    async function go(opts){
+      opts = opts || {};
+      clearTimeout(autoTimer);
+      var inp = document.getElementById("tr-in");
+      var outEl = document.getElementById("tr-out");
+      if (!inp || !outEl) return;
+      var src = inp.value.trim();
+      if (!src){ if (!opts.auto) inp.focus(); hideOut(); return; }
+      var from = pair.from, to = pair.to, key = from + "|" + to + "|" + src;
+      // a mesma frase já está traduzida no ecrã
+      if (last && last.src === src && last.from === from && last.to === to){
+        if (!opts.auto){ commit(); trSay(last.out, to); }
+        return;
+      }
+      var my = ++seq;
+      if (outEl.hidden){ outEl.hidden = false; outEl.innerHTML = '<div class="tr-out-lbl">' + TR_LANGS[to].flag + ' ' + TR_LANGS[to].label + '</div><div class="tr-out-text tr-wait">A traduzir…</div>'; }
+      outEl.classList.add("loading");
+      try{
+        var r = cache[key];
+        if (!r){
+          r = await trTranslate(src, from, to);
+          if (r.source === "online") cache[key] = r;
+        }
+        if (my !== seq || !document.getElementById("tr-out")) return; // já escreveste outra coisa
+        if (last && !last.saved && src.indexOf(last.src) !== 0 && last.src.indexOf(src) !== 0) commit(); // frase nova: guarda a anterior
+        last = { src: src, out: r.text, from: from, to: to, saved: false };
+        showResult(r, src);
+        clearTimeout(histTimer);
+        if (opts.auto) histTimer = setTimeout(commit, 3000);
+        else { commit(); if (to !== "pt") trSay(r.text, to); }
+      }catch(e){
+        if (my !== seq || !document.getElementById("tr-out")) return;
+        outEl.classList.remove("loading");
+        outEl.hidden = false;
+        outEl.innerHTML = '<div class="gift-msg err">' + escapeHtml(e.message) + '</div>';
+        last = null;
+      }
+    }
+    function wireHist(){
+      var ch = document.getElementById("tr-clear-hist");
+      if (ch) ch.addEventListener("click", function(){ try{ localStorage.removeItem(TR_HIST_KEY); }catch(e){} document.getElementById("tr-hist-wrap").innerHTML = ""; });
+      extraOverlay.querySelectorAll("[data-h]").forEach(function(b){
+        b.addEventListener("click", function(){
+          var x = trHist()[parseInt(b.dataset.h, 10)];
+          if (!x) return;
+          commit();
+          pair = { from: x.from, to: x.to }; savePair();
+          prefill = x.src; last = null; render(); go({ auto: true });
+        });
+      });
+    }
+    render();
+  }
+  (function(){
+    var b = document.getElementById("tr-entry");
+    if (b) b.addEventListener("click", function(){ openTranslator(); });
+  })();
 
   // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
   // Só aparece no celular e só se o app ainda não estiver instalado. No Android (Chrome,
