@@ -851,6 +851,225 @@
   .tr-hitem{appearance:none; cursor:pointer; text-align:left; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 12px; font-family:'Inter',sans-serif; display:flex; flex-direction:column; gap:3px;}
   .tr-hsrc{font-size:13px; color:var(--ink-soft); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .tr-hout{font-size:14px; color:var(--ink); font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  /* ---- Jogos v5: capas, jogo do dia ---- */
+  .ghero{appearance:none; cursor:pointer; width:100%; display:flex; align-items:center; gap:14px; text-align:left; border:none; border-radius:20px; padding:16px; margin-bottom:14px; color:#fff; font-family:'Inter',sans-serif; position:relative; overflow:hidden;
+    background:radial-gradient(120% 140% at 0% 0%, rgba(255,214,102,.35), transparent 55%), linear-gradient(135deg, var(--g1), var(--g2)); box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1.5px rgba(255,214,102,.55);}
+  .ghero::after{content:""; position:absolute; inset:0; background:linear-gradient(110deg, transparent 30%, rgba(255,255,255,.18) 45%, transparent 60%); transform:translateX(-100%); animation:ghShine 3.6s ease-in-out infinite;}
+  @keyframes ghShine{ 0%,55%{transform:translateX(-100%);} 100%{transform:translateX(100%);} }
+  .ghero:active{transform:scale(.985);}
+  .gh-art{font-size:46px; line-height:1; filter:drop-shadow(0 6px 10px rgba(0,0,0,.35)); flex-shrink:0;}
+  .gh-text{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+  .gh-kick{font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:#ffd666;}
+  .gh-text b{font-size:19px; font-weight:800;}
+  .gh-text small{font-size:12.5px; color:rgba(255,255,255,.85); line-height:1.35;}
+  .gh-play{width:44px; height:44px; border-radius:50%; background:#ffd666; color:#2b2110; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  .gcards{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:22px;}
+  .gcards > *{min-width:0;}
+  .gcard{appearance:none; cursor:pointer; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; gap:3px; text-align:left; border:none; border-radius:18px; padding:14px 13px 12px; min-height:168px; color:#fff; font-family:'Inter',sans-serif;
+    background:radial-gradient(90% 70% at 100% 0%, rgba(255,255,255,.22), transparent 60%), linear-gradient(155deg, var(--g1), var(--g2)); box-shadow:0 6px 18px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.08); transition:transform .12s ease;}
+  .gcard:active{transform:scale(.97);}
+  .gc-art{font-size:40px; line-height:1; margin:2px 0 8px; filter:drop-shadow(0 5px 8px rgba(0,0,0,.35));}
+  .gc-title{font-size:15px; font-weight:800; line-height:1.2;}
+  .gc-sub{font-size:11.5px; color:rgba(255,255,255,.78); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;}
+  .gc-foot{margin-top:auto; padding-top:8px; display:flex; align-items:center; justify-content:space-between; gap:6px; width:100%;}
+  .gc-stars span{color:rgba(255,255,255,.28); font-size:14px; letter-spacing:1px;}
+  .gc-stars span.on{color:#ffd666; text-shadow:0 0 6px rgba(255,214,102,.6);}
+  .gc-best{font-size:11px; font-weight:800; background:rgba(0,0,0,.25); border-radius:999px; padding:3px 8px; white-space:nowrap;}
+  .gc-try{background:rgba(255,255,255,.18);}
+  .gc-new{position:absolute; top:10px; right:10px; font-size:9.5px; font-weight:900; letter-spacing:.08em; background:#ffd666; color:#2b2110; border-radius:999px; padding:3px 7px;}
+  .gc-new.gc-day{background:rgba(0,0,0,.3); color:#fff; font-size:13px; padding:2px 6px; top:auto; bottom:auto; right:10px;}
+  .gc-new + .gc-day{top:34px;}
+  .gr-sum{padding-top:4vh;}
+  .gr-emoji{font-size:64px; animation:grPop .6s cubic-bezier(.2,.9,.3,1.4) both;}
+  @keyframes grPop{ from{transform:scale(.3); opacity:0;} to{transform:scale(1); opacity:1;} }
+  .gr-stars{display:flex; justify-content:center; gap:6px; margin:6px 0 10px;}
+  .gr-stars span{font-size:38px; color:var(--border); animation:grPop .5s cubic-bezier(.2,.9,.3,1.4) both;}
+  .gr-stars span:nth-child(2){animation-delay:.15s;} .gr-stars span:nth-child(3){animation-delay:.3s;}
+  .gr-stars span.on{color:#ffd666; text-shadow:0 0 14px rgba(255,214,102,.55);}
+  .gr-verse{font-style:italic; color:var(--ink-soft);}
+  .gr-verse span{display:block; font-style:normal; font-size:12px; color:var(--ink-faint); margin-top:4px;}
+  #gm-back{margin-top:4px;}
+  @media (prefers-reduced-motion: reduce){ .ghero::after, .gr-emoji, .gr-stars span{animation:none;} }
+
+  /* ---- Arca de Noé ---- */
+  .ark-scene{position:relative; height:118px; border-radius:16px; overflow:hidden; background:linear-gradient(180deg,#5d6f8f,#9fb6d6); margin-bottom:10px;}
+  .ark-svg{position:absolute; left:0; right:0; bottom:0; width:100%; height:100%;}
+  .ark-deck{position:absolute; left:27%; right:27%; top:28%; height:32%; display:flex; flex-wrap:wrap; align-content:flex-start; justify-content:center; gap:0 2px; font-size:12px; line-height:1.25; overflow:hidden;}
+  .ark-deck span.new{animation:grPop .5s cubic-bezier(.2,.9,.3,1.4) both;}
+  .ark-rain{position:absolute; inset:0; pointer-events:none;}
+  .ark-rain i{position:absolute; top:-20px; width:2px; height:12px; background:rgba(255,255,255,.55); border-radius:2px; animation:arkRain 1.1s linear infinite;}
+  .ark-rain i:nth-child(1){left:8%; animation-delay:0s;} .ark-rain i:nth-child(2){left:22%; animation-delay:.4s;} .ark-rain i:nth-child(3){left:37%; animation-delay:.8s;}
+  .ark-rain i:nth-child(4){left:51%; animation-delay:.2s;} .ark-rain i:nth-child(5){left:66%; animation-delay:.6s;} .ark-rain i:nth-child(6){left:80%; animation-delay:1s;}
+  .ark-rain i:nth-child(7){left:93%; animation-delay:.3s;} .ark-rain i:nth-child(8){left:14%; animation-delay:.9s;} .ark-rain i:nth-child(9){left:44%; animation-delay:.5s;}
+  .ark-rain i:nth-child(10){left:73%; animation-delay:.1s;} .ark-rain i:nth-child(11){left:30%; animation-delay:.7s;} .ark-rain i:nth-child(12){left:87%; animation-delay:.45s;}
+  @keyframes arkRain{ to{transform:translateY(150px);} }
+  .ark-hud{display:flex; justify-content:space-between; font-size:13px; font-weight:700; color:var(--ink-soft); margin:4px 2px 6px;}
+  .ark-tip{font-size:12.5px; color:var(--ink-faint); margin:0 0 10px; text-align:center;}
+  .ark-board{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .ark-board > *{min-width:0;}
+  .ark-col{display:flex; flex-direction:column; gap:9px;}
+  .ark-card{appearance:none; cursor:pointer; height:62px; border-radius:14px; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); font-family:'Inter',sans-serif; font-weight:700; font-size:15.5px; transition:transform .12s, opacity .35s, border-color .15s;}
+  .ark-pic{font-size:34px;}
+  .ark-card.sel{border-color:var(--accent); background:var(--accent-soft); transform:scale(1.03);}
+  .ark-card.ok{border-color:var(--success); background:var(--success-soft);}
+  .ark-card.gone{opacity:0; transform:scale(.6) translateY(-30px); pointer-events:none; transition-delay:.25s;}
+  .ark-card.bad{animation:wsShake .35s;}
+  .ark-last{text-align:center; margin-top:14px; min-height:22px; color:var(--ink-soft); font-size:14px;}
+  .ark-last b{color:var(--accent-ink);}
+
+  /* ---- Ouvir e escolher ---- */
+  .ls-progress{height:7px; border-radius:999px; background:var(--border); overflow:hidden; margin-bottom:10px;}
+  .ls-progress i{display:block; height:100%; background:var(--accent); border-radius:999px; transition:width .3s;}
+  .ls-hud{display:flex; justify-content:space-between; font-size:13px; font-weight:700; color:var(--ink-soft);}
+  .ls-combo{color:#ff9f43;}
+  .ls-stage{display:flex; flex-direction:column; align-items:center; gap:10px; margin:22px 0 14px;}
+  .ls-play{appearance:none; cursor:pointer; width:104px; height:104px; border-radius:50%; border:none; font-size:44px; color:#fff; background:linear-gradient(150deg,#e46bbd,#9a2f7d); box-shadow:0 0 0 8px rgba(194,72,155,.18), 0 12px 28px rgba(154,47,125,.45);}
+  .ls-play.pulse{animation:lsPulse .5s;}
+  @keyframes lsPulse{ 50%{transform:scale(1.08);} }
+  .ls-slow{opacity:1;}
+  .ls-reveal{min-height:26px; font-size:20px; opacity:0; transform:translateY(6px); transition:all .25s;}
+  .ls-reveal.show{opacity:1; transform:none;}
+  .ls-q{font-size:13.5px; color:var(--ink-faint); text-align:center; margin:0 0 10px;}
+
+  /* ---- Corrida ---- */
+  .rc-intro{text-align:center; padding-top:5vh; display:flex; flex-direction:column; align-items:center; gap:8px;}
+  .rc-big{font-size:64px;}
+  .rc-intro b{font-size:24px;}
+  .rc-intro p{color:var(--ink-soft); line-height:1.5; font-size:14px;}
+  .rc-count{font-size:72px; font-weight:900; color:var(--accent-ink); min-height:10px;}
+  .rc-bar{height:10px; border-radius:999px; background:var(--border); overflow:hidden;}
+  .rc-bar i{display:block; height:100%; width:100%; background:linear-gradient(90deg,#f5c86b,#e0742e); border-radius:999px; transition:width .1s linear;}
+  .rc-bar i.low{background:var(--danger); animation:rcBlink .6s infinite;}
+  @keyframes rcBlink{ 50%{opacity:.5;} }
+  .rc-hud{display:flex; justify-content:space-between; align-items:center; font-weight:800; font-size:15px; margin:10px 2px;}
+  .rc-mult{font-size:13px; border-radius:999px; padding:3px 10px; background:var(--surface); border:1px solid var(--border); color:var(--ink-soft);}
+  .rc-mult.hot{background:#e0742e; border-color:#e0742e; color:#fff;}
+  .rc-card{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-height:130px; border-radius:18px; background:linear-gradient(155deg, rgba(224,116,46,.18), var(--surface) 70%); border:1px solid var(--border); margin-bottom:14px; padding:12px; text-align:center;}
+  .rc-em{font-size:40px; line-height:1;}
+  .rc-word{font-size:26px; font-weight:800; word-break:break-word;}
+  .rc-opts{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .rc-opts > *{min-width:0;}
+  .rc-opt{appearance:none; cursor:pointer; min-height:64px; border-radius:14px; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); font-family:'Inter',sans-serif; font-weight:700; font-size:14.5px; padding:8px; word-break:break-word;}
+  .rc-opt:active{transform:scale(.97);}
+  .rc-opt.ok{border-color:var(--success); background:var(--success-soft); color:var(--success);}
+  .rc-opt.bad{border-color:var(--danger); background:var(--danger-soft); color:var(--danger);}
+  .rc-float{position:fixed; left:50%; top:38%; transform:translate(-50%,0); font-size:30px; font-weight:900; pointer-events:none; opacity:0;}
+  .rc-float.ok{color:var(--success);} .rc-float.bad{color:var(--danger);}
+  .rc-float.go{animation:rcFloat .7s ease-out;}
+  @keyframes rcFloat{ 0%{opacity:1; transform:translate(-50%,0);} 100%{opacity:0; transform:translate(-50%,-50px);} }
+
+  /* ---- Caça-palavras ---- */
+  .ws-hud{display:flex; justify-content:space-between; font-weight:800; font-size:14px; margin-bottom:6px;}
+  .ws-tip{font-size:12px; color:var(--ink-faint); line-height:1.45; margin:0 0 10px;}
+  .ws-grid{display:grid; gap:3px; touch-action:none; user-select:none; -webkit-user-select:none; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:6px;}
+  .ws-grid.shake{animation:wsShake .35s;}
+  @keyframes wsShake{ 20%,60%{transform:translateX(-5px);} 40%,80%{transform:translateX(5px);} }
+  .ws-cell{aspect-ratio:1; display:flex; align-items:center; justify-content:center; border-radius:8px; font-weight:800; font-size:16px; color:var(--ink); cursor:pointer; transition:background .1s, transform .1s;}
+  .ws-cell.sel{background:var(--accent); color:#fff; transform:scale(1.06);}
+  .ws-cell.found{background:var(--wc, var(--success)); color:#fff;}
+  .ws-cell.found.sel{background:var(--accent);}
+  .ws-cell.hint{animation:wsHint 1.4s ease 2;}
+  @keyframes wsHint{ 50%{box-shadow:0 0 0 3px #ffd666; transform:scale(1.12);} }
+  .ws-list{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .ws-w{appearance:none; cursor:pointer; border:1px solid var(--border); background:var(--surface); color:var(--ink); border-radius:999px; padding:7px 12px; font-size:13px; font-family:'Inter',sans-serif; font-weight:600;}
+  .ws-w.done{border-color:var(--success);}
+  .ws-mask{color:var(--ink-faint); font-family:monospace; letter-spacing:1px; font-size:12px;}
+  .ws-recap{display:flex; flex-wrap:wrap; justify-content:center; gap:6px 12px; font-size:13px; color:var(--ink-soft); margin:10px 0;}
+  .ws-recap b{color:var(--ink);}
+  /* ---- Ovelhinha ---- */
+  .pet-entry{margin:0 0 10px; background:linear-gradient(155deg, rgba(126,200,120,.16), var(--surface) 70%); border-color:rgba(126,200,120,.4); padding:10px 13px;}
+  .pet-entry.new{background:linear-gradient(155deg, rgba(255,214,102,.18), var(--surface) 70%); border-color:rgba(255,214,102,.45);}
+  .pet-entry .pe-mini{font-size:34px; width:52px; text-align:center; flex-shrink:0;}
+  .pet-entry .pe-fig{width:58px; height:54px; flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+  .pet-entry .pe-fig .sh-fig{width:58px;}
+  .pet-entry .pe-lost{font-size:30px;}
+  .pet-entry b em{font-style:normal; font-size:11px; font-weight:700; color:var(--ink-faint); margin-left:4px;}
+  .pet-entry small.pe-warn{color:#f0a35e; font-weight:700;}
+  .pe-bars{display:flex; gap:6px; margin-top:6px; width:100%;}
+  .pe-bars i{flex:1; height:5px; border-radius:999px; background:var(--border); position:relative; overflow:hidden;}
+  .pe-bars i::after{content:""; position:absolute; left:0; top:0; bottom:0; width:var(--v); border-radius:999px;}
+  .pe-bars i.f::after{background:#6cc36a;} .pe-bars i.j::after{background:#f5c86b;}
+  .pe-grass{font-size:12.5px; font-weight:800; color:#7fd17c; background:rgba(108,195,106,.14); border-radius:999px; padding:4px 9px; flex-shrink:0;}
+
+  .sh-fig{position:relative; width:100%; transform:scale(var(--shs,1)); transform-origin:50% 100%;}
+  .sh-fig .sh-svg{display:block; width:100%; height:auto;}
+  .sh-fig.big{animation:shBob 3s ease-in-out infinite;}
+  @keyframes shBob{ 0%,100%{translate:0 0;} 50%{translate:0 -4px;} }
+  .sh-fig .sh-eyes{transform-box:fill-box; transform-origin:center; animation:shBlink 4.5s infinite;}
+  @keyframes shBlink{ 0%,92%,100%{transform:scaleY(1);} 95%{transform:scaleY(.1);} }
+  .sh-fig.sh-sad .sh-head, .sh-fig.sh-hungry .sh-head{transform:translateY(3px);}
+  .sh-fig.hop{animation:shHop .6s ease;} @keyframes shHop{ 30%{translate:0 -30px;} 60%{translate:0 0;} 75%{translate:0 -8px;} }
+  .sh-fig.munch .sh-head{animation:shMunch .25s 4;} @keyframes shMunch{ 50%{transform:translateY(4px);} }
+  .sh-fig.wiggle{animation:shWig .5s;} @keyframes shWig{ 25%{rotate:-4deg;} 75%{rotate:4deg;} }
+  .sh-acc{position:absolute; left:50%; transform:translateX(-50%); line-height:1; pointer-events:none;}
+  .sh-hat{top:6%; font-size:calc(var(--shw, 200px) * .2);}
+  .sh-face{top:36%; font-size:calc(var(--shw, 200px) * .2);}
+  .sh-neck{top:58%; font-size:calc(var(--shw, 200px) * .14);}
+  .pet-entry .sh-fig{--shw:58px;}
+  .sh-zzz{position:absolute; right:12%; top:4%; font-weight:900; color:#a9b8ff; font-size:18px;}
+  .sh-zzz i, .sh-zzz b{font-style:normal; display:inline-block; animation:shZ 2s infinite;} .sh-zzz i{font-size:14px; animation-delay:.4s;} .sh-zzz b{font-size:11px; animation-delay:.8s;}
+  @keyframes shZ{ 0%{opacity:0; transform:translateY(6px);} 50%{opacity:1;} 100%{opacity:0; transform:translateY(-10px);} }
+
+  .sh-scene{position:relative; height:300px; border-radius:20px; overflow:hidden; margin-bottom:12px; background:linear-gradient(180deg,#8fd0ff 0%,#c9ecff 60%,#bfe7a0 60.5%,#86c763 100%);}
+  .sh-scene.night{background:linear-gradient(180deg,#1b2350 0%,#33407a 60%,#2f5a3a 60.5%,#22442b 100%);}
+  .sh-scene.lost{background:linear-gradient(180deg,#7d8aa8 0%,#b6bfd2 60%,#8aa07a 60.5%,#5d7550 100%); height:220px;}
+  .sh-sun{position:absolute; right:16px; top:12px; font-size:34px;}
+  .sh-cloud{position:absolute; height:22px; width:70px; background:#fff; border-radius:999px; opacity:.9; animation:shCloud 40s linear infinite;}
+  .sh-cloud::before{content:""; position:absolute; width:34px; height:34px; border-radius:50%; background:#fff; left:14px; top:-14px;}
+  .sh-cloud.c1{top:30px; left:-80px;} .sh-cloud.c2{top:70px; left:-80px; animation-delay:-20s; transform:scale(.7);}
+  .night .sh-cloud{opacity:.25;}
+  @keyframes shCloud{ to{left:110%;} }
+  .sh-grassline{position:absolute; left:0; right:0; bottom:0; height:16px; background:repeating-linear-gradient(90deg, #5fae46 0 6px, transparent 6px 12px); opacity:.6;}
+  .sh-tap{appearance:none; border:none; background:none; cursor:pointer; position:absolute; left:50%; bottom:14px; transform:translateX(-50%); width:190px; padding:0; --shw:190px; -webkit-tap-highlight-color:transparent;}
+  .sh-bubble{appearance:none; cursor:pointer; position:absolute; left:14px; top:14px; max-width:58%; text-align:left; background:#fff; color:#1d1b2e; border:none; border-radius:16px 16px 16px 4px; padding:9px 30px 9px 12px; box-shadow:0 6px 16px rgba(0,0,0,.18); font-family:'Inter',sans-serif;}
+  .sh-bubble b{display:block; font-size:14.5px;}
+  .sh-bubble small{display:block; font-size:11.5px; color:#6b6880; margin-top:2px;}
+  .sh-bubble span{position:absolute; right:8px; top:8px; font-size:13px;}
+  .sh-bubble.pop{animation:grPop .35s cubic-bezier(.2,.9,.3,1.4);}
+  .sh-fx{position:absolute; inset:0; pointer-events:none;}
+  .sh-pop{position:absolute; bottom:45%; font-size:28px; animation:shPop 1.2s ease-out forwards;}
+  .sh-pop.food{bottom:30%;}
+  @keyframes shPop{ 0%{opacity:0; transform:translateY(10px) scale(.6);} 20%{opacity:1; transform:translateY(0) scale(1.1);} 100%{opacity:0; transform:translateY(-90px) scale(1);} }
+  .sh-level{display:flex; align-items:center; gap:10px; font-size:12.5px; font-weight:800; color:var(--accent-ink); margin:4px 0 10px;}
+  .sh-level div{flex:1; height:6px; border-radius:999px; background:var(--border); overflow:hidden;}
+  .sh-level i{display:block; height:100%; background:var(--accent); border-radius:999px;}
+  .sh-bar{display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:13px; font-weight:700; color:var(--ink-soft);}
+  .sh-bar span{width:86px; flex-shrink:0;}
+  .sh-bar div{flex:1; height:12px; border-radius:999px; background:var(--border); overflow:hidden;}
+  .sh-bar i{display:block; height:100%; border-radius:999px; transition:width .4s;}
+  .sh-bar.food i{background:linear-gradient(90deg,#4fa84d,#8ad86a);} .sh-bar.joy i{background:linear-gradient(90deg,#e8a93a,#f5d36b);}
+  .sh-bar b{width:28px; text-align:right; color:var(--ink);}
+  .sh-actions{display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin:14px 0 8px;}
+  .sh-actions > *{min-width:0;}
+  .sh-act{appearance:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; padding:12px 6px; border-radius:14px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-family:'Inter',sans-serif;}
+  .sh-act:active{transform:scale(.96);}
+  .sh-act span{font-size:26px;}
+  .sh-act b{font-size:13px;}
+  .sh-act small{font-size:10.5px; color:var(--ink-faint); text-align:center;}
+  .sh-help{font-size:12px; color:var(--ink-faint); line-height:1.5; text-align:center; margin:8px 0 0;}
+  .sh-shop-top{position:relative; width:170px; margin:6px auto 14px; --shw:170px;}
+  .sh-gems{position:absolute; right:-70px; top:0; font-weight:800; font-size:14px; background:var(--surface); border:1px solid var(--border); border-radius:999px; padding:4px 10px;}
+  .sh-items{display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:10px;}
+  .sh-items > *{min-width:0;}
+  .sh-item{appearance:none; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; padding:12px 6px; border-radius:14px; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); font-family:'Inter',sans-serif;}
+  .sh-item.on{border-color:var(--accent); background:var(--accent-soft);}
+  .sh-item .si-ic{font-size:30px;}
+  .sh-item b{font-size:13px;} .sh-item small{font-size:11.5px; color:var(--ink-faint); font-weight:700;}
+  .sh-adopt{text-align:center; padding-top:2vh;}
+  .sh-adopt-fig{width:180px; margin:0 auto 8px; --shw:180px;}
+  .sh-adopt p{color:var(--ink-soft); line-height:1.5; font-size:14px;}
+  .sh-adopt-verse{font-style:italic;}
+  .sh-adopt-verse span{display:block; font-style:normal; font-size:12px; color:var(--ink-faint); margin-top:3px;}
+  .sh-name-lbl{display:block; font-weight:800; margin:14px 0 8px;}
+  .sh-name{width:100%; box-sizing:border-box; text-align:center; font-size:18px; font-weight:700; padding:12px; border-radius:12px; border:1.5px solid var(--border); background:var(--surface); color:var(--ink); font-family:'Inter',sans-serif;}
+  .sh-name:focus{outline:none; border-color:var(--accent);}
+  .sh-sugg{display:flex; flex-wrap:wrap; justify-content:center; gap:7px; margin-top:10px;}
+  .sh-lost{text-align:center;}
+  .sh-lost p{color:var(--ink-soft); line-height:1.5;}
+  .sh-search{position:absolute; left:10%; bottom:40px; font-size:34px;}
+  .sh-search.go{animation:shSearch 2.2s ease-in-out forwards;}
+  @keyframes shSearch{ 0%{left:10%;} 40%{left:70%;} 70%{left:30%;} 100%{left:80%;} }
+  @media (prefers-reduced-motion: reduce){ .sh-fig.big, .sh-cloud, .sh-fig .sh-eyes{animation:none;} }
 </style>
 
 <div class="wrap">
@@ -891,6 +1110,7 @@
       <button class="quick-card" type="button" data-go="practice"><span class="qc-ic">🎤</span><span class="qc-text"><b>Praticar</b><small>Revisão com flashcards</small></span></button>
       <button class="quick-card" type="button" data-go="grammar"><span class="qc-ic">📚</span><span class="qc-text"><b>Palavras</b><small>Dicas de gramática</small></span></button>
     </div>
+    <button class="quick-card pet-entry" id="pet-entry" type="button"></button>
     <button class="quick-card tr-entry" id="tr-entry" type="button"><span class="qc-ic">🌐</span><span class="qc-text"><b>Tradutor</b><small>Português ⇄ inglês ⇄ espanhol · escreve ou fala</small></span><span class="qc-chev">›</span></button>
     <h3 class="sec">Continue assim</h3>
     <div class="clist" id="continue-list"></div>
@@ -2798,6 +3018,7 @@
 
   // ================= HEADER STATS (hearts / gems / streak pills) =================
   function renderStatbar(){
+    try{ if (typeof SHEEP_LEVELS !== "undefined" && SHEEP_LEVELS) renderPetCard(); }catch(e){}
     var tl = document.getElementById("tab-lesson");
     if (tl){ ensureDailyGoalFresh(); tl.classList.toggle("pulse", state.xpToday < DAILY_GOAL_XP); }
     regenHearts();
@@ -3021,14 +3242,15 @@
 
   // ================= EXTRA: JOGOS E VÍDEOS =================
   var GAMES = [
-    {id:"davi", icon:"🪨", title:"Davi vs Golias", sub:"Escreve as palavras para lançar pedras no gigante"},
-    {id:"typing", icon:"✍️", title:"Escrever", sub:"Vê, ouve e escreve palavras e frases"},
-    {id:"memory", icon:"🧠", title:"Jogo da Memória", sub:"Combine a palavra com a tradução"},
-    {id:"hangman", icon:"🎯", title:"Forca", sub:"Adivinha a palavra letra a letra"},
-    {id:"memory-biblia", icon:"📖", title:"Memória Bíblica", sub:"Combine palavras da Bíblia com a tradução", cat:"biblia"},
-    {id:"hangman-biblia", icon:"🙏", title:"Forca Bíblica", sub:"Adivinha palavras do tema bíblico", cat:"biblia"},
-    {id:"verse-puzzle", icon:"🧩", title:"Monta o Versículo", sub:"Organiza as palavras de um versículo em inglês"},
-    {id:"bible-quiz", icon:"❓", title:"Quiz Bíblico", sub:"Teste seus conhecimentos da Bíblia em inglês"}
+    {id:"davi", icon:"🪨", title:"Davi vs Golias", sub:"Escreve as palavras para lançar pedras no gigante", c1:"#8a6a35", c2:"#3b2c14"},
+    {id:"ark", icon:"🚢", title:"Arca de Noé", sub:"Junta os animais com o nome, dois a dois", c1:"#2f8fd8", c2:"#1b3f73", isNew:true},
+    {id:"listen", icon:"🎧", title:"Ouvir e escolher", sub:"Ouve a palavra e escolhe o significado", c1:"#c2489b", c2:"#4d1a45", isNew:true},
+    {id:"race", icon:"⏱️", title:"Corrida contra o tempo", sub:"60 segundos, quantas acertas?", c1:"#e0742e", c2:"#6b2a10", isNew:true},
+    {id:"wordsearch", icon:"🔎", title:"Caça-palavras bíblico", sub:"Encontra as palavras escondidas", c1:"#2fae7a", c2:"#11493a", isNew:true},
+    {id:"memory", icon:"🧠", title:"Jogo da Memória", sub:"Combina a palavra com a tradução", c1:"#d65c7a", c2:"#5a1d33"},
+    {id:"memory-biblia", icon:"📖", title:"Memória Bíblica", sub:"Palavras da Bíblia e a tradução", cat:"biblia", c1:"#b9852f", c2:"#4a3010"},
+    {id:"verse-puzzle", icon:"🧩", title:"Monta o Versículo", sub:"Organiza as palavras de um versículo", c1:"#4bb04f", c2:"#18471a"},
+    {id:"bible-quiz", icon:"❓", title:"Quiz Bíblico", sub:"Perguntas da Bíblia em inglês", c1:"#d94a4a", c2:"#561616"}
   ];
 
   // Louvores, hinos e vídeos bíblicos em inglês (evangélicos) para praticar o ouvido —
@@ -3130,32 +3352,8 @@
   }
 
   function renderExtras(){
-    // ---- lista de jogos ----
-    var gh = "";
-    // Os jogos de tema bíblico só aparecem quando essa categoria existe no idioma
-    // atual (por agora, só no inglês) — evita mostrar um jogo vazio.
-    var visibleGames = GAMES.filter(function(g){ return !g.cat || (WORDS_BY_CAT[g.cat] && WORDS_BY_CAT[g.cat].length); });
-    visibleGames.forEach(function(g){
-      gh += '<button class="citem" data-game="'+g.id+'" style="margin-bottom:10px;">'+
-              '<span class="cnum" style="font-size:18px;">'+g.icon+'</span>'+
-              '<span class="ctext"><span class="ctitle">'+escapeHtml(g.title)+'</span><span class="csub">'+escapeHtml(g.sub)+'</span></span>'+
-              '<span class="cchev">'+svgIcon("chev")+'</span>'+
-            '</button>';
-    });
-    var gamesList = document.getElementById("games-list");
-    gamesList.innerHTML = gh;
-    gamesList.querySelectorAll(".citem").forEach(function(btn){
-      btn.addEventListener("click", function(){
-        var g = GAMES.filter(function(x){ return x.id === btn.dataset.game; })[0];
-        var cat = g ? g.cat : null;
-        if (btn.dataset.game === "memory" || btn.dataset.game === "memory-biblia") startMemoryGame(cat);
-        if (btn.dataset.game === "hangman" || btn.dataset.game === "hangman-biblia") startHangmanGame(cat);
-        if (btn.dataset.game === "verse-puzzle") startVersePuzzle();
-        if (btn.dataset.game === "typing") startTypingGame(null);
-        if (btn.dataset.game === "davi") startDaviGame();
-        if (btn.dataset.game === "bible-quiz") startBibleQuiz();
-      });
-    });
+    // ---- lista de jogos (capas, estrelas, jogo do dia) ----
+    renderGamesList();
 
     // ---- grelha de vídeos ----
     var vh = "";
@@ -3257,6 +3455,7 @@
       addXp(8);
       saveState();
       renderStatbar();
+      gameDone(catFilter === "biblia" ? "memory-biblia" : "memory", { stars: tries <= picks.length + 2 ? 3 : tries <= picks.length + 5 ? 2 : 1 });
       var html = extraHeader(gameTitle)+
         '<div class="lp-body"><div class="extra-result">'+
           '<div class="big">🎉 Muito bem!</div>'+
@@ -3351,6 +3550,7 @@
 
     function finish(won){
       if (won){ addXp(6); saveState(); renderStatbar(); }
+      gameDone(catFilter === "biblia" ? "hangman-biblia" : "hangman", { stars: won ? (wrong <= 1 ? 3 : wrong <= 3 ? 2 : 1) : 0 });
       var html = extraHeader(gameTitle)+
         '<div class="lp-body"><div class="extra-result">'+
           '<div class="big">'+(won ? "🎉 Acertaste!" : "😅 Quase lá!")+'</div>'+
@@ -3392,7 +3592,7 @@
     var tries = 0;
     while (words.length>1 && shuffled.join(",")===order.join(",") && tries<5){ shuffled = shuffleArr(order.slice()); tries++; }
     var tiles = shuffled.map(function(correctIdx){ return {id:correctIdx, text:words[correctIdx]}; });
-    var answerOrder = [];
+    var answerOrder = [], vpFails = 0;
 
     function tileById(id){ return tiles.filter(function(t){ return t.id===id; })[0]; }
     function poolHtml(){
@@ -3445,6 +3645,7 @@
       for (var i=0;i<answerOrder.length;i++){ if (answerOrder[i] !== i){ correct = false; break; } }
       if (correct){
         addXp(10); saveState(); renderStatbar();
+        gameDone("verse-puzzle", { stars: vpFails === 0 ? 3 : vpFails === 1 ? 2 : 1 });
         var html = extraHeader("Monta o Versículo")+
           '<div class="lp-body"><div class="extra-result">'+
             '<div class="big">🎉 Isso mesmo!</div>'+
@@ -3458,6 +3659,7 @@
         wireExtraClose();
         document.getElementById("vp-again").addEventListener("click", startVersePuzzle);
       } else {
+        vpFails++;
         var html2 = extraHeader("Monta o Versículo")+
           '<div class="lp-body"><div class="extra-result">'+
             '<div class="big">🤔 Quase!</div>'+
@@ -3541,6 +3743,7 @@
     function finish(){
       var xp = score * 2;
       if (xp>0){ addXp(xp); saveState(); renderStatbar(); }
+      gameDone("bible-quiz", { stars: score >= questions.length ? 3 : score >= questions.length - 2 ? 2 : score >= questions.length / 2 ? 1 : 0, score: score });
       var html = extraHeader("Quiz Bíblico")+
         '<div class="lp-body"><div class="extra-result">'+
           '<div class="big">'+(score===questions.length ? "🏆 Perfeito!" : "📖 Boa!")+'</div>'+
@@ -3861,7 +4064,7 @@
   function adoptRemote(data, uid, rev){
     var voices = state.voiceNames;
     var sameAccount = !(state.cloud && state.cloud.uid && state.cloud.uid !== uid);
-    var keep = { premiumUntil: Number(state.premiumUntil) || 0, myWords: state.myWords || {}, medals: state.medals || {}, gifts: state.gifts || [], notes: Array.isArray(state.notes) ? state.notes : [] };
+    var keep = { premiumUntil: Number(state.premiumUntil) || 0, myWords: state.myWords || {}, medals: state.medals || {}, gifts: state.gifts || [], notes: Array.isArray(state.notes) ? state.notes : [], games: (state.games && typeof state.games === "object") ? state.games : {}, gameDaily: state.gameDaily || "", sheep: state.sheep || null };
     applyLoadedState(data || {});
     if (voices) state.voiceNames = voices;
     if (sameAccount){
@@ -3870,6 +4073,19 @@
       Object.keys(keep.myWords).forEach(function(k){ if (!state.myWords[k]) state.myWords[k] = keep.myWords[k]; });
       Object.keys(keep.medals).forEach(function(k){ if (!state.medals[k]) state.medals[k] = keep.medals[k]; });
       keep.gifts.forEach(function(g){ if (!state.gifts.some(function(x){ return x.code === g.code; })) state.gifts.push(g); });
+      // Jogos: fica o melhor de cada lado
+      var gsm = gamesState();
+      Object.keys(keep.games).forEach(function(k){
+        var a = keep.games[k] || {}, b = gsm[k];
+        if (!b){ gsm[k] = a; return; }
+        b.plays = Math.max(b.plays || 0, a.plays || 0);
+        b.best = Math.max(b.best || 0, a.best || 0);
+        b.stars = Math.max(b.stars || 0, a.stars || 0);
+        if (a.bestTime && (!b.bestTime || a.bestTime < b.bestTime)) b.bestTime = a.bestTime;
+      });
+      if (keep.gameDaily > (state.gameDaily || "")) state.gameDaily = keep.gameDaily;
+      // Ovelhinha: fica a versão cuidada mais recentemente
+      if (keep.sheep && (!state.sheep || (keep.sheep.updated || 0) > (state.sheep.updated || 0))) state.sheep = keep.sheep;
       // Anotações: junta as dos dois lados; se a mesma foi editada nos dois, fica a mais recente.
       if (!Array.isArray(state.notes)) state.notes = [];
       keep.notes.forEach(function(n){
@@ -6372,6 +6588,7 @@
     function step(){
       if (idx >= list.length){
         if (xp > 0){ addXp(xp); saveState(); renderStatbar(); }
+        gameDone("typing", { stars: totalErr === 0 ? 3 : totalErr <= 3 ? 2 : 1 });
         openExtraOverlay(extraHeader("Escrever") + '<div class="lp-body"><div class="lp-wrap"><div class="lp-summary">' +
           '<div class="lp-kicker">Treino de escrita concluído</div><div class="big tabular">+' + xp + ' XP</div>' +
           '<p>' + list.length + ' palavras e frases · ' + totalErr + ' erro(s)</p></div>' +
@@ -6705,6 +6922,7 @@
       try{ best = parseInt(localStorage.getItem(DAVI_BEST_KEY) || "0", 10) || 0; }catch(e){}
       var record = score > best;
       if (record){ try{ localStorage.setItem(DAVI_BEST_KEY, String(score)); }catch(e){} }
+      gameDone("davi", { stars: won ? (lives >= DAVI_LIVES ? 3 : lives >= 2 ? 2 : 1) : 0, score: score });
       openExtraOverlay(extraHeader("Davi vs Golias") + '<div class="lp-body"><div class="lp-wrap"><div class="lp-summary" style="padding-top:5vh;">' +
         (won ? '<div style="font-size:64px;">🏆</div>' : '<div class="dv-lose-pic">' + GOLIAS_SVG + '</div>') +
         '<div class="big" style="font-size:30px;">' + (won ? 'Derrubaste o Golias!' : 'O Golias venceu desta vez') + '</div>' +
@@ -6964,6 +7182,892 @@
   (function(){
     var b = document.getElementById("tr-entry");
     if (b) b.addEventListener("click", function(){ openTranslator(); });
+  })();
+
+  // ================= JOGOS v5: CAPAS, ESTRELAS, RECORDES, JOGO DO DIA + 4 JOGOS NOVOS =================
+  var GAME_DAILY_GEMS = 10;
+  function gamesState(){
+    if (!state.games || typeof state.games !== "object" || Array.isArray(state.games)) state.games = {};
+    return state.games;
+  }
+  function visibleGamesList(){
+    return GAMES.filter(function(g){ return !g.cat || (WORDS_BY_CAT[g.cat] && WORDS_BY_CAT[g.cat].length); });
+  }
+  function dailyGameId(){
+    var list = visibleGamesList();
+    var d = new Date();
+    var n = d.getFullYear() * 400 + dayOfYear(d);
+    return list.length ? list[(n * 7 + 3) % list.length].id : "";
+  }
+  function starsHtml(n, cls){
+    n = n || 0;
+    var h = "";
+    for (var i = 1; i <= 3; i++) h += '<span class="' + (i <= n ? "on" : "") + '">★</span>';
+    return '<span class="' + (cls || "gc-stars") + '">' + h + '</span>';
+  }
+  function fmtSecs(s){ s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+  // Chamado no fim de cada jogo. res = { stars: 0..3, score: número (maior é melhor), time: segundos (menor é melhor) }
+  function gameDone(id, res){
+    res = res || {};
+    var gs = gamesState();
+    var s = gs[id] || (gs[id] = { plays: 0, best: 0, stars: 0 });
+    var hadPlayed = s.plays > 0;
+    s.plays = (s.plays || 0) + 1;
+    s.last = todayStr();
+    var record = false;
+    if (typeof res.score === "number" && res.score > (s.best || 0)){ record = hadPlayed && (s.best || 0) > 0; s.best = res.score; }
+    if (typeof res.time === "number" && res.time > 0 && (!s.bestTime || res.time < s.bestTime)){ if (s.bestTime) record = true; s.bestTime = Math.round(res.time); }
+    s.stars = Math.max(s.stars || 0, Math.min(3, res.stars || 0));
+    var bonus = 0;
+    if (id === dailyGameId() && (res.stars || 0) >= 1 && state.gameDaily !== todayStr()){
+      state.gameDaily = todayStr();
+      bonus = GAME_DAILY_GEMS;
+      addGems(bonus);
+    }
+    saveState(); renderStatbar();
+    try{ renderGamesList(); }catch(e){}
+    setTimeout(function(){
+      if (bonus) toast("🎁 Jogo do dia concluído: +" + bonus + " gemas 💎", "ok", 4000);
+      else if (record) toast("🏆 Novo recorde!", "ok", 3000);
+    }, 500);
+    return { record: record, bonus: bonus };
+  }
+  // Ecrã final comum aos jogos novos.
+  function gameResultScreen(title, o){
+    openExtraOverlay(extraHeader(title) + '<div class="lp-body"><div class="lp-wrap"><div class="lp-summary gr-sum">' +
+      '<div class="gr-emoji">' + o.emoji + '</div>' +
+      '<div class="big" style="font-size:28px;">' + escapeHtml(o.big) + '</div>' +
+      starsHtml(o.stars, "gr-stars") +
+      (o.html || "") +
+      '<p class="tabular" style="font-weight:700; color:var(--accent-ink);">+' + (o.xp || 0) + ' XP' + (o.gems ? ' · +' + o.gems + ' gemas 💎' : '') + '</p></div>' +
+      '<button class="btn-outline" id="gm-again" type="button">Jogar outra vez</button>' +
+      '<button class="auth-switch" id="gm-back" type="button">Voltar aos jogos</button></div></div>');
+    wireExtraClose();
+    document.getElementById("gm-again").addEventListener("click", o.again);
+    document.getElementById("gm-back").addEventListener("click", closeExtraOverlay);
+  }
+  function gameAlive(id){ return !extraOverlay.hidden && !!document.getElementById(id); }
+
+  // ---- Lista de jogos com capas ----
+  function renderGamesList(){
+    var gamesList = document.getElementById("games-list");
+    if (!gamesList) return;
+    var list = visibleGamesList();
+    var gs = gamesState();
+    var dailyId = dailyGameId();
+    var daily = list.filter(function(g){ return g.id === dailyId; })[0];
+    var doneToday = state.gameDaily === todayStr();
+    function foot(g){
+      var s = gs[g.id] || {};
+      var best = s.best ? '<span class="gc-best">🏆 ' + s.best + '</span>' : (s.bestTime ? '<span class="gc-best">⏱ ' + fmtSecs(s.bestTime) + '</span>' : (s.plays ? '' : '<span class="gc-best gc-try">Experimenta!</span>'));
+      return '<span class="gc-foot">' + starsHtml(s.stars) + best + '</span>';
+    }
+    var h = "";
+    if (daily){
+      h += '<button class="ghero" type="button" data-game="' + daily.id + '" style="--g1:' + daily.c1 + '; --g2:' + daily.c2 + ';">' +
+        '<span class="gh-art">' + daily.icon + '</span>' +
+        '<span class="gh-text"><span class="gh-kick">🎁 Jogo do dia</span><b>' + escapeHtml(daily.title) + '</b>' +
+        '<small>' + (doneToday ? '✅ Bónus de hoje recebido — joga à vontade!' : 'Completa hoje e ganha +' + GAME_DAILY_GEMS + ' gemas 💎') + '</small></span>' +
+        '<span class="gh-play">▶</span></button>';
+    }
+    h += '<div class="gcards">';
+    list.forEach(function(g){
+      h += '<button class="gcard" type="button" data-game="' + g.id + '" style="--g1:' + g.c1 + '; --g2:' + g.c2 + ';">' +
+        (g.isNew ? '<span class="gc-new">NOVO</span>' : '') +
+        (g.id === dailyId ? '<span class="gc-new gc-day">🎁</span>' : '') +
+        '<span class="gc-art">' + g.icon + '</span>' +
+        '<span class="gc-title">' + escapeHtml(g.title) + '</span>' +
+        '<span class="gc-sub">' + escapeHtml(g.sub) + '</span>' + foot(g) + '</button>';
+    });
+    h += '</div>';
+    gamesList.innerHTML = h;
+    gamesList.querySelectorAll("[data-game]").forEach(function(btn){
+      btn.addEventListener("click", function(){ startGameById(btn.dataset.game); });
+    });
+  }
+  function startGameById(id){
+    var g = GAMES.filter(function(x){ return x.id === id; })[0];
+    var cat = g ? g.cat : null;
+    if (id === "memory" || id === "memory-biblia") startMemoryGame(cat);
+    else if (id === "hangman" || id === "hangman-biblia") startHangmanGame(cat);
+    else if (id === "verse-puzzle") startVersePuzzle();
+    else if (id === "typing") startTypingGame(null);
+    else if (id === "davi") startDaviGame();
+    else if (id === "bible-quiz") startBibleQuiz();
+    else if (id === "ark") startArkGame();
+    else if (id === "listen") startListenGame();
+    else if (id === "race") startRaceGame();
+    else if (id === "wordsearch") startWordSearchGame();
+  }
+
+  // ---- Utilidades para escolhas (Ouvir e Corrida) ----
+  function gameWordPool(){
+    var pool = WORDS.filter(function(w){ var t = typeTarget(w.en); return t.length >= 2 && t.length <= 24 && w.pt && w.pt.length <= 40; });
+    return pool.length >= 8 ? pool : WORDS.slice();
+  }
+  function ptOptions(word, pool, n){
+    var right = word.pt;
+    var same = shuffle(pool.filter(function(w){ return w.category === word.category && w.pt !== right; }));
+    var other = shuffle(pool.filter(function(w){ return w.category !== word.category && w.pt !== right; }));
+    var out = [right];
+    same.concat(other).forEach(function(w){ if (out.length < n && out.indexOf(w.pt) === -1) out.push(w.pt); });
+    return shuffle(out);
+  }
+
+  // ================= ARCA DE NOÉ (pares de animais) =================
+  var ARK_ANIMALS = [
+    ["lion","león","leão","🦁"],["sheep","oveja","ovelha","🐑"],["dove","paloma","pomba","🕊️"],["camel","camello","camelo","🐫"],
+    ["horse","caballo","cavalo","🐴"],["cow","vaca","vaca","🐄"],["goat","cabra","cabra","🐐"],["snake","serpiente","serpente","🐍"],
+    ["bear","oso","urso","🐻"],["elephant","elefante","elefante","🐘"],["giraffe","jirafa","girafa","🦒"],["dog","perro","cachorro","🐕"],
+    ["cat","gato","gato","🐈"],["eagle","águila","águia","🦅"],["rabbit","conejo","coelho","🐇"],["monkey","mono","macaco","🐒"],
+    ["frog","rana","sapo","🐸"],["pig","cerdo","porco","🐖"],["wolf","lobo","lobo","🐺"],["chicken","gallina","galinha","🐔"],
+    ["duck","pato","pato","🦆"],["zebra","cebra","zebra","🦓"],["mouse","ratón","rato","🐭"],["owl","búho","coruja","🦉"],
+    ["tiger","tigre","tigre","🐯"],["turtle","tortuga","tartaruga","🐢"],["bee","abeja","abelha","🐝"],["ox","buey","boi","🐂"],
+    ["penguin","pingüino","pinguim","🐧"],["kangaroo","canguro","canguru","🦘"],["fox","zorro","raposa","🦊"],["deer","ciervo","cervo","🦌"]
+  ];
+  var ARK_SVG = '<svg class="ark-svg" viewBox="0 0 320 120" aria-hidden="true">' +
+    '<path d="M0 104q20-10 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0V120H0z" fill="#3c7fd1" opacity=".55"/>' +
+    '<path d="M28 70h264l-26 38H54z" fill="#8a5a2b"/><path d="M28 70h264l-4 7H32z" fill="#a8743d"/>' +
+    '<path d="M44 84h232M50 94h220" stroke="#6b4220" stroke-width="2"/>' +
+    '<rect x="78" y="30" width="164" height="40" rx="4" fill="#b98545"/>' +
+    '<path d="M70 32l90-26 90 26z" fill="#7a4a24"/>' +
+    '<path d="M0 112q20-10 40 0t40 0 40 0 40 0 40 0 40 0 40 0 40 0V120H0z" fill="#4f9be8" opacity=".8"/>' +
+    '</svg>';
+  function startArkGame(){
+    var lang = curLang().code === "es" ? 1 : 0, speechLang = curLang().speechLang;
+    var ROUNDS = 3, PER = 4;
+    var animals = shuffle(ARK_ANIMALS.slice()).slice(0, ROUNDS * PER);
+    var round = 0, mistakes = 0, boarded = [], started = Date.now();
+    var cards, sel, matchedInRound;
+    function setupRound(){
+      var set = animals.slice(round * PER, round * PER + PER);
+      cards = { pic: shuffle(set.slice()), word: shuffle(set.slice()) };
+      sel = null; matchedInRound = 0;
+      render();
+    }
+    function render(){
+      var cols = '<div class="ark-col">' + cards.pic.map(function(a){ return '<button class="ark-card ark-pic" type="button" data-side="pic" data-a="' + a[0] + '">' + a[3] + '</button>'; }).join("") + '</div>' +
+                 '<div class="ark-col">' + cards.word.map(function(a){ return '<button class="ark-card ark-word" type="button" data-side="word" data-a="' + a[0] + '">' + escapeHtml(a[lang]) + '</button>'; }).join("") + '</div>';
+      openExtraOverlay(extraHeader("Arca de Noé") + '<div class="lp-body"><div class="lp-wrap" id="ark-wrap">' +
+        '<div class="ark-scene">' + ARK_SVG + '<div class="ark-deck" id="ark-deck">' + boarded.map(function(e){ return '<span>' + e + e + '</span>'; }).join("") + '</div>' +
+          '<div class="ark-rain">' + new Array(4 + round * 4).join('<i></i>') + '</div></div>' +
+        '<div class="ark-hud"><span>Ronda ' + (round + 1) + '/' + ROUNDS + '</span><span>🐾 ' + boarded.length + '/' + animals.length + '</span><span>❌ ' + mistakes + '</span></div>' +
+        '<p class="ark-tip">Junta cada animal com o seu nome para entrar na arca, dois a dois!</p>' +
+        '<div class="ark-board" id="ark-board">' + cols + '</div>' +
+        '<div class="ark-last" id="ark-last"></div>' +
+        '</div></div>');
+      wireExtraClose();
+      document.querySelectorAll("#ark-board .ark-card").forEach(function(b){ b.addEventListener("click", function(){ tap(b); }); });
+    }
+    function tap(b){
+      if (b.classList.contains("gone")) return;
+      if (b.dataset.side === "word") speak(b.textContent, speechLang);
+      if (!sel || sel.dataset.side === b.dataset.side){
+        if (sel) sel.classList.remove("sel");
+        sel = b; b.classList.add("sel"); return;
+      }
+      var a = sel, c = b; sel = null;
+      a.classList.remove("sel");
+      if (a.dataset.a === c.dataset.a){
+        var an = ARK_ANIMALS.filter(function(x){ return x[0] === a.dataset.a; })[0];
+        a.classList.add("ok", "gone"); c.classList.add("ok", "gone");
+        boarded.push(an[3]);
+        matchedInRound++;
+        speak(an[lang], speechLang);
+        var deck = document.getElementById("ark-deck");
+        if (deck){ var sp = document.createElement("span"); sp.className = "new"; sp.textContent = an[3] + an[3]; deck.appendChild(sp); }
+        var last = document.getElementById("ark-last");
+        if (last) last.innerHTML = an[3] + ' <b>' + escapeHtml(an[lang]) + '</b> = ' + escapeHtml(an[2]);
+        var hud = document.querySelector(".ark-hud");
+        if (hud) hud.innerHTML = '<span>Ronda ' + (round + 1) + '/' + ROUNDS + '</span><span>🐾 ' + boarded.length + '/' + animals.length + '</span><span>❌ ' + mistakes + '</span>';
+        if (matchedInRound === PER){
+          round++;
+          setTimeout(function(){ if (!gameAlive("ark-wrap")) return; if (round < ROUNDS) setupRound(); else finish(); }, 900);
+        }
+      } else {
+        mistakes++;
+        [a, c].forEach(function(x){ x.classList.remove("bad"); void x.offsetWidth; x.classList.add("bad"); });
+        var hud2 = document.querySelector(".ark-hud");
+        if (hud2) hud2.lastChild.textContent = "❌ " + mistakes;
+      }
+    }
+    function finish(){
+      var stars = mistakes <= 1 ? 3 : mistakes <= 4 ? 2 : 1;
+      var xp = 10;
+      addXp(xp);
+      gameDone("ark", { stars: stars, time: (Date.now() - started) / 1000 });
+      gameResultScreen("Arca de Noé", { emoji: "🌈", big: "Todos na arca!", stars: stars, xp: xp,
+        html: '<p class="gr-verse">“There went in two and two unto Noah into the ark.” <span>Genesis 7:9</span></p>' +
+              '<p>' + animals.length + ' animais · ' + mistakes + ' erro(s) · ' + fmtSecs((Date.now() - started) / 1000) + '</p>',
+        again: startArkGame });
+    }
+    setupRound();
+  }
+
+  // ================= OUVIR E ESCOLHER =================
+  function startListenGame(){
+    var speechLang = curLang().speechLang;
+    // nomes de personagens soam quase iguais em português — fora do jogo de ouvir
+    var pool = gameWordPool().filter(function(w){ return w.category !== "personagens"; });
+    if (pool.length < 8) pool = gameWordPool();
+    var TOTAL = 10;
+    var list = shuffle(pool.slice()).slice(0, TOTAL);
+    var idx = 0, correct = 0, combo = 0, bestCombo = 0, answered = false;
+    function say(slow){ speak(typeTarget(list[idx].en), speechLang, slow ? { rate: 0.6 } : undefined); }
+    function render(){
+      var w = list[idx];
+      var opts = ptOptions(w, pool, 4);
+      openExtraOverlay(extraHeader("Ouvir e escolher") + '<div class="lp-body"><div class="lp-wrap" id="ls-wrap">' +
+        '<div class="ls-progress"><i style="width:' + Math.round(idx / TOTAL * 100) + '%"></i></div>' +
+        '<div class="ls-hud"><span>' + (idx + 1) + '/' + TOTAL + '</span><span>✅ ' + correct + '</span>' + (combo >= 2 ? '<span class="ls-combo">🔥 ' + combo + ' seguidas</span>' : '<span></span>') + '</div>' +
+        '<div class="ls-stage"><button class="ls-play" id="ls-play" type="button" aria-label="Ouvir outra vez">🔊</button>' +
+        '<button class="chip ls-slow" id="ls-slow" type="button">🐢 Devagar</button>' +
+        '<div class="ls-reveal" id="ls-reveal"></div></div>' +
+        '<p class="ls-q">O que ouviste? Escolhe o significado:</p>' +
+        '<div class="lp-options" id="ls-opts">' + opts.map(function(o){ return '<button class="lp-opt" type="button">' + escapeHtml(o) + '</button>'; }).join("") + '</div>' +
+        '</div></div>');
+      wireExtraClose();
+      answered = false;
+      document.getElementById("ls-play").addEventListener("click", function(){ say(false); this.classList.remove("pulse"); void this.offsetWidth; this.classList.add("pulse"); });
+      document.getElementById("ls-slow").addEventListener("click", function(){ say(true); });
+      document.querySelectorAll("#ls-opts .lp-opt").forEach(function(b){
+        b.addEventListener("click", function(){
+          if (answered) return;
+          answered = true;
+          var ok = b.textContent === w.pt;
+          if (ok){ correct++; combo++; bestCombo = Math.max(bestCombo, combo); } else combo = 0;
+          document.querySelectorAll("#ls-opts .lp-opt").forEach(function(x){
+            if (x.textContent === w.pt) x.classList.add("correct"); else if (x === b) x.classList.add("wrong");
+            x.disabled = true;
+          });
+          var rv = document.getElementById("ls-reveal");
+          rv.innerHTML = '<b>' + escapeHtml(typeTarget(w.en)) + '</b>' + (wordEmoji(w) ? ' ' + wordEmoji(w) : '');
+          rv.classList.add("show");
+          if (!ok) say(false);
+          setTimeout(function(){
+            if (!gameAlive("ls-wrap")) return;
+            idx++;
+            if (idx < TOTAL){ render(); setTimeout(function(){ if (gameAlive("ls-wrap")) say(false); }, 250); }
+            else finish();
+          }, ok ? 1000 : 1900);
+        });
+      });
+    }
+    function finish(){
+      var stars = correct >= 9 ? 3 : correct >= 7 ? 2 : correct >= 5 ? 1 : 0;
+      var xp = correct;
+      if (xp) addXp(xp);
+      gameDone("listen", { stars: stars, score: correct });
+      gameResultScreen("Ouvir e escolher", { emoji: correct === TOTAL ? "🎧" : "👂", big: correct === TOTAL ? "Ouvido perfeito!" : correct + " de " + TOTAL + " certas", stars: stars, xp: xp,
+        html: '<p>Melhor sequência: ' + bestCombo + ' seguidas 🔥</p>', again: startListenGame });
+    }
+    render();
+    setTimeout(function(){ if (gameAlive("ls-wrap")) say(false); }, 300);
+  }
+
+  // ================= CORRIDA CONTRA O TEMPO =================
+  function startRaceGame(){
+    var speechLang = curLang().speechLang;
+    var pool = gameWordPool();
+    var DURATION = 60;
+    var timeLeft = DURATION, score = 0, correct = 0, wrong = 0, combo = 0, bestCombo = 0, timer = null, last = null, lockUntil = 0;
+    function mult(){ return Math.min(4, 1 + Math.floor(combo / 3)); }
+    function intro(){
+      openExtraOverlay(extraHeader("Corrida contra o tempo") + '<div class="lp-body"><div class="lp-wrap" id="rc-wrap">' +
+        '<div class="rc-intro"><div class="rc-big">⏱️</div><b>60 segundos!</b>' +
+        '<p>Escolhe a tradução certa o mais depressa que conseguires.<br>Acertos seguidos multiplicam os pontos (até ×4). Cada erro tira 3 segundos.</p>' +
+        '<div class="rc-count" id="rc-count"></div><button class="action" id="rc-go" type="button" style="width:100%;">Começar</button></div></div></div>');
+      wireExtraClose();
+      document.getElementById("rc-go").addEventListener("click", function(){
+        this.hidden = true;
+        var n = 3, el = document.getElementById("rc-count");
+        el.textContent = n;
+        var cd = setInterval(function(){
+          if (!gameAlive("rc-wrap")){ clearInterval(cd); return; }
+          n--;
+          if (n > 0) el.textContent = n;
+          else { clearInterval(cd); start(); }
+        }, 700);
+      });
+    }
+    function start(){
+      openExtraOverlay(extraHeader("Corrida contra o tempo") + '<div class="lp-body"><div class="lp-wrap" id="rc-wrap">' +
+        '<div class="rc-bar"><i id="rc-bar"></i></div>' +
+        '<div class="rc-hud"><span id="rc-time">60s</span><span id="rc-mult" class="rc-mult">×1</span><span id="rc-score" class="tabular">0 pts</span></div>' +
+        '<div class="rc-card" id="rc-card"></div>' +
+        '<div class="rc-opts" id="rc-opts"></div><div class="rc-float" id="rc-float"></div></div></div>');
+      wireExtraClose();
+      next();
+      var t0 = Date.now(), penalty = 0;
+      timer = setInterval(function(){
+        if (!gameAlive("rc-wrap")){ clearInterval(timer); return; }
+        timeLeft = DURATION - (Date.now() - t0) / 1000 - penalty;
+        var bar = document.getElementById("rc-bar");
+        bar.style.width = Math.max(0, timeLeft / DURATION * 100) + "%";
+        bar.classList.toggle("low", timeLeft <= 10);
+        document.getElementById("rc-time").textContent = Math.max(0, Math.ceil(timeLeft)) + "s";
+        if (timeLeft <= 0){ clearInterval(timer); finish(); }
+      }, 100);
+      start.penalize = function(){ penalty += 3; };
+    }
+    function next(){
+      var w;
+      do { w = pool[Math.floor(Math.random() * pool.length)]; } while (last && w.id === last.id && pool.length > 1);
+      last = w;
+      var em = wordEmoji(w);
+      document.getElementById("rc-card").innerHTML = (em ? '<span class="rc-em">' + em + '</span>' : '') + '<span class="rc-word">' + escapeHtml(typeTarget(w.en)) + '</span>';
+      var opts = ptOptions(w, pool, 4);
+      var box = document.getElementById("rc-opts");
+      box.innerHTML = opts.map(function(o){ return '<button class="rc-opt" type="button">' + escapeHtml(o) + '</button>'; }).join("");
+      box.querySelectorAll(".rc-opt").forEach(function(b){
+        b.addEventListener("click", function(){
+          if (Date.now() < lockUntil || timeLeft <= 0) return;
+          var ok = b.textContent === w.pt;
+          if (ok){
+            combo++; bestCombo = Math.max(bestCombo, combo); correct++;
+            var pts = 10 * mult(); score += pts;
+            b.classList.add("ok"); floatTxt("+" + pts, "ok");
+            lockUntil = Date.now() + 180;
+            setTimeout(function(){ if (gameAlive("rc-wrap") && timeLeft > 0) next(); }, 180);
+          } else {
+            combo = 0; wrong++;
+            if (start.penalize) start.penalize();
+            b.classList.add("bad"); floatTxt("−3s", "bad");
+            box.querySelectorAll(".rc-opt").forEach(function(x){ if (x.textContent === w.pt) x.classList.add("ok"); });
+            speak(typeTarget(w.en), speechLang);
+            lockUntil = Date.now() + 700;
+            setTimeout(function(){ if (gameAlive("rc-wrap") && timeLeft > 0) next(); }, 700);
+          }
+          document.getElementById("rc-score").textContent = score + " pts";
+          var m = document.getElementById("rc-mult");
+          m.textContent = "×" + mult(); m.classList.toggle("hot", mult() > 1);
+        });
+      });
+    }
+    function floatTxt(t, cls){
+      var f = document.getElementById("rc-float");
+      if (!f) return;
+      f.textContent = t; f.className = "rc-float " + cls; void f.offsetWidth; f.classList.add("go");
+    }
+    function finish(){
+      var stars = score >= 500 ? 3 : score >= 250 ? 2 : score >= 80 ? 1 : 0;
+      var xp = Math.min(20, correct);
+      if (xp) addXp(xp);
+      gameDone("race", { stars: stars, score: score });
+      gameResultScreen("Corrida contra o tempo", { emoji: "🏁", big: score + " pontos", stars: stars, xp: xp,
+        html: '<div class="dv-stats dv-final"><div><b>' + correct + '</b><small>certas</small></div><div><b>' + wrong + '</b><small>erros</small></div><div><b>' + bestCombo + '</b><small>seguidas</small></div></div>',
+        again: startRaceGame });
+    }
+    intro();
+  }
+
+  // ================= CAÇA-PALAVRAS BÍBLICO =================
+  var WS_WORDS = {
+    en: [["GOD","Deus"],["JESUS","Jesus"],["LOVE","amor"],["FAITH","fé"],["GRACE","graça"],["PRAY","orar"],["BIBLE","Bíblia"],["CROSS","cruz"],
+         ["PEACE","paz"],["HOPE","esperança"],["ANGEL","anjo"],["CHURCH","igreja"],["PSALM","salmo"],["LIGHT","luz"],["HEAVEN","céu"],["SPIRIT","espírito"],
+         ["AMEN","amém"],["LAMB","cordeiro"],["KING","rei"],["GLORY","glória"],["PRAISE","louvor"],["SAVIOR","salvador"],["TRUTH","verdade"],["MERCY","misericórdia"],
+         ["JOY","alegria"],["WORD","palavra"],["HOLY","santo"],["BREAD","pão"],["BLESS","abençoar"],["PRAYER","oração"],["LORD","Senhor"],["GOSPEL","evangelho"]],
+    es: [["DIOS","Deus"],["JESUS","Jesus"],["AMOR","amor"],["GRACIA","graça"],["ORAR","orar"],["BIBLIA","Bíblia"],["CRUZ","cruz"],["PAZ","paz"],
+         ["CIELO","céu"],["ANGEL","anjo"],["IGLESIA","igreja"],["LUZ","luz"],["REY","rei"],["GLORIA","glória"],["AMEN","amém"],["CORDERO","cordeiro"],
+         ["SALMO","salmo"],["VERDAD","verdade"],["PASTOR","pastor"],["SALVADOR","salvador"],["GOZO","alegria"],["PALABRA","palavra"],["SANTO","santo"],["PAN","pão"],
+         ["ORACION","oração"],["SEÑOR","Senhor"],["FE","fé"],["ESPIRITU","espírito"],["BENDECIR","abençoar"],["EVANGELIO","evangelho"]]
+  };
+  function wsBuild(words, N){
+    var dirs = [[1,0],[0,1],[1,1],[1,-1]];
+    for (var attempt = 0; attempt < 40; attempt++){
+      var grid = [], placed = [];
+      for (var r = 0; r < N; r++){ grid.push(new Array(N).fill("")); }
+      var ok = true;
+      for (var wi = 0; wi < words.length && ok; wi++){
+        var w = words[wi][0], done = false;
+        for (var t = 0; t < 120 && !done; t++){
+          var d = dirs[Math.floor(Math.random() * dirs.length)];
+          var len = w.length;
+          var r0 = Math.floor(Math.random() * N), c0 = Math.floor(Math.random() * N);
+          var rEnd = r0 + d[1] * (len - 1), cEnd = c0 + d[0] * (len - 1);
+          if (rEnd < 0 || rEnd >= N || cEnd < 0 || cEnd >= N) continue;
+          var fits = true;
+          for (var k = 0; k < len; k++){ var ch = grid[r0 + d[1] * k][c0 + d[0] * k]; if (ch && ch !== w[k]){ fits = false; break; } }
+          if (!fits) continue;
+          var cells = [];
+          for (k = 0; k < len; k++){ grid[r0 + d[1] * k][c0 + d[0] * k] = w[k]; cells.push((r0 + d[1] * k) * N + (c0 + d[0] * k)); }
+          placed.push({ w: w, pt: words[wi][1], cells: cells });
+          done = true;
+        }
+        if (!done) ok = false;
+      }
+      if (!ok) continue;
+      var letters = "ABCDEFGHIJKLMNOPRSTUVY";
+      for (r = 0; r < N; r++) for (var c = 0; c < N; c++) if (!grid[r][c]) grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+      return { grid: grid, placed: placed };
+    }
+    return null;
+  }
+  function startWordSearchGame(){
+    var code = curLang().code === "es" ? "es" : "en", speechLang = curLang().speechLang;
+    var N = 9, COUNT = 7;
+    var words = shuffle(WS_WORDS[code].filter(function(x){ return x[0].length >= 3 && x[0].length <= N; }).slice()).slice(0, COUNT);
+    var built = wsBuild(words, N);
+    if (!built){ words = words.slice(0, 5); built = wsBuild(words, N); }
+    var grid = built.grid, placed = built.placed;
+    var found = {}, hints = {}, started = Date.now(), timer = null;
+    var COLORS = ["#7c6df2","#2fb67c","#e8833a","#e0559b","#3aa0e8","#c9a227","#9b59d6"];
+    function render(){
+      var cells = "";
+      for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) cells += '<span class="ws-cell" data-i="' + (r * N + c) + '">' + grid[r][c] + '</span>';
+      openExtraOverlay(extraHeader("Caça-palavras bíblico") + '<div class="lp-body"><div class="lp-wrap" id="ws-wrap">' +
+        '<div class="ws-hud"><span id="ws-found">0/' + placed.length + ' palavras</span><span id="ws-time" class="tabular">0:00</span></div>' +
+        '<p class="ws-tip">Encontra em ' + (code === "es" ? "espanhol" : "inglês") + ' as palavras abaixo. Arrasta o dedo sobre as letras (ou toca na primeira e na última). Toca numa palavra da lista para ver uma dica.</p>' +
+        '<div class="ws-grid" id="ws-grid" style="grid-template-columns:repeat(' + N + ',1fr);">' + cells + '</div>' +
+        '<div class="ws-list" id="ws-list">' + placed.map(function(p, i){ return '<button class="ws-w" type="button" data-p="' + i + '">' + listLabel(p, i) + '</button>'; }).join("") + '</div>' +
+        '</div></div>');
+      wireExtraClose();
+      wireGrid();
+      document.querySelectorAll("#ws-list .ws-w").forEach(function(b){
+        b.addEventListener("click", function(){
+          var i = parseInt(b.dataset.p, 10), p = placed[i];
+          if (found[p.w]) { speak(p.w.toLowerCase(), speechLang); return; }
+          hints[p.w] = Math.min(p.w.length, (hints[p.w] || 0) + 1);
+          b.innerHTML = listLabel(p, i);
+          var first = document.querySelector('.ws-cell[data-i="' + p.cells[0] + '"]');
+          if (first){ first.classList.remove("hint"); void first.offsetWidth; first.classList.add("hint"); }
+        });
+      });
+      timer = setInterval(function(){
+        if (!gameAlive("ws-wrap")){ clearInterval(timer); return; }
+        document.getElementById("ws-time").textContent = fmtSecs((Date.now() - started) / 1000);
+      }, 500);
+    }
+    function listLabel(p, i){
+      if (found[p.w]) return '<s>' + escapeHtml(p.pt) + '</s> <b style="color:' + COLORS[i % COLORS.length] + '">' + p.w + '</b>';
+      var h = hints[p.w] || 0;
+      var mask = p.w.split("").map(function(ch, k){ return k < h ? ch : "_"; }).join(" ");
+      return escapeHtml(p.pt) + ' <span class="ws-mask">' + mask + '</span>';
+    }
+    function wireGrid(){
+      var g = document.getElementById("ws-grid");
+      var startI = null, path = [], dragging = false, moved = false;
+      function cellAt(x, y){ var el = document.elementFromPoint(x, y); return el && el.classList && el.classList.contains("ws-cell") ? parseInt(el.dataset.i, 10) : null; }
+      function line(a, b){
+        var r1 = Math.floor(a / N), c1 = a % N, r2 = Math.floor(b / N), c2 = b % N;
+        var dr = r2 - r1, dc = c2 - c1;
+        if (!(dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc))) return null;
+        var n = Math.max(Math.abs(dr), Math.abs(dc)), sr = Math.sign(dr), sc = Math.sign(dc), out = [];
+        for (var k = 0; k <= n; k++) out.push((r1 + sr * k) * N + (c1 + sc * k));
+        return out;
+      }
+      function paint(){
+        g.querySelectorAll(".ws-cell.sel").forEach(function(c){ c.classList.remove("sel"); });
+        path.forEach(function(i){ var c = g.querySelector('[data-i="' + i + '"]'); if (c) c.classList.add("sel"); });
+      }
+      function check(){
+        var s = path.map(function(i){ return grid[Math.floor(i / N)][i % N]; }).join("");
+        var key = path.join(","), rkey = path.slice().reverse().join(",");
+        var hit = null;
+        placed.forEach(function(p, idx){ if (!found[p.w] && (p.cells.join(",") === key || p.cells.join(",") === rkey)) hit = { p: p, idx: idx }; });
+        if (!hit){ placed.forEach(function(p, idx){ if (!hit && !found[p.w] && (p.w === s || p.w === s.split("").reverse().join(""))) hit = { p: p, idx: idx }; }); }
+        if (hit){
+          found[hit.p.w] = true;
+          var col = COLORS[hit.idx % COLORS.length];
+          path.forEach(function(i){ var c = g.querySelector('[data-i="' + i + '"]'); if (c){ c.classList.add("found"); c.style.setProperty("--wc", col); } });
+          speak(hit.p.w.toLowerCase(), speechLang);
+          var b = document.querySelector('#ws-list [data-p="' + hit.idx + '"]');
+          if (b){ b.innerHTML = listLabel(hit.p, hit.idx); b.classList.add("done"); }
+          var n = Object.keys(found).length;
+          document.getElementById("ws-found").textContent = n + "/" + placed.length + " palavras";
+          if (n === placed.length) setTimeout(finish, 700);
+        } else if (path.length > 1){
+          g.classList.remove("shake"); void g.offsetWidth; g.classList.add("shake");
+        }
+        path = []; paint();
+      }
+      g.addEventListener("pointerdown", function(e){
+        var i = cellAt(e.clientX, e.clientY);
+        if (i === null) return;
+        e.preventDefault();
+        if (startI !== null && !dragging){
+          // segundo toque: liga do primeiro ao segundo
+          var l = line(startI, i);
+          startI = null;
+          if (l){ path = l; paint(); check(); } else { path = []; paint(); }
+          return;
+        }
+        dragging = true; moved = false; startI = i; path = [i]; paint();
+        try{ g.setPointerCapture(e.pointerId); }catch(err){}
+      });
+      g.addEventListener("pointermove", function(e){
+        if (!dragging) return;
+        var i = cellAt(e.clientX, e.clientY);
+        if (i === null || i === startI && path.length === 1) return;
+        var l = line(startI, i);
+        if (l){ moved = true; path = l; paint(); }
+      });
+      g.addEventListener("pointerup", function(){
+        if (!dragging) return;
+        dragging = false;
+        if (moved && path.length > 1){ startI = null; check(); }
+        // sem arrastar: fica marcada a primeira letra, à espera do segundo toque
+      });
+    }
+    function finish(){
+      clearInterval(timer);
+      var secs = (Date.now() - started) / 1000;
+      var hintCount = Object.keys(hints).reduce(function(a, k){ return a + hints[k]; }, 0);
+      var stars = Math.max(1, 3 - Math.min(2, Math.ceil(hintCount / 2)));
+      if (secs > 300) stars = Math.min(stars, 2);
+      var xp = 12;
+      addXp(xp);
+      gameDone("wordsearch", { stars: stars, time: secs });
+      gameResultScreen("Caça-palavras bíblico", { emoji: "🔎", big: "Encontraste todas!", stars: stars, xp: xp,
+        html: '<p>' + placed.length + ' palavras em ' + fmtSecs(secs) + (hintCount ? ' · ' + hintCount + ' dica(s)' : ' · sem dicas') + '</p>' +
+              '<div class="ws-recap">' + placed.map(function(p){ return '<span><b>' + p.w + '</b> ' + escapeHtml(p.pt) + '</span>'; }).join("") + '</div>',
+        again: startWordSearchGame });
+    }
+    render();
+  }
+
+  // ================= OVELHINHA (bichinho para cuidar) =================
+  // A ovelhinha come capim — e o capim ganha-se a estudar (cada 10 XP = 1 🌿).
+  // Fome e alegria descem com o tempo; se ficar 3 dias sem cuidados, afasta-se do rebanho
+  // e vais buscá-la (Lucas 15). Nunca morre.
+  var SHEEP_XP_PER_GRASS = 10, SHEEP_MAX_GRASS = 99;
+  var SHEEP_NAMES = ["Lã", "Nuvem", "Algodão", "Bolinha", "Mel", "Pipoca"];
+  var SHEEP_ACC = [
+    { id: "flor",    slot: "hat",  icon: "🌸", name: "Flor",      price: 10 },
+    { id: "laco",    slot: "hat",  icon: "🎀", name: "Laço",      price: 15 },
+    { id: "cartola", slot: "hat",  icon: "🎩", name: "Cartola",   price: 30 },
+    { id: "coroa",   slot: "hat",  icon: "👑", name: "Coroa",     price: 50 },
+    { id: "sino",    slot: "neck", icon: "🔔", name: "Sininho",   price: 20 },
+    { id: "cachecol",slot: "neck", icon: "🧣", name: "Cachecol",  price: 25 },
+    { id: "oculos",  slot: "face", icon: "🕶️", name: "Óculos",    price: 35 }
+  ];
+  var SHEEP_LEVELS = [0, 30, 90, 200, 380, 650, 1000];
+  function sheepLevel(care){ var l = 1; for (var i = 1; i < SHEEP_LEVELS.length; i++) if (care >= SHEEP_LEVELS[i]) l = i + 1; return l; }
+  function sheepLevelName(l){ return l <= 1 ? "Cordeirinho" : l <= 3 ? "Ovelhinha" : l <= 5 ? "Ovelha" : "Ovelha do rebanho"; }
+  function sheepState(){
+    var sh = state.sheep;
+    if (!sh || typeof sh !== "object") return null;
+    return sh;
+  }
+  function sheepCreate(name){
+    state.sheep = { name: name, food: 80, joy: 80, care: 0, grass: 3, xpSeen: state.xp || 0, last: Date.now(), hat: "", neck: "", face: "", owned: [], pets: { d: "", n: 0 }, lost: false, born: todayStr(), updated: Date.now() };
+    saveState();
+    return state.sheep;
+  }
+  // Atualiza fome/alegria com o tempo e converte XP novo em capim.
+  function sheepTick(sh){
+    if (!sh) return sh;
+    var now = Date.now();
+    var hours = Math.max(0, (now - (sh.last || now)) / 3600000);
+    if (hours > 0.02){
+      sh.food = Math.max(0, (sh.food || 0) - hours * 1.2);
+      sh.joy = Math.max(0, (sh.joy || 0) - hours * 1.5);
+      sh.last = now;
+    }
+    var xp = state.xp || 0;
+    if (typeof sh.xpSeen !== "number" || xp < sh.xpSeen) sh.xpSeen = xp;
+    var earned = Math.floor((xp - sh.xpSeen) / SHEEP_XP_PER_GRASS);
+    if (earned > 0){
+      sh.grass = Math.min(SHEEP_MAX_GRASS, (sh.grass || 0) + earned);
+      sh.xpSeen += earned * SHEEP_XP_PER_GRASS;
+    }
+    if (sh.food <= 0 && sh.joy <= 0) sh.lost = true;
+    return sh;
+  }
+  function sheepNight(){ var h = new Date().getHours(); return h >= 22 || h < 6; }
+  function sheepMood(sh){
+    if (sh.lost) return "lost";
+    if (sheepNight()) return "sleep";
+    if (sh.food < 30) return "hungry";
+    if (sh.joy < 30) return "sad";
+    if (sh.food >= 65 && sh.joy >= 65) return "happy";
+    return "ok";
+  }
+  var SHEEP_LINES = {
+    hungry: [["I'm hungry!", "Estou com fome!"], ["Can I have some grass?", "Posso comer um pouco de capim?"], ["My tummy is empty.", "A minha barriguinha está vazia."]],
+    sad: [["Let's play!", "Vamos brincar!"], ["I missed you.", "Tive saudades tuas."], ["Can you stay with me?", "Podes ficar comigo?"]],
+    happy: [["I love you!", "Eu te amo!"], ["The Lord is my shepherd.", "O Senhor é o meu pastor."], ["What a beautiful day!", "Que dia lindo!"], ["God is good!", "Deus é bom!"], ["You are my best friend.", "Tu és o meu melhor amigo."]],
+    ok: [["Hello, friend!", "Olá, amigo!"], ["Let's study together!", "Vamos estudar juntos!"], ["Baa! How are you?", "Béé! Como estás?"]],
+    sleep: [["Good night!", "Boa noite!"], ["Zzz… I'm sleepy.", "Zzz… estou com sono."], ["He giveth his beloved sleep.", "Ele dá o sono aos seus amados. (Salmo 127:2)"]]
+  };
+  function sheepLine(mood){ var l = SHEEP_LINES[mood] || SHEEP_LINES.ok; return l[Math.floor(Math.random() * l.length)]; }
+  function sheepSvg(mood){
+    var eyes;
+    if (mood === "sleep") eyes = '<path d="M80 80q6 5 12 0M108 80q6 5 12 0" stroke="#3a2a20" stroke-width="3" fill="none" stroke-linecap="round"/>';
+    else eyes = '<g class="sh-eyes"><ellipse cx="86" cy="79" rx="6" ry="7" fill="#2b1d14"/><ellipse cx="114" cy="79" rx="6" ry="7" fill="#2b1d14"/>' +
+      '<circle cx="88" cy="76.5" r="2.2" fill="#fff"/><circle cx="116" cy="76.5" r="2.2" fill="#fff"/></g>' +
+      ((mood === "sad" || mood === "hungry") ? '<path d="M77 68l12 4M123 68l-12 4" stroke="#7a5a40" stroke-width="2.4" stroke-linecap="round"/>' : '');
+    var mouth = mood === "happy" ? '<path d="M92 94q8 9 16 0" fill="#c95b6b" stroke="#7a3a3a" stroke-width="2" stroke-linecap="round"/>'
+      : (mood === "sad" || mood === "hungry") ? '<path d="M93 98q7-6 14 0" fill="none" stroke="#7a3a3a" stroke-width="2.4" stroke-linecap="round"/>'
+      : mood === "sleep" ? '<ellipse cx="100" cy="96" rx="3" ry="2.5" fill="#7a3a3a"/>'
+      : '<path d="M93 95q7 5 14 0" fill="none" stroke="#7a3a3a" stroke-width="2.4" stroke-linecap="round"/>';
+    var wool = [[60,112,26],[82,98,26],[110,96,27],[136,108,25],[146,128,22],[124,138,26],[96,142,27],[68,136,25],[54,124,20],[100,118,30]];
+    return '<svg class="sh-svg" viewBox="0 0 200 180" aria-label="Ovelhinha">' +
+      '<ellipse cx="100" cy="171" rx="56" ry="7" fill="rgba(0,0,0,.18)"/>' +
+      '<g fill="#4a3a30"><rect x="70" y="140" width="11" height="28" rx="5"/><rect x="88" y="146" width="11" height="24" rx="5"/><rect x="104" y="146" width="11" height="24" rx="5"/><rect x="121" y="140" width="11" height="28" rx="5"/></g>' +
+      '<g class="sh-wool" fill="#fbf8f1" stroke="#e6ddcc" stroke-width="2">' + wool.map(function(w){ return '<circle cx="' + w[0] + '" cy="' + w[1] + '" r="' + w[2] + '"/>'; }).join("") + '</g>' +
+      '<circle cx="100" cy="118" r="30" fill="#fbf8f1"/>' +
+      '<g class="sh-head">' +
+        '<ellipse cx="66" cy="74" rx="15" ry="8" fill="#e9cdb0" transform="rotate(-25 66 74)"/><ellipse cx="66" cy="74" rx="9" ry="4" fill="#f2a5a5" transform="rotate(-25 66 74)"/>' +
+        '<ellipse cx="134" cy="74" rx="15" ry="8" fill="#e9cdb0" transform="rotate(25 134 74)"/><ellipse cx="134" cy="74" rx="9" ry="4" fill="#f2a5a5" transform="rotate(25 134 74)"/>' +
+        '<ellipse cx="100" cy="84" rx="29" ry="31" fill="#f1dcc4"/>' +
+        '<g fill="#fbf8f1" stroke="#e6ddcc" stroke-width="2"><circle cx="86" cy="56" r="12"/><circle cx="100" cy="51" r="13"/><circle cx="114" cy="56" r="12"/></g>' +
+        eyes +
+        '<ellipse cx="80" cy="92" rx="6" ry="3.5" fill="#f29a9a" opacity=".6"/><ellipse cx="120" cy="92" rx="6" ry="3.5" fill="#f29a9a" opacity=".6"/>' +
+        '<ellipse cx="100" cy="89" rx="4" ry="2.6" fill="#b07a6a"/>' + mouth +
+      '</g></svg>';
+  }
+  function sheepAcc(id){ return SHEEP_ACC.filter(function(a){ return a.id === id; })[0]; }
+  function sheepFigure(sh, mood, big){
+    var hat = sheepAcc(sh.hat), neck = sheepAcc(sh.neck), face = sheepAcc(sh.face);
+    var lv = sheepLevel(sh.care || 0);
+    var scale = (0.86 + Math.min(6, lv - 1) * 0.03).toFixed(2);
+    return '<div class="sh-fig sh-' + mood + (big ? ' big' : '') + '" style="--shs:' + scale + ';">' + sheepSvg(mood) +
+      (hat ? '<span class="sh-acc sh-hat">' + hat.icon + '</span>' : '') +
+      (face ? '<span class="sh-acc sh-face">' + face.icon + '</span>' : '') +
+      (neck ? '<span class="sh-acc sh-neck">' + neck.icon + '</span>' : '') +
+      (mood === "sleep" ? '<span class="sh-zzz">z<i>z</i><b>z</b></span>' : '') + '</div>';
+  }
+  function sheepBar(label, v, cls){
+    v = Math.round(v);
+    return '<div class="sh-bar ' + cls + '"><span>' + label + '</span><div><i style="width:' + v + '%"></i></div><b>' + v + '</b></div>';
+  }
+
+  // ---- Cartão na tela Início ----
+  function renderPetCard(){
+    var el = document.getElementById("pet-entry");
+    if (!el) return;
+    var sh = sheepState();
+    if (!sh){
+      el.innerHTML = '<span class="pe-mini">🐑</span><span class="qc-text"><b>Adota uma ovelhinha</b><small>Cuida dela e alimenta-a com o capim que ganhas a estudar</small></span><span class="qc-chev">›</span>';
+      el.classList.add("new");
+      return;
+    }
+    el.classList.remove("new");
+    sheepTick(sh);
+    var mood = sheepMood(sh);
+    var status = mood === "lost" ? "Afastou-se do rebanho… vai buscá-la!" : mood === "sleep" ? "A dormir 💤" : mood === "hungry" ? "Está com fome 🌿" : mood === "sad" ? "Quer brincar contigo" : mood === "happy" ? "Muito feliz 💛" : "Está bem";
+    el.innerHTML = '<span class="pe-fig">' + (mood === "lost" ? '<span class="pe-lost">❔</span>' : sheepFigure(sh, mood, false)) + '</span>' +
+      '<span class="qc-text"><b>' + escapeHtml(sh.name) + ' <em>Nv. ' + sheepLevel(sh.care || 0) + '</em></b><small' + ((mood === "hungry" || mood === "sad" || mood === "lost") ? ' class="pe-warn"' : '') + '>' + status + '</small>' +
+      '<span class="pe-bars"><i style="--v:' + Math.round(sh.food) + '%" class="f"></i><i style="--v:' + Math.round(sh.joy) + '%" class="j"></i></span></span>' +
+      '<span class="pe-grass">🌿 ' + (sh.grass || 0) + '</span>';
+  }
+
+  // ---- Ecrã da ovelhinha ----
+  function openSheep(){
+    var sh = sheepState();
+    if (!sh) return openSheepAdopt();
+    sheepTick(sh);
+    saveState();
+    var mood = sheepMood(sh);
+    if (mood === "lost") return openSheepLost(sh);
+    var line = sheepLine(mood);
+    var lv = sheepLevel(sh.care || 0);
+    var next = SHEEP_LEVELS[lv] , prev = SHEEP_LEVELS[lv - 1] || 0;
+    var lvPct = next ? Math.round(((sh.care || 0) - prev) / (next - prev) * 100) : 100;
+    openExtraOverlay(extraHeader(sh.name) + '<div class="lp-body"><div class="lp-wrap" id="sh-wrap">' +
+      '<div class="sh-scene' + (mood === "sleep" ? ' night' : '') + '" id="sh-scene">' +
+        '<div class="sh-sun">' + (mood === "sleep" ? "🌙" : "☀️") + '</div><div class="sh-cloud c1"></div><div class="sh-cloud c2"></div>' +
+        '<button class="sh-bubble" id="sh-bubble" type="button"><b>' + escapeHtml(line[0]) + '</b><small>' + escapeHtml(line[1]) + '</small><span>🔊</span></button>' +
+        '<button class="sh-tap" id="sh-tap" type="button" aria-label="Fazer carinho">' + sheepFigure(sh, mood, true) + '</button>' +
+        '<div class="sh-fx" id="sh-fx"></div><div class="sh-grassline"></div>' +
+      '</div>' +
+      '<div class="sh-level"><span>' + sheepLevelName(lv) + ' · Nível ' + lv + '</span><div><i style="width:' + lvPct + '%"></i></div></div>' +
+      sheepBar("🌿 Comida", sh.food, "food") + sheepBar("💛 Alegria", sh.joy, "joy") +
+      '<div class="sh-actions">' +
+        '<button class="sh-act" id="sh-feed" type="button"><span>🌿</span><b>Dar capim</b><small>tens ' + (sh.grass || 0) + '</small></button>' +
+        '<button class="sh-act" id="sh-play" type="button"><span>🎾</span><b>Brincar</b><small>ensina uma palavra</small></button>' +
+        '<button class="sh-act" id="sh-shop" type="button"><span>🎀</span><b>Enfeites</b><small>com gemas 💎</small></button>' +
+      '</div>' +
+      '<p class="sh-help">🌿 Cada ' + SHEEP_XP_PER_GRASS + ' XP que ganhas nas lições, jogos e Bíblia = 1 capim. Toca na ' + escapeHtml(sh.name) + ' para fazer carinho.</p>' +
+      '<button class="auth-switch" id="sh-rename" type="button">✏️ Mudar o nome</button>' +
+      '</div></div>');
+    wireExtraClose();
+    var bubble = document.getElementById("sh-bubble");
+    bubble.addEventListener("click", function(){ speak(line[0], "en-US"); });
+    document.getElementById("sh-tap").addEventListener("click", function(){ sheepPet(); });
+    document.getElementById("sh-feed").addEventListener("click", sheepFeed);
+    document.getElementById("sh-play").addEventListener("click", sheepPlay);
+    document.getElementById("sh-shop").addEventListener("click", openSheepShop);
+    document.getElementById("sh-rename").addEventListener("click", function(){ openSheepAdopt(true); });
+  }
+  function sheepFx(txt, cls){
+    var fx = document.getElementById("sh-fx");
+    if (!fx) return;
+    var s = document.createElement("span");
+    s.className = "sh-pop " + (cls || "");
+    s.textContent = txt;
+    s.style.left = (35 + Math.random() * 30) + "%";
+    fx.appendChild(s);
+    setTimeout(function(){ s.remove(); }, 1300);
+  }
+  function sheepAnim(cls){
+    var f = document.querySelector("#sh-tap .sh-fig");
+    if (!f) return;
+    f.classList.remove("hop", "munch", "wiggle"); void f.offsetWidth; f.classList.add(cls);
+  }
+  function sheepSayNow(en, pt, lang){
+    var b = document.getElementById("sh-bubble");
+    if (!b) return;
+    b.innerHTML = '<b>' + escapeHtml(en) + '</b><small>' + escapeHtml(pt) + '</small><span>🔊</span>';
+    b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
+    b.onclick = function(){ speak(en, lang || "en-US"); };
+  }
+  function sheepRefreshBars(){
+    var sh = sheepState();
+    ["food", "joy"].forEach(function(k){
+      var bar = document.querySelector(".sh-bar." + k);
+      if (!bar) return;
+      bar.querySelector("i").style.width = Math.round(sh[k]) + "%";
+      bar.querySelector("b").textContent = Math.round(sh[k]);
+    });
+    var f = document.querySelector("#sh-feed small"); if (f) f.textContent = "tens " + (sh.grass || 0);
+    renderPetCard();
+  }
+  function sheepCare(n){
+    var sh = sheepState();
+    var before = sheepLevel(sh.care || 0);
+    sh.care = (sh.care || 0) + n;
+    sh.updated = Date.now();
+    var after = sheepLevel(sh.care);
+    if (after > before) setTimeout(function(){ toast("🎉 A " + sh.name + " subiu para o nível " + after + "!", "ok", 3500); if (document.getElementById("sh-wrap")) openSheep(); }, 900);
+  }
+  function sheepPet(){
+    var sh = sheepState();
+    var d = todayStr();
+    if (!sh.pets || sh.pets.d !== d) sh.pets = { d: d, n: 0 };
+    sh.pets.n++;
+    if (sh.pets.n <= 10){ sh.joy = Math.min(100, sh.joy + 3); sheepCare(1); }
+    sheepFx("💛"); setTimeout(function(){ sheepFx("💕"); }, 150);
+    sheepAnim("wiggle");
+    if (sh.pets.n === 1 || Math.random() < 0.3){ var l = sheepNight() ? SHEEP_LINES.sleep[0] : [["Baa! That tickles!", "Béé! Isso faz cócegas!"], ["Thank you!", "Obrigada!"], ["I love you!", "Eu te amo!"]][Math.floor(Math.random() * 3)]; sheepSayNow(l[0], l[1]); }
+    saveState(); sheepRefreshBars();
+  }
+  function sheepFeed(){
+    var sh = sheepState();
+    sheepTick(sh);
+    if ((sh.grass || 0) <= 0){
+      sheepSayNow("I'm hungry… Let's study!", "Estou com fome… Vamos estudar!");
+      toast("Não tens capim 🌿 — faz uma lição: cada " + SHEEP_XP_PER_GRASS + " XP = 1 capim.", "err", 4500);
+      return;
+    }
+    if (sh.food >= 97){ sheepSayNow("I'm full, thank you!", "Estou cheia, obrigada!"); return; }
+    sh.grass--;
+    sh.food = Math.min(100, sh.food + 25);
+    sh.joy = Math.min(100, sh.joy + 4);
+    sheepCare(3);
+    sheepFx("🌿", "food"); sheepAnim("munch");
+    var l = [["Yummy!", "Que delícia!"], ["Thank you!", "Obrigada!"], ["Delicious grass!", "Capim delicioso!"]][Math.floor(Math.random() * 3)];
+    sheepSayNow(l[0], l[1]);
+    speak(l[0], "en-US");
+    saveState(); sheepRefreshBars();
+  }
+  function sheepPlay(){
+    var sh = sheepState();
+    if (sheepNight()){ sheepSayNow("Zzz… let's play tomorrow.", "Zzz… brincamos amanhã."); return; }
+    // ela "aprende" uma palavra contigo: das tuas palavras guardadas ou das lições
+    var mine = Object.keys(state.myWords || {}).map(function(k){ return { en: state.myWords[k].w, pt: state.myWords[k].pt }; });
+    var pool = mine.length && Math.random() < 0.4 ? mine : WORDS.filter(function(w){ return boxOf(w.id) > 0; });
+    if (!pool.length) pool = WORDS;
+    var w = pool[Math.floor(Math.random() * pool.length)];
+    var word = typeTarget(w.en);
+    var playedToday = sh.play && sh.play.d === todayStr() ? sh.play.n : 0;
+    sh.play = { d: todayStr(), n: playedToday + 1 };
+    if (playedToday < 8){ sh.joy = Math.min(100, sh.joy + 12); sheepCare(2); }
+    sheepAnim("hop"); sheepFx("🎾"); setTimeout(function(){ sheepFx("✨"); }, 200);
+    sheepSayNow(word + "!", (wordEmoji(w) ? wordEmoji(w) + " " : "") + w.pt, curLang().speechLang);
+    speak(word, curLang().speechLang);
+    saveState(); sheepRefreshBars();
+  }
+  function openSheepShop(){
+    var sh = sheepState();
+    function itemHtml(a){
+      var owned = sh.owned.indexOf(a.id) !== -1, on = sh[a.slot] === a.id;
+      return '<button class="sh-item' + (on ? ' on' : '') + '" type="button" data-acc="' + a.id + '"><span class="si-ic">' + a.icon + '</span><b>' + a.name + '</b>' +
+        '<small>' + (on ? '✅ A usar' : owned ? 'Usar' : a.price + ' 💎') + '</small></button>';
+    }
+    openExtraOverlay(extraHeader("Enfeites da " + sh.name) + '<div class="lp-body"><div class="lp-wrap" id="sh-shop-wrap">' +
+      '<div class="sh-shop-top"><div id="sh-shop-fig">' + sheepFigure(sh, "happy", true) + '</div><div class="sh-gems">💎 ' + (state.gems || 0) + '</div></div>' +
+      '<div class="sh-items">' + SHEEP_ACC.map(itemHtml).join("") + '</div>' +
+      '<p class="sh-help">Toca num enfeite que já é teu para o pôr ou tirar.</p>' +
+      '<button class="btn-outline" id="sh-shop-back" type="button">Voltar para a ' + escapeHtml(sh.name) + '</button></div></div>');
+    wireExtraClose();
+    document.getElementById("sh-shop-back").addEventListener("click", openSheep);
+    document.querySelectorAll(".sh-item").forEach(function(b){
+      b.addEventListener("click", function(){
+        var a = sheepAcc(b.dataset.acc);
+        var owned = sh.owned.indexOf(a.id) !== -1;
+        if (!owned){
+          if ((state.gems || 0) < a.price){ toast("Faltam " + (a.price - (state.gems || 0)) + " gemas 💎 para " + a.name + ".", "err", 3500); return; }
+          addGems(-a.price);
+          sh.owned.push(a.id);
+          sh[a.slot] = a.id;
+          renderStatbar();
+          toast(a.icon + " " + a.name + " para a " + sh.name + "!", "ok", 2500);
+        } else {
+          sh[a.slot] = sh[a.slot] === a.id ? "" : a.id;
+        }
+        sh.updated = Date.now();
+        saveState();
+        openSheepShop();
+      });
+    });
+  }
+  function openSheepAdopt(rename){
+    var sh = sheepState();
+    openExtraOverlay(extraHeader(rename ? "Mudar o nome" : "A tua ovelhinha") + '<div class="lp-body"><div class="lp-wrap"><div class="sh-adopt">' +
+      '<div class="sh-adopt-fig">' + sheepFigure(sh || { care: 0 }, "happy", true) + '</div>' +
+      (rename ? '' : '<p class="sh-adopt-verse">“I am the good shepherd, and know my sheep.” <span>John 10:14</span></p>' +
+        '<p>Esta ovelhinha precisa de ti! Dá-lhe capim (ganhas a estudar), brinca com ela e faz-lhe carinho todos os dias.</p>') +
+      '<label class="sh-name-lbl" for="sh-name">Como se vai chamar?</label>' +
+      '<input class="sh-name" id="sh-name" maxlength="16" autocomplete="off" value="' + escapeHtml(sh ? sh.name : "") + '" placeholder="Nome da ovelhinha">' +
+      '<div class="sh-sugg">' + SHEEP_NAMES.map(function(n){ return '<button class="chip on" type="button" data-n="' + n + '">' + n + '</button>'; }).join("") + '</div>' +
+      '<button class="action" id="sh-ok" type="button" style="width:100%; margin-top:14px;">' + (rename ? 'Guardar' : 'Adotar 🐑') + '</button>' +
+      '</div></div></div>');
+    wireExtraClose();
+    var inp = document.getElementById("sh-name");
+    document.querySelectorAll(".sh-sugg [data-n]").forEach(function(b){ b.addEventListener("click", function(){ inp.value = b.dataset.n; }); });
+    document.getElementById("sh-ok").addEventListener("click", function(){
+      var n = inp.value.trim().replace(/\s+/g, " ").slice(0, 16);
+      if (!n){ inp.focus(); return; }
+      if (rename && sh){ sh.name = n; sh.updated = Date.now(); saveState(); }
+      else { sheepCreate(n); toast("🐑 Bem-vinda, " + n + "!", "ok", 3000); }
+      renderPetCard();
+      openSheep();
+    });
+  }
+  function openSheepLost(sh){
+    openExtraOverlay(extraHeader(sh.name) + '<div class="lp-body"><div class="lp-wrap" id="sh-wrap"><div class="sh-lost">' +
+      '<div class="sh-scene lost" id="sh-scene"><div class="sh-sun">⛰️</div><div class="sh-cloud c1"></div><div class="sh-grassline"></div><div class="sh-search" id="sh-search">🔦</div></div>' +
+      '<h3>A ' + escapeHtml(sh.name) + ' afastou-se do rebanho…</h3>' +
+      '<p>Ficou uns dias sem comida nem carinho e perdeu-se. Mas um bom pastor vai sempre buscar a ovelha perdida!</p>' +
+      '<button class="action" id="sh-find" type="button" style="width:100%;">Ir buscá-la 🔦</button></div></div></div>');
+    wireExtraClose();
+    document.getElementById("sh-find").addEventListener("click", function(){
+      this.disabled = true; this.textContent = "À procura…";
+      document.getElementById("sh-search").classList.add("go");
+      setTimeout(function(){
+        if (!document.getElementById("sh-wrap")) return;
+        sh.lost = false; sh.food = 50; sh.joy = 60; sh.last = Date.now(); sh.updated = Date.now();
+        saveState(); renderPetCard();
+        openExtraOverlay(extraHeader(sh.name) + '<div class="lp-body"><div class="lp-wrap" id="sh-wrap"><div class="sh-adopt">' +
+          '<div class="sh-adopt-fig">' + sheepFigure(sh, "happy", true) + '</div><h3>Encontraste a ' + escapeHtml(sh.name) + '! 🎉</h3>' +
+          '<p class="sh-adopt-verse">“Rejoice with me; for I have found my sheep which was lost.” <span>Luke 15:6</span></p>' +
+          '<p style="color:var(--ink-soft);">Alegrai-vos comigo, porque já achei a minha ovelha perdida.</p>' +
+          '<button class="action" id="sh-home" type="button" style="width:100%;">Cuidar dela 💛</button></div></div></div>');
+        wireExtraClose();
+        speak("Rejoice with me; for I have found my sheep which was lost.", "en-US");
+        document.getElementById("sh-home").addEventListener("click", openSheep);
+      }, 2200);
+    });
+  }
+  (function(){
+    var b = document.getElementById("pet-entry");
+    if (b) b.addEventListener("click", openSheep);
+    renderPetCard();
+    // a fome/alegria mudam com o tempo: atualiza o cartão de vez em quando
+    setInterval(function(){ if (!document.hidden) renderPetCard(); }, 60000);
+    document.addEventListener("visibilitychange", function(){ if (!document.hidden) renderPetCard(); });
   })();
 
   // ================= TUTORIAL: ADICIONAR À TELA INICIAL =================
